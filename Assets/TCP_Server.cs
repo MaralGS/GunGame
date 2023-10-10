@@ -12,34 +12,63 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 public class TCP_Server : MonoBehaviour
 {
-    public static void start()
+
+    int recv;
+    byte[] data = new byte[1024];
+    public int port = 0;
+    private IPEndPoint ipep;
+    private Socket newsock;
+    private Socket client;
+    private Thread myThreadTCP;
+    public int connections = 10;
+    public String WelcomeText = "";
+
+    void Start()
     {
-        int recv;
-        byte[] data = new byte[1024];
-        IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("10.0.103.37"),
-                               9050);
 
-        Socket newsock = new
-            Socket(AddressFamily.InterNetwork,
-                        SocketType.Stream, ProtocolType.Tcp);
+        ipep = new IPEndPoint(IPAddress.Any, port);
 
+        Listen(connections);
+
+        Accept(newsock, client);
+
+        myThreadTCP = new Thread(TCPServer);
+        myThreadTCP.Start();
+    }
+
+    private void Update()
+    {
+
+    }
+
+
+    void Listen(int Connexions)
+    {
+        newsock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         newsock.Bind(ipep);
-        newsock.Listen(10);
-        Console.WriteLine("Waiting for a client...");
-        Socket client = newsock.Accept();
-        IPEndPoint clientep =
-                     (IPEndPoint)client.RemoteEndPoint;
-        Console.WriteLine("Connected with {0} at port {1}",
-                        clientep.Address, clientep.Port);
 
+        newsock.Listen(Connexions);
+    } 
 
-        string welcome = "Welcome to my test server";
-        data = Encoding.ASCII.GetBytes(welcome);
-        client.Send(data, data.Length,
-                          SocketFlags.None);
+    void Accept(Socket newSocket, Socket sclient) {
+        Debug.Log("Waiting for a client...");
+        sclient = newSocket.Accept();
+    }
+
+    void TCPServer()
+    {
+
+        IPEndPoint clientep = (IPEndPoint)client.RemoteEndPoint;
+        newsock.Connect(clientep);
+        Debug.Log("Connected with {0} at port {1}" + " " + clientep.Address + " " + clientep.Port);
+
+        data = Encoding.ASCII.GetBytes(WelcomeText);
+        client.Send(data, data.Length, SocketFlags.None);
+
         while (true)
         {
             data = new byte[1024];
@@ -51,9 +80,10 @@ public class TCP_Server : MonoBehaviour
                      Encoding.ASCII.GetString(data, 0, recv));
             client.Send(data, recv, SocketFlags.None);
         }
-        Console.WriteLine("Disconnected from {0}",
-                          clientep.Address);
+       Debug.Log("Disconnected from {0}" + clientep.Address);
         client.Close();
         newsock.Close();
     }
 }
+
+
