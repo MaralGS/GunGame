@@ -15,27 +15,33 @@ using System.Net.Sockets;
 using System.Text;
 using System.Net.WebSockets;
 using UnityEditor.PackageManager;
+using System.Threading;
 
 public class Server : MonoBehaviour
 {
-    public static void Main()
-    {
-        int recv;
-        byte[] data = new byte[1024];
-        IPEndPoint ipep = new IPEndPoint(IPAddress.Any, 9050);
 
-        Socket newsock = new Socket(AddressFamily.InterNetwork,
-                        SocketType.Dgram, ProtocolType.Udp);
+    Thread serverThread;
+    int recv;
+    byte[] data = new byte[1024];
+    Socket newsock;
+    IPEndPoint ipep;
+    void Start()
+    {
+        ipep = new IPEndPoint(IPAddress.Any, 9050);
+
+        newsock = new Socket(AddressFamily.InterNetwork,
+                SocketType.Dgram, ProtocolType.Udp);
 
         newsock.Bind(ipep);
 
-        newsock.Listen(10);
-        Socket client = newsock.Accept();
-        IPEndPoint clientep = (IPEndPoint)client.RemoteEndPoint;
-        newsock.Connect(ipep);
-
         Debug.Log("Waiting for a client...");
 
+        serverThread = new Thread(StartThread);
+        serverThread.Start();
+
+    }
+    void StartThread()
+    {
         IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
         EndPoint Remote = (EndPoint)(sender);
 
@@ -47,13 +53,9 @@ public class Server : MonoBehaviour
         string welcome = "Welcome to my test server";
         data = Encoding.ASCII.GetBytes(welcome);
         newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
-        while (true)
-        {
-            data = new byte[1024];
-            recv = newsock.ReceiveFrom(data, ref Remote);
 
-            Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
-            newsock.SendTo(data, recv, SocketFlags.None, Remote);
-        }
+        if (newsock.Connected) {newsock.Shutdown(SocketShutdown.Both);}
+        newsock.Close();
+
     }
 }
