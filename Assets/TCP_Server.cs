@@ -34,8 +34,6 @@ public class TCP_Server : MonoBehaviour
 
         Listen(connections);
 
-        Accept(newsock, client);
-
         myThreadTCP = new Thread(TCPServer);
         myThreadTCP.Start();
     }
@@ -54,33 +52,20 @@ public class TCP_Server : MonoBehaviour
         newsock.Listen(Connexions);
     } 
 
-    void Accept(Socket newSocket, Socket sclient) {
-        Debug.Log("Waiting for a client...");
-        sclient = newSocket.Accept();
-    }
 
     void TCPServer()
     {
+        Debug.Log("Waiting for a client...");
+        client = newsock.Accept();
 
         IPEndPoint clientep = (IPEndPoint)client.RemoteEndPoint;
-        newsock.Connect(clientep);
         Debug.Log("Connected with {0} at port {1}" + " " + clientep.Address + " " + clientep.Port);
 
         data = Encoding.ASCII.GetBytes(WelcomeText);
         client.Send(data, data.Length, SocketFlags.None);
 
-        while (true)
-        {
-            data = new byte[1024];
-            recv = client.Receive(data);
-            if (recv == 0)
-                break;
-
-            Console.WriteLine(
-                     Encoding.ASCII.GetString(data, 0, recv));
-            client.Send(data, recv, SocketFlags.None);
-        }
-       Debug.Log("Disconnected from {0}" + clientep.Address);
+               
+        Debug.Log("Disconnected from {0}" + clientep.Address);
         client.Close();
         newsock.Close();
     }
