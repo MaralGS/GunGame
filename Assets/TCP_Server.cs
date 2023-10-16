@@ -22,7 +22,7 @@ public class TCP_Server : MonoBehaviour
     public int port = 0;
     private IPEndPoint ipep;
     private Socket newsock;
-    private Socket client;
+    TCP_Client client;
     private Thread myThreadTCP;
     public int connections = 10;
     public String WelcomeText = "";
@@ -56,17 +56,17 @@ public class TCP_Server : MonoBehaviour
     void TCPServer()
     {
         Debug.Log("Waiting for a client...");
-        client = newsock.Accept();
+        client.ClientS = newsock.Accept();
 
-        IPEndPoint clientep = (IPEndPoint)client.RemoteEndPoint;
+        IPEndPoint clientep = (IPEndPoint)client.ClientS.RemoteEndPoint;
         Debug.Log("Connected with {0} at port {1}" + " " + clientep.Address + " " + clientep.Port);
 
         data = Encoding.ASCII.GetBytes(WelcomeText);
-        client.Send(data, data.Length, SocketFlags.None);
+        client.ClientS.Send(data, data.Length, SocketFlags.None);
 
                
         Debug.Log("Disconnected from {0}" + clientep.Address);
-        client.Close();
+        client.ClientS.Close();
         newsock.Close();
     }
 }

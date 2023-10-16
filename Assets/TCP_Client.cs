@@ -17,7 +17,8 @@ using System.Text;
 public class TCP_Client : MonoBehaviour
 {
     byte[] data = new byte[1024];
-    [SerializeField] string ip = "127.0.0.1";
+    [SerializeField] string ip = "10.0.101.29";
+    public Socket ClientS;
    void Start()
     {
     
@@ -25,36 +26,26 @@ public class TCP_Client : MonoBehaviour
         IPEndPoint ipep = new IPEndPoint(
                         IPAddress.Parse(ip), 9050);
 
-        Socket server = new Socket(AddressFamily.InterNetwork,
+        ClientS = new Socket(AddressFamily.InterNetwork,
                        SocketType.Stream, ProtocolType.Tcp);
 
-        try
-        {
-            server.Connect(ipep);
-        }
-        catch (SocketException e)
-        {
-            Console.WriteLine("Unable to connect to server.");
-            Console.WriteLine(e.ToString());
-            return;
-        }
+        ClientS.Connect(ipep);
 
-
-        int recv = server.Receive(data);
+        int recv = ClientS.Receive(data);
         stringData = Encoding.ASCII.GetString(data, 0, recv);
         Console.WriteLine(stringData);
 
     
        input = Console.ReadLine();
 
-       server.Send(Encoding.ASCII.GetBytes(input));
+        ClientS.Send(Encoding.ASCII.GetBytes(input));
        data = new byte[1024];
-       recv = server.Receive(data);
+       recv = ClientS.Receive(data);
        stringData = Encoding.ASCII.GetString(data, 0, recv);
        Console.WriteLine(stringData);
  
         Console.WriteLine("Disconnecting from server...");
-        server.Shutdown(SocketShutdown.Both);
-        server.Close();
+        ClientS.Shutdown(SocketShutdown.Both);
+        ClientS.Close();
     }
 }
