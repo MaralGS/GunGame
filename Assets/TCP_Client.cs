@@ -13,37 +13,47 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using UnityEditor.PackageManager;
 
 public class TCP_Client : MonoBehaviour
 {
     byte[] data = new byte[1024];
-    [SerializeField] string ip = "10.0.101.29";
+    [SerializeField] string ip = "10.0.103.26";
     public Socket ClientS;
-   void Start()
+
+    private void Start()
     {
-    
         string input, stringData;
         IPEndPoint ipep = new IPEndPoint(
                         IPAddress.Parse(ip), 9050);
 
         ClientS = new Socket(AddressFamily.InterNetwork,
                        SocketType.Stream, ProtocolType.Tcp);
-
-        ClientS.Connect(ipep);
+        try
+        {   
+            ClientS.Connect(ipep);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Unable to connect to server.");
+            Console.WriteLine(e.ToString());
+            return;
+        }
+ 
 
         int recv = ClientS.Receive(data);
         stringData = Encoding.ASCII.GetString(data, 0, recv);
         Console.WriteLine(stringData);
 
-    
-       input = Console.ReadLine();
+
+        input = Console.ReadLine();
 
         ClientS.Send(Encoding.ASCII.GetBytes(input));
-       data = new byte[1024];
-       recv = ClientS.Receive(data);
-       stringData = Encoding.ASCII.GetString(data, 0, recv);
-       Console.WriteLine(stringData);
- 
+        data = new byte[1024];
+        recv = ClientS.Receive(data);
+        stringData = Encoding.ASCII.GetString(data, 0, recv);
+        Console.WriteLine(stringData);
+
         Console.WriteLine("Disconnecting from server...");
         ClientS.Shutdown(SocketShutdown.Both);
         ClientS.Close();
