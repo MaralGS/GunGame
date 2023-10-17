@@ -18,12 +18,12 @@ using UnityEditor.PackageManager;
 public class TCP_Client : MonoBehaviour
 {
     byte[] data = new byte[1024];
-    [SerializeField] string ip = "10.0.103.26";
+    [SerializeField] string ip = "127.0.0.1";
     public Socket ClientS;
 
     private void Start()
     {
-        string input, stringData;
+        string input = "Putero", stringData;
         IPEndPoint ipep = new IPEndPoint(
                         IPAddress.Parse(ip), 9050);
 
@@ -36,25 +36,16 @@ public class TCP_Client : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log("Unable to connect to server.");
-            Console.WriteLine(e.ToString());
+            Debug.Log(e.ToString());
          
         }
- 
 
+        data = new byte[1024];
         int recv = ClientS.Receive(data);
         stringData = Encoding.ASCII.GetString(data, 0, recv);
-        Console.WriteLine(stringData);
+        Debug.Log(stringData);
 
-
-        input = Console.ReadLine();
-
-        ClientS.Send(Encoding.ASCII.GetBytes(input));
-        data = new byte[1024];
-        recv = ClientS.Receive(data);
-        stringData = Encoding.ASCII.GetString(data, 0, recv);
-        Console.WriteLine(stringData);
-
-        Console.WriteLine("Disconnecting from server...");
+        Debug.Log("Disconnecting from server...");
         ClientS.Shutdown(SocketShutdown.Both);
         ClientS.Close();
     }
