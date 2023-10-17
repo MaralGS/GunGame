@@ -23,7 +23,7 @@ public class TCP_Client : MonoBehaviour
 
     private void Start()
     {
-        string input = "Putero", stringData;
+        string stringData;
         IPEndPoint ipep = new IPEndPoint(
                         IPAddress.Parse(ip), 9050);
 
