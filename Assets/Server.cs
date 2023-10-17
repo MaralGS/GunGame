@@ -27,6 +27,12 @@ public class Server : MonoBehaviour
     IPEndPoint ipep;
     void Start()
     {
+
+
+    }
+
+    public void StartServer()
+    {
         ipep = new IPEndPoint(IPAddress.Any, 9050);
 
         newsock = new Socket(AddressFamily.InterNetwork,
@@ -38,7 +44,6 @@ public class Server : MonoBehaviour
 
         serverThread = new Thread(StartThread);
         serverThread.Start();
-
     }
     void StartThread()
     {

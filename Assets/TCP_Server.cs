@@ -27,10 +27,15 @@ public class TCP_Server : MonoBehaviour
     public String WelcomeText = "";
     public Socket client;
     public IPEndPoint clientep;
-
     void Start()
     {
 
+      
+    }
+
+
+    public void StartServer()
+    {
         ipep = new IPEndPoint(IPAddress.Any, port);
 
         newsock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -38,33 +43,35 @@ public class TCP_Server : MonoBehaviour
 
         myThreadTCP = new Thread(TCPServer);
         myThreadTCP.Start();
-    }
+    } 
 
     void TCPServer()
     {
-        try
-        {
-            newsock.Listen(connections);
-            Debug.Log("Waiting for a client...");
-             client = newsock.Accept();
 
-            clientep = (IPEndPoint)client.RemoteEndPoint;
-            Debug.Log("Connected with {0} at port {1}" + " " + clientep.Address + " " + clientep.Port);
+            try
+            {
+                newsock.Listen(connections);
+                Debug.Log("Waiting for a client...");
+                client = newsock.Accept();
 
-        }
-        catch (Exception)   
-        {
-            Debug.Log("Connected failed... try again...");
-            throw;
-        }
-         
-        data = Encoding.ASCII.GetBytes(WelcomeText);
-        client.Send(data, data.Length, SocketFlags.None);
+                clientep = (IPEndPoint)client.RemoteEndPoint;
+                Debug.Log("Connected with {0} at port {1}" + " " + clientep.Address + " " + clientep.Port);
 
-               
-        Debug.Log("Disconnected from {0}" + clientep.Address);
+            }
+            catch (Exception)
+            {
+                Debug.Log("Connected failed... try again...");
+                throw;
+            }
+            Debug.Log("Disconnected from {0}" + clientep.Address);
+            data = Encoding.ASCII.GetBytes(WelcomeText);
+            client.Send(data, data.Length, SocketFlags.None);
+            
+            
+   
         client.Close();
         newsock.Close();
+
     }
 }
 
