@@ -19,18 +19,19 @@ public class TCP_Server : MonoBehaviour
 
     int recv;
     byte[] data = new byte[1024];
+    public int port = 9050;
     private IPEndPoint ipep;
     private Socket newsock;
-    TCP_Client client;
     private Thread myThreadTCP;
     public int connections = 10;
     public String WelcomeText = "";
-    IPEndPoint clientep;
+    public Socket client;
+    public IPEndPoint clientep;
 
     void Start()
     {
 
-        ipep = new IPEndPoint(IPAddress.Any, 9050);
+        ipep = new IPEndPoint(IPAddress.Any, port);
 
         newsock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         newsock.Bind(ipep);
@@ -45,9 +46,9 @@ public class TCP_Server : MonoBehaviour
         {
             newsock.Listen(connections);
             Debug.Log("Waiting for a client...");
-            client.ClientS = newsock.Accept();
+             client = newsock.Accept();
 
-            clientep = (IPEndPoint)client.ClientS.RemoteEndPoint;
+            clientep = (IPEndPoint)client.RemoteEndPoint;
             Debug.Log("Connected with {0} at port {1}" + " " + clientep.Address + " " + clientep.Port);
 
         }
@@ -58,11 +59,11 @@ public class TCP_Server : MonoBehaviour
         }
          
         data = Encoding.ASCII.GetBytes(WelcomeText);
-        client.ClientS.Send(data, data.Length, SocketFlags.None);
+        client.Send(data, data.Length, SocketFlags.None);
 
                
         Debug.Log("Disconnected from {0}" + clientep.Address);
-        client.ClientS.Close();
+        client.Close();
         newsock.Close();
     }
 }

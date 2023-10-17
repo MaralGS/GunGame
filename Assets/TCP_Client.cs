@@ -37,7 +37,7 @@ public class TCP_Client : MonoBehaviour
         {
             Debug.Log("Unable to connect to server.");
             Console.WriteLine(e.ToString());
-            return;
+         
         }
  
 
