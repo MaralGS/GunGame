@@ -18,6 +18,7 @@ using UnityEditor.PackageManager;
 using System.Threading;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Server : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public class Server : MonoBehaviour
         Debug.Log("Waiting for a client...");
         serverThread = new Thread(StartThread);
         serverThread.Start();
+        SceneManager.LoadScene(1);
     }
     void StartThread()
     {

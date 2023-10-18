@@ -21,8 +21,12 @@ public class Client : MonoBehaviour
     void Start()
     {
 
+       
+    }
+    public void ConnectPlayer()
+    {
         IPEndPoint ipep = new IPEndPoint(
-                        IPAddress.Parse(ip), 9050);
+                       IPAddress.Parse(ip), 9050);
 
         Socket server = new Socket(AddressFamily.InterNetwork,
                        SocketType.Dgram, ProtocolType.Udp);
@@ -41,7 +45,7 @@ public class Client : MonoBehaviour
         Debug.Log("Message received from:" + Remote.ToString());
         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
 
-       
+
         Debug.Log("Stopping client");
         server.Close();
     }

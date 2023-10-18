@@ -20,8 +20,7 @@ public class TCP_Client : MonoBehaviour
     byte[] data = new byte[1024];
     [SerializeField] string ip = "127.0.0.1";
     public Socket ClientS;
-
-    private void Start()
+    public void ConnectPlayer()
     {
         string stringData;
         IPEndPoint ipep = new IPEndPoint(
@@ -30,14 +29,14 @@ public class TCP_Client : MonoBehaviour
         ClientS = new Socket(AddressFamily.InterNetwork,
                        SocketType.Stream, ProtocolType.Tcp);
         try
-        {   
+        {
             ClientS.Connect(ipep);
         }
         catch (Exception e)
         {
             Debug.Log("Unable to connect to server.");
             Debug.Log(e.ToString());
-         
+
         }
 
         data = new byte[1024];
@@ -49,4 +48,10 @@ public class TCP_Client : MonoBehaviour
         ClientS.Shutdown(SocketShutdown.Both);
         ClientS.Close();
     }
+
+    public void Check()
+    {
+        
+    }
+
 }

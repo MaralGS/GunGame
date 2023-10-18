@@ -13,7 +13,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-
+using UnityEngine.SceneManagement;
 public class TCP_Server : MonoBehaviour
 {
 
@@ -27,6 +27,8 @@ public class TCP_Server : MonoBehaviour
     public String WelcomeText = "";
     public Socket client;
     public IPEndPoint clientep;
+   
+
     void Start()
     {
 
@@ -36,6 +38,8 @@ public class TCP_Server : MonoBehaviour
 
     public void StartServer()
     {
+
+
         ipep = new IPEndPoint(IPAddress.Any, port);
 
         newsock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -43,6 +47,8 @@ public class TCP_Server : MonoBehaviour
 
         myThreadTCP = new Thread(TCPServer);
         myThreadTCP.Start();
+
+        SceneManager.LoadScene(0);
     } 
 
     void TCPServer()
