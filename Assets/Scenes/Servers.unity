@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   port: 9050
   connections: 10
-  WelcomeText: 'Hola Putero, Benvingut al Server '
+  WelcomeText: 'Hola, Benvingut al Server '
   TextName: {fileID: 955123602}
 --- !u!4 &10666827
 Transform:
