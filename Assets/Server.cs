@@ -16,6 +16,8 @@ using System.Text;
 using System.Net.WebSockets;
 using UnityEditor.PackageManager;
 using System.Threading;
+using UnityEngine.UI;
+using TMPro;
 
 public class Server : MonoBehaviour
 {
@@ -25,10 +27,16 @@ public class Server : MonoBehaviour
     byte[] data = new byte[1024];
     Socket newsock;
     IPEndPoint ipep;
+    public GameObject TextName;
+    string UserName;
     void Start()
     {
+        
+    }
 
-
+    public void ChangeName()
+    {
+        UserName = TextName.GetComponent<TMP_InputField>().text;
     }
 
     public void StartServer()
@@ -41,7 +49,6 @@ public class Server : MonoBehaviour
         newsock.Bind(ipep);
 
         Debug.Log("Waiting for a client...");
-
         serverThread = new Thread(StartThread);
         serverThread.Start();
     }
@@ -55,7 +62,7 @@ public class Server : MonoBehaviour
         Debug.Log("Message received from:" + Remote.ToString());
         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
 
-        string welcome = "Welcome to my test server";
+        string welcome = "Welcome to "  + UserName + "server";
         data = Encoding.ASCII.GetBytes(welcome);
         newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
 
