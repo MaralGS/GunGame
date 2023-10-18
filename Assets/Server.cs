@@ -64,7 +64,7 @@ public class Server : MonoBehaviour
         Debug.Log("Message received from:" + Remote.ToString());
         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
 
-        string welcome = "Welcome to "  + UserName + "server";
+        string welcome = "Welcome to "  + UserName + " server";
         data = Encoding.ASCII.GetBytes(welcome);
         newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
 

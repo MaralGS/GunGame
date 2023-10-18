@@ -13,11 +13,15 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using TMPro;
 
 public class Client : MonoBehaviour
 {
     byte[] data = new byte[1024];
     [SerializeField] string ip = "127.0.0.1";
+    public GameObject TextName;
+    string UserName;
+
     void Start()
     {
 
@@ -25,6 +29,9 @@ public class Client : MonoBehaviour
     }
     public void ConnectPlayer()
     {
+
+        UserName = TextName.GetComponent<TMP_InputField>().text;
+
         IPEndPoint ipep = new IPEndPoint(
                        IPAddress.Parse(ip), 9050);
 
@@ -32,7 +39,7 @@ public class Client : MonoBehaviour
                        SocketType.Dgram, ProtocolType.Udp);
 
 
-        string welcome = "Hello, are you there?";
+        string welcome = "Hello, are you there?, I'm " + UserName;
         data = Encoding.ASCII.GetBytes(welcome);
         server.SendTo(data, data.Length, SocketFlags.None, ipep);
 

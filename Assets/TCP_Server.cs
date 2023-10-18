@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using TMPro;
 using UnityEngine.SceneManagement;
 public class TCP_Server : MonoBehaviour
 {
@@ -27,7 +28,9 @@ public class TCP_Server : MonoBehaviour
     public String WelcomeText = "";
     public Socket client;
     public IPEndPoint clientep;
-   
+    public GameObject TextName;
+    string UserName;
+
 
     void Start()
     {
@@ -39,6 +42,7 @@ public class TCP_Server : MonoBehaviour
     public void StartServer()
     {
 
+        UserName = TextName.GetComponent<TMP_InputField>().text;
 
         ipep = new IPEndPoint(IPAddress.Any, port);
 
@@ -47,6 +51,7 @@ public class TCP_Server : MonoBehaviour
 
         myThreadTCP = new Thread(TCPServer);
         myThreadTCP.Start();
+
 
         SceneManager.LoadScene(0);
     } 
@@ -70,7 +75,7 @@ public class TCP_Server : MonoBehaviour
                 throw;
             }
             Debug.Log("Disconnected from {0}" + clientep.Address);
-            data = Encoding.ASCII.GetBytes(WelcomeText);
+            data = Encoding.ASCII.GetBytes(WelcomeText + " " + UserName);
             client.Send(data, data.Length, SocketFlags.None);
             
             

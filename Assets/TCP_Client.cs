@@ -14,14 +14,19 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using UnityEditor.PackageManager;
+using TMPro;
 
 public class TCP_Client : MonoBehaviour
 {
     byte[] data = new byte[1024];
     [SerializeField] string ip = "127.0.0.1";
     public Socket ClientS;
+    public GameObject TextName;
+    string UserName;
     public void ConnectPlayer()
     {
+        UserName = TextName.GetComponent<TMP_InputField>().text;
+
         string stringData;
         IPEndPoint ipep = new IPEndPoint(
                         IPAddress.Parse(ip), 9050);
@@ -38,6 +43,10 @@ public class TCP_Client : MonoBehaviour
             Debug.Log(e.ToString());
 
         }
+
+        string welcome = "Hello, are you there?, I'm " + UserName;
+        data = Encoding.ASCII.GetBytes(welcome);
+        ClientS.SendTo(data, data.Length, SocketFlags.None, ipep);
 
         data = new byte[1024];
         int recv = ClientS.Receive(data);
