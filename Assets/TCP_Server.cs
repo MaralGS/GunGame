@@ -15,6 +15,8 @@ using System.Text;
 using System.Threading;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEditor.PackageManager;
+
 public class TCP_Server : MonoBehaviour
 {
 
@@ -52,7 +54,6 @@ public class TCP_Server : MonoBehaviour
         myThreadTCP = new Thread(TCPServer);
         myThreadTCP.Start();
 
-
         SceneManager.LoadScene(0);
     } 
 
@@ -61,6 +62,7 @@ public class TCP_Server : MonoBehaviour
 
             try
             {
+                string stringData;
                 newsock.Listen(connections);
                 Debug.Log("Waiting for a client...");
                 client = newsock.Accept();
@@ -68,7 +70,12 @@ public class TCP_Server : MonoBehaviour
                 clientep = (IPEndPoint)client.RemoteEndPoint;
                 Debug.Log("Connected with {0} at port {1}" + " " + clientep.Address + " " + clientep.Port);
 
-            }
+                data = new byte[1024];
+                int recv = client.Receive(data);
+                stringData = Encoding.ASCII.GetString(data, 0, recv);
+                Debug.Log(stringData);
+
+        }
             catch (Exception)
             {
                 Debug.Log("Connected failed... try again...");

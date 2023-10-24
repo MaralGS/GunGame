@@ -47,7 +47,6 @@ public class TCP_Client : MonoBehaviour
         string welcome = "Hello, are you there?, I'm " + UserName;
         data = Encoding.ASCII.GetBytes(welcome);
         ClientS.Send(data, data.Length, SocketFlags.None);
-        Debug.Log(welcome);
 
         data = new byte[1024];
         int recv = ClientS.Receive(data);
