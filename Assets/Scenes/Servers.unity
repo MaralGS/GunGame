@@ -882,9 +882,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: f72757499eda9bd49adb3a11dbe6c9fb, type: 3}
-        m_TargetAssemblyTypeName: TCP_Server, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 821666555}
+        m_TargetAssemblyTypeName: Client, Assembly-CSharp
+        m_MethodName: ConnectPlayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -944,7 +944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f72757499eda9bd49adb3a11dbe6c9fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ip: {fileID: 0}
+  ip: {fileID: 1977592407}
   TextName: {fileID: 512752474}
 --- !u!1 &870171702
 GameObject:
