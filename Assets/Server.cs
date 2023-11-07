@@ -26,7 +26,8 @@ public class Server : MonoBehaviour
     Thread serverThread;
     int recv;
     byte[] data = new byte[1024];
-    Socket newsock;
+    [HideInInspector] public Socket newsock;
+    [HideInInspector] public EndPoint Remote;
     IPEndPoint ipep;
     public GameObject TextName;
     string UserName;
@@ -57,7 +58,7 @@ public class Server : MonoBehaviour
     void StartThread()
     {
         IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-        EndPoint Remote = (EndPoint)(sender);
+        Remote = (EndPoint)(sender);
 
         recv = newsock.ReceiveFrom(data, ref Remote);
 
