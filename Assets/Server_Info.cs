@@ -12,13 +12,17 @@ public class Server_Info : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Server = UDP.newsock;
-        Remote = UDP.Remote;
+       
     }
 
     // Update is called once per frame
     void Update()
     {
         DontDestroyOnLoad(this);
+    }
+    public void IsServer()
+    {
+        Server = UDP.newsock;
+        Remote = UDP.Remote;
     }
 }
