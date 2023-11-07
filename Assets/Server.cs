@@ -69,7 +69,7 @@ public class Server : MonoBehaviour
         newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
 
         if (newsock.Connected) {newsock.Shutdown(SocketShutdown.Both);}
-        newsock.Close();
+        //newsock.Close();
 
     }
 }
