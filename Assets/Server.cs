@@ -52,7 +52,7 @@ public class Server : MonoBehaviour
         Debug.Log("Waiting for a client...");
         serverThread = new Thread(StartThread);
         serverThread.Start();
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
     void StartThread()
     {

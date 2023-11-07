@@ -14,13 +14,15 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Client : MonoBehaviour
 {
     byte[] data = new byte[1024];
-    [SerializeField] string ip = "127.0.0.1";
+    public GameObject ip;
     public GameObject TextName;
-    string UserName;
+    string userName;
+    string usingIP;
 
     void Start()
     {
@@ -30,16 +32,17 @@ public class Client : MonoBehaviour
     public void ConnectPlayer()
     {
 
-        UserName = TextName.GetComponent<TMP_InputField>().text;
+        userName = TextName.GetComponent<TMP_InputField>().text;
+        usingIP = ip.GetComponent<TMP_InputField>().text;
 
         IPEndPoint ipep = new IPEndPoint(
-                       IPAddress.Parse(ip), 9050);
+                       IPAddress.Parse(usingIP), 9050);
 
         Socket server = new Socket(AddressFamily.InterNetwork,
                        SocketType.Dgram, ProtocolType.Udp);
 
 
-        string welcome = "Hello, are you there?, I'm " + UserName;
+        string welcome = "Hello, are you there?, I'm " + userName;
         data = Encoding.ASCII.GetBytes(welcome);
         server.SendTo(data, data.Length, SocketFlags.None, ipep);
 
@@ -53,7 +56,10 @@ public class Client : MonoBehaviour
         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
 
 
-        Debug.Log("Stopping client");
-        server.Close();
+
+        SceneManager.LoadScene(2);
+
+        //Debug.Log("Stopping client");
+        //server.Close();
     }
 }
