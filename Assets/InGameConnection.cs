@@ -17,21 +17,20 @@ public class InGameConnection : MonoBehaviour
         public Vector2 Position;
         public bool shoot;
     }
-    Server_Info S;
+    Server S;
     Player_Info P1;
     Socket _socket;
     EndPoint _endPoint;
     // Start is called before the first frame update
     void Start()
     {
-        _socket = S.Server;
-        _endPoint = S.Remote;
+      
     }
 
     // Update is called once per frame
     void Update()
     {
-        SendInfo(P1,_socket,_endPoint);
+        SendInfo(P1,S.newsock,S.Remote);
         //ReciveInfo();
     }
 
