@@ -33,12 +33,20 @@ public class Server : MonoBehaviour
     string UserName;
     void Start()
     {
-        
+        StartServer();
     }
 
     public void ChangeName()
     {
-        UserName = TextName.GetComponent<TMP_InputField>().text;
+        if (UserName != "")
+        {
+            UserName = TextName.GetComponent<TMP_InputField>().text;
+        }
+        else
+        {
+            UserName = "Hola";
+        }
+      
     }
 
     public void StartServer()
@@ -53,7 +61,7 @@ public class Server : MonoBehaviour
         Debug.Log("Waiting for a client...");
         serverThread = new Thread(StartThread);
         serverThread.Start();
-        SceneManager.LoadScene(2);
+        //SceneManager.LoadScene(2);
     }
     void StartThread()
     {
