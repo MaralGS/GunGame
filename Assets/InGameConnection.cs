@@ -24,7 +24,7 @@ public class InGameConnection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+        S = GameObject.Find("Server_UDP").GetComponent<Server>(); 
     }
 
     // Update is called once per frame
@@ -39,8 +39,8 @@ public class InGameConnection : MonoBehaviour
         byte[] data = new byte[1024];
         string P_Info = JsonUtility.ToJson(Player);
         data = Encoding.ASCII.GetBytes(P_Info);
-        sock.SendTo(data,remote);
-        Debug.Log(data + "HHAAAAAAAAAAAA");
+        sock.SendTo(data, data.Length, SocketFlags.None,remote);
+        Debug.Log("HHAAAAAAAAAAAA");
     }
 
     void ReciveInfo(byte[] data, Socket Server, EndPoint remote)
