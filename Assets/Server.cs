@@ -77,7 +77,7 @@ public class Server : MonoBehaviour
         data = Encoding.ASCII.GetBytes(welcome);
         newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
 
-        if (newsock.Connected) {newsock.Shutdown(SocketShutdown.Both);}
+        //if (newsock.Connected) {newsock.Shutdown(SocketShutdown.Both);}
         //newsock.Close();
 
     }
