@@ -7,9 +7,12 @@ public class PlayerMovment : MonoBehaviour
     // Start is called before the first frame update
     public float verticalInput;
     public float movementSpeed;
+    private float speed = 0.0f;
+    private float verticalspeed = 0.0f;
+    public float maxSpeed = 5.0f;
     void Start()
     {
-        
+        movementSpeed = movementSpeed / 30;
     }
 
     // Update is called once per frame
@@ -18,28 +21,53 @@ public class PlayerMovment : MonoBehaviour
     
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position += Vector3.right * movementSpeed * Time.deltaTime;
+           speed += movementSpeed * Time.deltaTime;
+            if(speed > maxSpeed)
+            {
+                speed = maxSpeed;
+            }
         }
-
-        if (Input.GetKey(KeyCode.D))
+        else if(speed > 0)
         {
-            transform.position -= -Vector3.left * movementSpeed * Time.deltaTime;
+            speed += -movementSpeed * Time.deltaTime;
+            if(speed < 0)
+            {
+                speed = 0;
+            }
         }
         
+        if (Input.GetKey(KeyCode.D))
+        {
+           speed -= movementSpeed * Time.deltaTime;
+            if(speed < -maxSpeed)
+            {
+                speed = -maxSpeed;
+            }
+        }
+        else if(speed < 0)
+        {
+            speed += movementSpeed * Time.deltaTime;
+            if(speed > 0)
+            {
+                speed = 0;
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) )
         {
             JumpAction();
         }
 
+        transform.position += Vector3.back * speed;
+        transform.position += Vector3.up * verticalspeed;
+        verticalspeed = 0;
     }
 
     void JumpAction()
     {
-      
-      transform.position +=  (transform.up) * verticalInput * Time.deltaTime;
-      
-
+        verticalspeed = 0.75f;
     }
+
 }
 
 
