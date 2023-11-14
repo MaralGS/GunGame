@@ -26,14 +26,14 @@ public class Server : MonoBehaviour
     Thread serverThread;
     int recv;
     byte[] data = new byte[1024];
-    [HideInInspector] public Socket newsock;
-    [HideInInspector] public EndPoint Remote;
+    Socket newsock;
+    EndPoint Remote;
     IPEndPoint ipep;
     public GameObject TextName;
     string UserName;
     void Start()
     {
-        StartServer();
+        //StartServer();
     }
 
     public void ChangeName()
@@ -61,7 +61,7 @@ public class Server : MonoBehaviour
         Debug.Log("Waiting for a client...");
         serverThread = new Thread(StartThread);
         serverThread.Start();
-        //SceneManager.LoadScene(2);
+        SceneManager.LoadScene(2);
     }
     void StartThread()
     {

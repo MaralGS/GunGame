@@ -17,20 +17,18 @@ public class InGameConnection : MonoBehaviour
         public Vector2 Position;
         public bool shoot;
     }
-    Server S;
+    Server_Info S;
     Player_Info P1;
-    Socket _socket;
-    EndPoint _endPoint;
     // Start is called before the first frame update
     void Start()
     {
-        S = GameObject.Find("Server_UDP").GetComponent<Server>(); 
+        S = GameObject.Find("Perma_server").GetComponent<Server_Info>(); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        SendInfo(P1,S.newsock,S.Remote);
+        SendInfo(P1,S.Server_Sock,S.Remote_EP);
         //ReciveInfo();
     }
 
@@ -40,7 +38,7 @@ public class InGameConnection : MonoBehaviour
         string P_Info = JsonUtility.ToJson(Player);
         data = Encoding.ASCII.GetBytes(P_Info);
         sock.SendTo(data, data.Length, SocketFlags.None,remote);
-        Debug.Log(data);
+       // Debug.Log(data);
     }
 
     void ReciveInfo(byte[] data, Socket Server, EndPoint remote)
