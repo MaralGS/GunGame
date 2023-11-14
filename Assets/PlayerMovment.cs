@@ -18,12 +18,12 @@ public class PlayerMovment : MonoBehaviour
     
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position = transform.position + transform.right * movementSpeed * Time.deltaTime;
+            transform.position += Vector3.right * movementSpeed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position = transform.position + (-transform.right) * movementSpeed * Time.deltaTime;
+            transform.position -= -Vector3.left * movementSpeed * Time.deltaTime;
         }
         
         if (Input.GetKeyDown(KeyCode.Space) )
@@ -35,10 +35,9 @@ public class PlayerMovment : MonoBehaviour
 
     void JumpAction()
     {
-        for (int i = 0; i < 10; i++)
-        {
-            transform.position = transform.position + (transform.up) * verticalInput * Time.deltaTime;
-        }
+      
+      transform.position +=  (transform.up) * verticalInput * Time.deltaTime;
+      
 
     }
 }

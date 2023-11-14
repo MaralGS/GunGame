@@ -40,7 +40,7 @@ public class InGameConnection : MonoBehaviour
         string P_Info = JsonUtility.ToJson(Player);
         data = Encoding.ASCII.GetBytes(P_Info);
         sock.SendTo(data, data.Length, SocketFlags.None,remote);
-        Debug.Log(data +" HHAAAAAAAAAAAA");
+        Debug.Log(data);
     }
 
     void ReciveInfo(byte[] data, Socket Server, EndPoint remote)
