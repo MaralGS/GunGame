@@ -26,8 +26,8 @@ public class Server : MonoBehaviour
     Thread serverThread;
     int recv;
     byte[] data = new byte[1024];
-    Socket newsock;
-    EndPoint Remote;
+    [HideInInspector] public Socket newsock;
+    [HideInInspector] public EndPoint Remote;
     IPEndPoint ipep;
     public GameObject TextName;
     string UserName;
