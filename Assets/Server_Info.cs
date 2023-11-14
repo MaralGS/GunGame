@@ -7,28 +7,29 @@ using UnityEngine;
 public class Server_Info : MonoBehaviour
 {
 
-    [HideInInspector] public Socket Server_Sock;
-    [HideInInspector] public EndPoint Remote_EP;
-    Server SUDP;
-    // Start is called before the first frame update
-    void Start()
-    {
-        SUDP = GameObject.Find("Server_UDP").GetComponent<Server>();
- 
-    }
+    [HideInInspector] public Socket sock;
+    [HideInInspector] public EndPoint ep;
+    bool client;
+    //Server SUDP;
+    //// Start is called before the first frame update
+   void Start()
+   {
 
-    // Update is called once per frame
-    void Update()
+   }
+   
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    DontDestroyOnLoad(this);
+    //    if (Input.GetKeyDown(KeyCode.X))
+    //    {
+    //        IsServer();
+    //    }
+    //}
+    public void SaveInfo(Socket rsock, EndPoint r_ep, bool risClient)
     {
-        DontDestroyOnLoad(this);
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            IsServer();
-        }
-    }
-    public void IsServer()
-    {
-        Server_Sock = SUDP.newsock;
-        Remote_EP = SUDP.Remote;
+        sock = rsock;
+        ep = r_ep;
+        client = risClient;
     }
 }

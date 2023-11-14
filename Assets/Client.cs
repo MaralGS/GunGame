@@ -15,6 +15,7 @@ using System.Net.Sockets;
 using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEditor.PackageManager;
 
 public class Client : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class Client : MonoBehaviour
     public GameObject TextName;
     string userName;
     string usingIP;
-
+    Server_Info info;
     void Start()
     {
 
@@ -38,24 +39,34 @@ public class Client : MonoBehaviour
         IPEndPoint ipep = new IPEndPoint(
                        IPAddress.Parse(usingIP), 9050);
 
-        Socket server = new Socket(AddressFamily.InterNetwork,
+        Socket client = new Socket(AddressFamily.InterNetwork,
                        SocketType.Dgram, ProtocolType.Udp);
 
+        try
+        {
+            string welcome = "Hello, are you there?, I'm " + userName;
+            data = Encoding.ASCII.GetBytes(welcome);
+            client.SendTo(data, data.Length, SocketFlags.None, ipep);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Unable to connect to server.");
+            Debug.Log(e.ToString());
 
-        string welcome = "Hello, are you there?, I'm " + userName;
-        data = Encoding.ASCII.GetBytes(welcome);
-        server.SendTo(data, data.Length, SocketFlags.None, ipep);
+        }
+
 
         IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-        EndPoint Remote = (EndPoint)sender;
+        EndPoint remote = (EndPoint)sender;
 
         data = new byte[1024];
-        int recv = server.ReceiveFrom(data, ref Remote);
+        int recv = client.ReceiveFrom(data, ref remote);
 
-        Debug.Log("Message received from:" + Remote.ToString());
+        Debug.Log("Message received from:" + remote.ToString());
         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
 
 
+        info.SaveInfo(client, remote, true);
 
         SceneManager.LoadScene(2);
 
