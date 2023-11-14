@@ -66,7 +66,7 @@ public class Client : MonoBehaviour
         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
 
 
-        info.SaveInfo(client, remote, true);
+        //info.SaveInfo(client, remote, true);
 
         SceneManager.LoadScene(2);
 

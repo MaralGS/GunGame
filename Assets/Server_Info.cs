@@ -9,27 +9,18 @@ public class Server_Info : MonoBehaviour
 
     [HideInInspector] public Socket sock;
     [HideInInspector] public EndPoint ep;
-    bool client;
+    [HideInInspector] public int type; 
     //Server SUDP;
     //// Start is called before the first frame update
-   void Start()
-   {
-
-   }
-   
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    DontDestroyOnLoad(this);
-    //    if (Input.GetKeyDown(KeyCode.X))
-    //    {
-    //        IsServer();
-    //    }
-    //}
-    public void SaveInfo(Socket rsock, EndPoint r_ep, bool risClient)
+    void Start()
+    {
+        DontDestroyOnLoad(this);
+    }
+  
+    public void SaveInfo(Socket rsock, EndPoint r_ep, int type)
     {
         sock = rsock;
         ep = r_ep;
-        client = risClient;
+        this.type = type;
     }
 }
