@@ -77,7 +77,7 @@ public class Server : MonoBehaviour
             data = Encoding.ASCII.GetBytes(welcome);
             newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
 
-            info.SaveInfo(newsock, Remote, false);
+            info.SaveInfo(newsock, Remote, 0);
 
         }
         catch (Exception)

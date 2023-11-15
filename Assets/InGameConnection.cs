@@ -28,13 +28,13 @@ public class InGameConnection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (S.type == 0)
+        if (S.type == 0) //0 server 
         {
             SendInfo(P1, S.sock, S.ep);
         }
-        else if (S.type == 1)
+        else if (S.type == 1) //1 player
         {
-           // ReciveInfo();
+          // ReciveInfo();
         }
    
         //ReciveInfo();
