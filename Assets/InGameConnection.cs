@@ -37,8 +37,6 @@ public class InGameConnection : MonoBehaviour
         {
           // ReciveInfo();
         }
-   
-        //ReciveInfo();
     }
   
     void SendInfo(Player_Info Player, Socket sock, EndPoint remote)
