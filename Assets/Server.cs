@@ -60,6 +60,8 @@ public class Server : MonoBehaviour
 
         newsock.Bind(ipep);
 
+        info = GameObject.Find("Perma_server").GetComponent<Server_Info>();
+
         Debug.Log("Waiting for a client...");
         serverThread = new Thread(StartThread);
         serverThread.Start();
@@ -93,7 +95,7 @@ public class Server : MonoBehaviour
 
     void SaveServer()
     { 
-        info = GameObject.Find("Perma_server").GetComponent<Server_Info>();
+       
         info.SaveInfo(newsock, ipep, 0);
         SceneManager.LoadScene(2);
     }

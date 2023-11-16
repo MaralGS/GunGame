@@ -26,6 +26,10 @@ public class Client : MonoBehaviour
     string ServerM;
     string usingIP;
     Server_Info info;
+
+    Socket client;
+    IPEndPoint ipep;
+    EndPoint remote;
     void Start()
     {
 
@@ -37,10 +41,10 @@ public class Client : MonoBehaviour
         //userName = TextName.GetComponent<TMP_InputField>().text;
         usingIP = ip.GetComponent<TMP_InputField>().text;
 
-        IPEndPoint ipep = new IPEndPoint(
+        ipep = new IPEndPoint(
                        IPAddress.Parse(usingIP), 9050);
 
-        Socket client = new Socket(AddressFamily.InterNetwork,
+        client = new Socket(AddressFamily.InterNetwork,
                        SocketType.Dgram, ProtocolType.Udp);
 
         try
@@ -58,7 +62,7 @@ public class Client : MonoBehaviour
 
 
         IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-        EndPoint remote = (EndPoint)sender;
+        remote = (EndPoint)sender;
 
         data = new byte[1024];
         int recv = client.ReceiveFrom(data, ref remote);
@@ -66,8 +70,6 @@ public class Client : MonoBehaviour
         Debug.Log("Message received from:" + remote.ToString());
         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
         ServerM = Encoding.ASCII.GetString(data, 0, recv);
-
-        info.SaveInfo(client, remote, 1);
 
         TryConnection();
 
@@ -81,6 +83,7 @@ public class Client : MonoBehaviour
     {
        if(ServerM == "StartServer")
         {
+            info.SaveInfo(client, remote, 1);
             SceneManager.LoadScene(2);
         }
     }
