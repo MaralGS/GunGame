@@ -32,8 +32,7 @@ public class Client : MonoBehaviour
     EndPoint remote;
     void Start()
     {
-
-       
+        info = GameObject.Find("Perma_server").GetComponent<Server_Info>();
     }
 
     private void Update()
