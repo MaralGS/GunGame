@@ -23,7 +23,7 @@ public class PlayerMovment : MonoBehaviour
     void Start()
     {
         movementSpeed = movementSpeed / 30;
-        q = new Quaternion((float)0.707106829, (float)0.707106829, 0, 0);
+        q = new Quaternion((float)-0.5, (float)-0.5,(float)0.5, (float)0.5);
     }
 
     // Update is called once per frame
@@ -84,7 +84,7 @@ public class PlayerMovment : MonoBehaviour
             EndJump();
         }
 
-        transform.position += Vector3.back * speed;
+        transform.position += Vector3.left * speed;
         transform.rotation = q;
 
     }
