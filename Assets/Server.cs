@@ -63,11 +63,8 @@ public class Server : MonoBehaviour
         Debug.Log("Waiting for a client...");
         serverThread = new Thread(StartThread);
         serverThread.Start();
-        if (ClientM == "Connected")
-        {
-            SaveServer();
-        }
- 
+     
+        
     }
     void StartThread()
     {
@@ -88,7 +85,8 @@ public class Server : MonoBehaviour
             Debug.Log("Connected failed... try again...");
             throw;
         }
-        
+
+        ConnectServer();
         //if (newsock.Connected) {newsock.Shutdown(SocketShutdown.Both);}
         //newsock.Close();
     }
@@ -98,5 +96,12 @@ public class Server : MonoBehaviour
         info = GameObject.Find("Perma_server").GetComponent<Server_Info>();
         info.SaveInfo(newsock, ipep, 0);
         SceneManager.LoadScene(2);
+    }
+    private void ConnectServer()
+    {
+        if (ClientM == "Connected")
+        {
+            SaveServer();
+        }
     }
 }
