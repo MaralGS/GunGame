@@ -76,9 +76,12 @@ public class Server : MonoBehaviour
             string welcome = "Welcome to " + UserName + " server";
             data = Encoding.ASCII.GetBytes(welcome);
             newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
+            if (info == null)
+            {
+                SaveServer();
+            }
 
-            info.SaveInfo(newsock, Remote, 0);
-
+            info.SaveInfo(newsock, ipep, 0);
         }
         catch (Exception)
         {
@@ -90,5 +93,10 @@ public class Server : MonoBehaviour
         //if (newsock.Connected) {newsock.Shutdown(SocketShutdown.Both);}
         //newsock.Close();
 
+    }
+
+    void SaveServer()
+    { 
+     GameObject.Find("Perma_server").GetComponent<Server_Info>();
     }
 }
