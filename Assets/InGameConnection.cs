@@ -31,6 +31,7 @@ public class InGameConnection : MonoBehaviour
         if (S.type == 0) //0 server 
         {
             SendInfo(P1, S.sock, S.ep);
+            Debug.Log(S.type);
         }
         else if (S.type == 1) //1 player
         {
