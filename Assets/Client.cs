@@ -35,6 +35,15 @@ public class Client : MonoBehaviour
 
        
     }
+
+    private void Update()
+    {
+        if (ServerM == "StartServer")
+        {
+            info.SaveInfo(client, remote, 1);
+            SceneManager.LoadScene(2);
+        }
+    }
     public void ConnectPlayer()
     {
 
@@ -71,20 +80,7 @@ public class Client : MonoBehaviour
         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
         ServerM = Encoding.ASCII.GetString(data, 0, recv);
 
-        TryConnection();
-
-        
-
         //Debug.Log("Stopping client");
         //server.Close();
-    }
-
-    void TryConnection()
-    {
-       if(ServerM == "StartServer")
-        {
-            info.SaveInfo(client, remote, 1);
-            SceneManager.LoadScene(2);
-        }
     }
 }

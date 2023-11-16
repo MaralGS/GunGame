@@ -51,6 +51,13 @@ public class Server : MonoBehaviour
       
     }
 
+    private void Update()
+    {
+        if (ClientM == "Connected")
+        {
+            SaveServer();
+        }
+    }
     public void StartServer()
     {
         ipep = new IPEndPoint(IPAddress.Any, 9050);
@@ -87,23 +94,11 @@ public class Server : MonoBehaviour
             Debug.Log("Connected failed... try again...");
             throw;
         }
-
-        ConnectServer();
-        //if (newsock.Connected) {newsock.Shutdown(SocketShutdown.Both);}
-        //newsock.Close();
     }
 
     void SaveServer()
-    { 
-       
+    {
         info.SaveInfo(newsock, ipep, 0);
         SceneManager.LoadScene(2);
-    }
-    private void ConnectServer()
-    {
-        if (ClientM == "Connected")
-        {
-            SaveServer();
-        }
     }
 }
