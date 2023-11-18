@@ -19,9 +19,10 @@ public class PlayerMovment : MonoBehaviour
     public float minJumpForce;
     public float jumpTime;
     public float maxJumpForce;
-
+    InGameConnection infoPlayer;
     void Start()
     {
+        infoPlayer = GameObject.Find("Serialization").GetComponent<InGameConnection>(); 
         movementSpeed = movementSpeed / 30;
         q = new Quaternion((float)-0.5, (float)-0.5,(float)0.5, (float)0.5);
     }
@@ -87,6 +88,7 @@ public class PlayerMovment : MonoBehaviour
         transform.position += Vector3.left * speed;
         transform.rotation = q;
 
+        infoPlayer.GetPlayerMovmentInfo(transform.position, transform.rotation);
     }
 
     void OnCollisionEnter(Collision collision)

@@ -15,8 +15,8 @@ using System.Net.Sockets;
 using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEditor.PackageManager;
-using UnityEngine.tvOS;
+//using UnityEditor.PackageManager;
+//using UnityEngine.tvOS;
 
 public class Client : MonoBehaviour
 {
@@ -40,7 +40,7 @@ public class Client : MonoBehaviour
         if (ServerM == "StartServer")
         {
             info.SaveInfo(client, remote, 1);
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(1);
         }
     }
     public void ConnectPlayer()

@@ -14,7 +14,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Net.WebSockets;
-using UnityEditor.PackageManager;
+//using UnityEditor.PackageManager;
 using System.Threading;
 using UnityEngine.UI;
 using TMPro;
@@ -99,6 +99,6 @@ public class Server : MonoBehaviour
     void SaveServer()
     {
         info.SaveInfo(newsock, ipep, 0);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
 }

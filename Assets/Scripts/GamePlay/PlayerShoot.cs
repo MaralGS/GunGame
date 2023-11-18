@@ -15,11 +15,11 @@ public class PlayerShoot : MonoBehaviour
     public bool activeCoolDown = false;
     public float coolDown1 = 5.5f;
     public bool activeCoolDown1 = false;
-
+    InGameConnection infoPlayer;
     // Start is called before the first frame update
     void Start()
     {
-        
+        infoPlayer = GameObject.Find("Serialization").GetComponent<InGameConnection>();
     }
 
     // Update is called once per frame
@@ -59,6 +59,7 @@ public class PlayerShoot : MonoBehaviour
                 coolDownTimer = 0.0f;
             }
         }
+        infoPlayer.GetPlayerShotInfo(projectilePrefab, transform.position);
     }
 
     private void Shoot(Vector3 shootDirection)
