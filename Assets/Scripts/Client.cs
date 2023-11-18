@@ -15,49 +15,69 @@ using System.Net.Sockets;
 using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEditor.PackageManager;
+using UnityEngine.tvOS;
 
 public class Client : MonoBehaviour
 {
     byte[] data = new byte[1024];
     public GameObject ip;
     public GameObject TextName;
-    string userName;
+    string ServerM;
     string usingIP;
+    Server_Info info;
 
+    Socket client;
+    IPEndPoint ipep;
+    EndPoint remote;
     void Start()
     {
+        info = GameObject.Find("Perma_server").GetComponent<Server_Info>();
+    }
 
-       
+    private void Update()
+    {
+        if (ServerM == "StartServer")
+        {
+            info.SaveInfo(client, remote, 1);
+            SceneManager.LoadScene(2);
+        }
     }
     public void ConnectPlayer()
     {
 
-        userName = TextName.GetComponent<TMP_InputField>().text;
+        //userName = TextName.GetComponent<TMP_InputField>().text;
         usingIP = ip.GetComponent<TMP_InputField>().text;
 
-        IPEndPoint ipep = new IPEndPoint(
+        ipep = new IPEndPoint(
                        IPAddress.Parse(usingIP), 9050);
 
-        Socket server = new Socket(AddressFamily.InterNetwork,
+        client = new Socket(AddressFamily.InterNetwork,
                        SocketType.Dgram, ProtocolType.Udp);
 
+        try
+        {
+            string welcome = "Connected";
+            data = Encoding.ASCII.GetBytes(welcome);
+            client.SendTo(data, data.Length, SocketFlags.None, ipep);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Unable to connect to server.");
+            Debug.Log(e.ToString());
 
-        string welcome = "Hello, are you there?, I'm " + userName;
-        data = Encoding.ASCII.GetBytes(welcome);
-        server.SendTo(data, data.Length, SocketFlags.None, ipep);
+        }
+
 
         IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-        EndPoint Remote = (EndPoint)sender;
+        remote = (EndPoint)sender;
 
         data = new byte[1024];
-        int recv = server.ReceiveFrom(data, ref Remote);
+        int recv = client.ReceiveFrom(data, ref remote);
 
-        Debug.Log("Message received from:" + Remote.ToString());
+        Debug.Log("Message received from:" + remote.ToString());
         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
-
-
-
-        SceneManager.LoadScene(2);
+        ServerM = Encoding.ASCII.GetString(data, 0, recv);
 
         //Debug.Log("Stopping client");
         //server.Close();

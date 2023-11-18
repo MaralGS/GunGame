@@ -6,23 +6,21 @@ using UnityEngine;
 
 public class Server_Info : MonoBehaviour
 {
-    [HideInInspector] public Socket Server;
-    [HideInInspector] public EndPoint Remote;
-    Server UDP;
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
 
-    // Update is called once per frame
-    void Update()
+    [HideInInspector] public Socket sock;
+    [HideInInspector] public EndPoint ep;
+    [HideInInspector] public int type; 
+    //Server SUDP;
+    //// Start is called before the first frame update
+    void Start()
     {
         DontDestroyOnLoad(this);
     }
-    public void IsServer()
+  
+    public void SaveInfo(Socket rsock, EndPoint r_ep, int type)
     {
-        Server = UDP.newsock;
-        Remote = UDP.Remote;
+        sock = rsock;
+        ep = r_ep;
+        this.type = type;
     }
 }

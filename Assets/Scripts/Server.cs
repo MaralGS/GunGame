@@ -31,9 +31,11 @@ public class Server : MonoBehaviour
     IPEndPoint ipep;
     public GameObject TextName;
     string UserName;
+    string ClientM;
+    Server_Info info;
     void Start()
     {
-        StartServer();
+        //StartServer();
     }
 
     public void ChangeName()
@@ -49,6 +51,13 @@ public class Server : MonoBehaviour
       
     }
 
+    private void Update()
+    {
+        if (ClientM == "Connected")
+        {
+            SaveServer();
+        }
+    }
     public void StartServer()
     {
         ipep = new IPEndPoint(IPAddress.Any, 9050);
@@ -58,27 +67,38 @@ public class Server : MonoBehaviour
 
         newsock.Bind(ipep);
 
+        info = GameObject.Find("Perma_server").GetComponent<Server_Info>();
+
         Debug.Log("Waiting for a client...");
         serverThread = new Thread(StartThread);
         serverThread.Start();
-        //SceneManager.LoadScene(2);
+     
+        
     }
     void StartThread()
     {
         IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
         Remote = (EndPoint)(sender);
+        try
+        {
+            recv = newsock.ReceiveFrom(data, ref Remote);
+            Debug.Log("Message received from:" + Remote.ToString());
+            Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
+            ClientM = Encoding.ASCII.GetString(data, 0, recv);
+            string welcome = "StartServer";
+            data = Encoding.ASCII.GetBytes(welcome);
+            newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
+        }
+        catch (Exception)
+        {
+            Debug.Log("Connected failed... try again...");
+            throw;
+        }
+    }
 
-        recv = newsock.ReceiveFrom(data, ref Remote);
-
-        Debug.Log("Message received from:" + Remote.ToString());
-        Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
-
-        string welcome = "Welcome to "  + UserName + " server";
-        data = Encoding.ASCII.GetBytes(welcome);
-        newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
-
-        //if (newsock.Connected) {newsock.Shutdown(SocketShutdown.Both);}
-        //newsock.Close();
-
+    void SaveServer()
+    {
+        info.SaveInfo(newsock, ipep, 0);
+        SceneManager.LoadScene(2);
     }
 }
