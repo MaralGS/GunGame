@@ -1,14 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-/*
-C# Network Programming 
-by Richard Blum
-
-Publisher: Sybex 
-ISBN: 0782141765
-*/
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -20,6 +12,11 @@ using UnityEngine.SceneManagement;
 
 public class Client : MonoBehaviour
 {
+
+    public static Client _instance;
+
+    public static Client Instanace => _instance;
+
     byte[] data = new byte[1024];
     public GameObject ip;
     public GameObject TextName;
@@ -30,6 +27,21 @@ public class Client : MonoBehaviour
     Socket client;
     IPEndPoint ipep;
     EndPoint remote;
+    [HideInInspector] public string type = "Client";
+
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         info = GameObject.Find("Perma_server").GetComponent<Server_Info>();

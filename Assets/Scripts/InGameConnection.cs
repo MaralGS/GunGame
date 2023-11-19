@@ -1,12 +1,14 @@
 //using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Linq;
 using UnityEngine;
+using System.Threading;
 //using UnityEngine.tvOS;
 
 public class InGameConnection : MonoBehaviour
@@ -20,36 +22,47 @@ public class InGameConnection : MonoBehaviour
         public GameObject shot;
         public Vector3 shotPosition;
     }
-    Server_Info S;
+    Server _server;
     Player_Info P1;
+    Thread _threadSend;
     // Start is called before the first frame update
     void Start()
     {
-        S = GameObject.Find("Perma_server").GetComponent<Server_Info>(); 
+         _server = Server.Instanace;
+
+        if (_server.type == "Server") //0 server 
+        {
+            _threadSend = new Thread(SendInfo);
+            _threadSend.Start();
+            Debug.Log(_server.type);
+        }
+        else if (_server.type == "Client") //1 player
+        {
+            // ReciveInfo();
+        }
     }
   
     // Update is called once per frame
     void Update()
     {
-        if (S.type == 0) //0 server 
-        {
-            SendInfo(P1, S.sock, S.ep);
-            Debug.Log(S.type);
-        }
-        else if (S.type == 1) //1 player
-        {
-          // ReciveInfo();
-        }
+  
     }
   
-    void SendInfo(Player_Info Player, Socket sock, EndPoint remote)
+    void SendInfo()
     {
-        byte[] data = new byte[1024];
-        string P_Info = JsonUtility.ToJson(Player);
-        data = Encoding.ASCII.GetBytes(P_Info);
-        Debug.Log(data + "holaaaa");
-        sock.SendTo(data, data.Length, SocketFlags.None,remote);
-       
+        try
+        {
+            byte[] data = new byte[1024];
+            string P_Info = JsonUtility.ToJson(P1);
+            data = Encoding.ASCII.GetBytes(P_Info);
+            Debug.Log(data + "holaaaa");
+            _server.newsock.SendTo(data, data.Length, SocketFlags.None, _server.Remote);
+        }
+        catch(Exception)
+        {
+            Debug.Log("Connected failed... try again...");
+            throw;
+        }
     }
   
     void ReciveInfo(byte[] data, Socket Server, EndPoint remote)

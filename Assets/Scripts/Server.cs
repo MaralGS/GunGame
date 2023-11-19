@@ -1,14 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-/*
-C# Network Programming 
-by Richard Blum
-
-Publisher: Sybex 
-ISBN: 0782141765
-*/
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -23,6 +15,10 @@ using UnityEngine.SceneManagement;
 public class Server : MonoBehaviour
 {
 
+    public static Server _instance;
+
+    public static Server Instanace => _instance;
+
     Thread serverThread;
     int recv;
     byte[] data = new byte[1024];
@@ -33,6 +29,20 @@ public class Server : MonoBehaviour
     string UserName;
     string ClientM;
     Server_Info info;
+    [HideInInspector] public string type = "Server";
+    private void Awake()
+    {
+        if(_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         //StartServer();
