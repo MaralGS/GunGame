@@ -44,15 +44,16 @@ public class InGameConnection : MonoBehaviour
         if (_info.type == 1)
         {
             Player1 = GameObject.FindGameObjectWithTag("Player");
-            Player2 = GameObject.FindGameObjectWithTag("Player");
+            Player2 = GameObject.FindGameObjectWithTag("Player2");
         }
         else if (_info.type == 0)
         {
-            Player1 = GameObject.FindGameObjectWithTag("Player");
+            Player1 = GameObject.FindGameObjectWithTag("Player2");
             Player2 = GameObject.FindGameObjectWithTag("Player");
         }
         going = true;
         StartThread();
+        Player2.GetComponent<PlayerMovment>().enabled = false;
     }
 
  
