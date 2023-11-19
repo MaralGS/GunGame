@@ -152,7 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4570a6e845467fb40b214ffad988d19c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _server: {fileID: 0}
 --- !u!4 &270606982
 Transform:
   m_ObjectHideFlags: 0
@@ -628,6 +627,7 @@ GameObject:
   - component: {fileID: 1556079451}
   - component: {fileID: 1556079450}
   - component: {fileID: 1556079455}
+  - component: {fileID: 1556079456}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Untagged
@@ -765,6 +765,32 @@ MonoBehaviour:
   activeCoolDown: 0
   coolDown1: 5.5
   activeCoolDown1: 0
+--- !u!114 &1556079456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556079449}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baf23aa85294d054abf65ed2e45b441c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  verticalInput: 9
+  movementSpeed: 0.1
+  jumpSpeed: 1
+  maxSpeed: 0.25
+  maxJumpTime: 3
+  jumpForce: 0.1
+  q: {x: 0, y: 0, z: 0, w: 0}
+  jumpTimeCounter: 0.25
+  minJumpForce: 2.5
+  jumpTime: 0.25
+  maxJumpForce: 5
+  anyMovement: 0
+  P1: {fileID: 0}
+  P2: {fileID: 0}
 --- !u!1 &1623586976
 GameObject:
   m_ObjectHideFlags: 0

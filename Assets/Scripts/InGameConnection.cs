@@ -17,10 +17,10 @@ public class InGameConnection : MonoBehaviour
     public struct Player_Info 
     {
         public Vector3 position;
-        public int hp;
-        public GameObject shot;
-        public Vector3 shotPosition;
-        public int gunType;
+       // public int hp;
+       // public GameObject shot;
+       // public Vector3 shotPosition;
+       // public int gunType;
     }
     Player_Info P1_S;
     Player_Info P2_S;
@@ -30,6 +30,8 @@ public class InGameConnection : MonoBehaviour
     PlayerMovment P1;
     GameObject Player1;
     GameObject Player2;
+    bool imServer = false;
+    bool imClient = false;
     bool going;
     // Start is called before the first frame update
     void Start()
@@ -41,13 +43,13 @@ public class InGameConnection : MonoBehaviour
         P1 = FindAnyObjectByType<PlayerMovment>();
         if (_info.type == 1)
         {
-            Player1 = GameObject.Find("Player1").gameObject;
-            Player2 = GameObject.Find("Player2").gameObject;
+            Player1 = GameObject.FindGameObjectWithTag("Player");
+            Player2 = GameObject.FindGameObjectWithTag("Player2");
         }
         else if (_info.type == 0)
         {
-            Player1 = GameObject.Find("Player2").gameObject;
-            Player2 = GameObject.Find("Player1").gameObject;
+            Player1 = GameObject.FindGameObjectWithTag("Player2");
+            Player2 = GameObject.FindGameObjectWithTag("Player");
         }
         going = true;
         StartThread();
@@ -58,13 +60,16 @@ public class InGameConnection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Player1)
+        if(imServer)
         {
             P1_S.position = Player1.transform.position;
+            imServer = false;
+
         }
-        else if (Player2)
+        else if (imClient)
         {
-      
+            Player2.transform.position = P2_S.position;
+            imClient = false;
         }
     }
 
@@ -81,31 +86,38 @@ public class InGameConnection : MonoBehaviour
     {
         while (going)
         {
-            byte[] data = new byte[1024];
-            string P_Info = JsonUtility.ToJson(Player1);
-            data = Encoding.ASCII.GetBytes(P_Info);
+            imServer = true;
+ 
+            string P_Info = JsonUtility.ToJson(P1_S);
+
+            byte[] data = Encoding.ASCII.GetBytes(P_Info);
             _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep);
         }     
     }
 
     void ReciveInfo()
     {
-        while (true)
+        while (going)
         {
+           
             byte[] data = new byte[1024];
             int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
             string P_Info = Encoding.ASCII.GetString(data, 0, recv);
-            Player1 = JsonUtility.FromJson<Player_Info>(P_Info);
+            P2_S = JsonUtility.FromJson<Player_Info>(P_Info);
+            imClient = true;
+
         }
             
     }
     
     public void GetPlayerMovmentInfo(Vector3 pPosition)
     {
+       
     }
     
     public void GetPlayerShotInfo(GameObject pShot, Vector3 pShotPosition)
     {
+
     }
     public void GetPlayerHPInfo(int pHp)
     {
