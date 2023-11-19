@@ -44,11 +44,11 @@ public class InGameConnection : MonoBehaviour
         if (_info.type == 1)
         {
             Player1 = GameObject.FindGameObjectWithTag("Player");
-            Player2 = GameObject.FindGameObjectWithTag("Player2");
+            Player2 = GameObject.FindGameObjectWithTag("Player");
         }
         else if (_info.type == 0)
         {
-            Player1 = GameObject.FindGameObjectWithTag("Player2");
+            Player1 = GameObject.FindGameObjectWithTag("Player");
             Player2 = GameObject.FindGameObjectWithTag("Player");
         }
         going = true;
@@ -66,7 +66,7 @@ public class InGameConnection : MonoBehaviour
             imServer = false;
 
         }
-        else if (imClient)
+        if (imClient)
         {
             Player2.transform.position = P2_S.position;
             imClient = false;
@@ -104,6 +104,7 @@ public class InGameConnection : MonoBehaviour
             int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
             string P_Info = Encoding.ASCII.GetString(data, 0, recv);
             P2_S = JsonUtility.FromJson<Player_Info>(P_Info);
+
             imClient = true;
 
         }
