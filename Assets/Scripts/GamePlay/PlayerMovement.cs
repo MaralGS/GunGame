@@ -28,7 +28,7 @@ public class PlayerMovment : MonoBehaviour
     void Start()
     {
         infoPlayer = GameObject.Find("Serialization").GetComponent<InGameConnection>();
-        _type = GameObject.Find("Perma_server").gameObject.GetComponent<Server_Info>();
+        _type = FindAnyObjectByType<Server_Info>();
         movementSpeed = movementSpeed / 30;
         q = new Quaternion((float)-0.5, (float)-0.5,(float)0.5, (float)0.5);
         _server = Server.Instanace;
@@ -38,10 +38,7 @@ public class PlayerMovment : MonoBehaviour
     void Update()
     {
         
-        if(_server.type == "Server")
-        {
 
-        }
         if (Input.GetKey(KeyCode.A))
         {
            anyMovement = true;
@@ -106,10 +103,7 @@ public class PlayerMovment : MonoBehaviour
         transform.rotation = q;
 
         infoPlayer.GetPlayerMovmentInfo(transform.position);
-        if (_type.type == 1 && Input.GetMouseButtonDown(0))
-        {
-         transform.position = infoPlayer.P1.position;
-        }
+
     }
 
     void OnCollisionEnter(Collision collision)

@@ -22,122 +22,93 @@ public class InGameConnection : MonoBehaviour
         public Vector3 shotPosition;
         public int gunType;
     }
-    public Server _server;
-    public Client _client;
-    public Player_Info P1;
-    Thread _threadRecieveClient;
+    Player_Info P1_S;
+    Player_Info P2_S;
+    Thread ThreadRecieveInfo;
+    Thread ThreadSendInfo;
     Server_Info _info;
+    PlayerMovment P1;
+    GameObject Player1;
+    GameObject Player2;
+    bool going;
     // Start is called before the first frame update
     void Start()
     {
-        _server = Server.Instanace;
-        _client = Client.Instanace;
-        _info = GameObject.Find("Perma_server").gameObject.GetComponent<Server_Info>();
+
+        P1_S = new Player_Info();
+        P2_S = new Player_Info();
+        _info = FindAnyObjectByType<Server_Info>();
+        P1 = FindAnyObjectByType<PlayerMovment>();
+        if (_info.type == 1)
+        {
+            Player1 = GameObject.Find("Player1").gameObject;
+            Player2 = GameObject.Find("Player2").gameObject;
+        }
+        else if (_info.type == 0)
+        {
+            Player1 = GameObject.Find("Player2").gameObject;
+            Player2 = GameObject.Find("Player1").gameObject;
+        }
+        going = true;
+        StartThread();
     }
 
-    private void StartClientThread()
-    {
-        _threadRecieveClient = new Thread(ReciveInfoFS);
-        _threadRecieveClient.Start();
-    }
-    private void StartServerThread()
-    {
-        _threadRecieveClient = new Thread(ReciveInfoFC);
-        _threadRecieveClient.Start();
-    }
+ 
 
     // Update is called once per frame
     void Update()
     {
-        if (_info.type == 1)
+        if(Player1)
         {
-            StartClientThread();
+            P1_S.position = Player1.transform.position;
         }
-        else if(_info.type == 0)
+        else if (Player2)
         {
-            StartServerThread();
-        }
-        if (GameObject.Find("Player1").GetComponent<PlayerMovment>().anyMovement) //0 server 
-        {
-            SendInfoSTC();
-            GameObject.Find("Player1").GetComponent<PlayerMovment>().anyMovement = false;
+      
         }
     }
-  
-    void SendInfoSTC()
+
+    private void StartThread()
     {
-        try
+        ThreadRecieveInfo = new Thread(ReciveInfo);
+        ThreadRecieveInfo.Start();
+        ThreadSendInfo = new Thread(SendInfo);
+        ThreadSendInfo.Start();
+
+    }
+
+    void SendInfo()
+    {
+        while (going)
         {
             byte[] data = new byte[1024];
-            string P_Info = JsonUtility.ToJson(P1);
+            string P_Info = JsonUtility.ToJson(Player1);
             data = Encoding.ASCII.GetBytes(P_Info);
-            Debug.Log(data + "holaaaa");
-            _server.newsock.SendTo(data, data.Length, SocketFlags.None, _server.Remote); //server to client
-        }
-        catch(Exception)
-        {
-            Debug.Log("Connected failed... try again...");
-            throw;
-        }
+            _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep);
+        }     
     }
-    void SendInfoCTS()
+
+    void ReciveInfo()
     {
-        try
+        while (true)
         {
             byte[] data = new byte[1024];
-            string P_Info = JsonUtility.ToJson(P1);
-            data = Encoding.ASCII.GetBytes(P_Info);
-            Debug.Log(data + "holaaaa");
-            _client.client.SendTo(data, data.Length, SocketFlags.None, _client.remote); //client to server
-        }
-        catch (Exception)
-        {
-            Debug.Log("Connected failed... try again...");
-            throw;
-        }
-    }
-  
-    void ReciveInfoFS()
-    {
-        try
-        {
-            byte[] data = new byte[1024];
-            int recv = _client.client.ReceiveFrom(data, ref _client.remote);
+            int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
             string P_Info = Encoding.ASCII.GetString(data, 0, recv);
-            P1 = JsonUtility.FromJson<Player_Info>(P_Info);
+            Player1 = JsonUtility.FromJson<Player_Info>(P_Info);
         }
-        catch (Exception)
-        {
-           //Debug.Log("ERROR");
-        }
-    }
-    void ReciveInfoFC()
-    {
-        try
-        {
-            byte[] data = new byte[1024];
-            int recv = _server.newsock.ReceiveFrom(data, ref _server.Remote);
-            string P_Info = Encoding.ASCII.GetString(data, 0, recv);
-            P1 = JsonUtility.FromJson<Player_Info>(P_Info);
-        }
-        catch (Exception)
-        {
-            //Debug.Log("ERROR");
-        }
+            
     }
     
     public void GetPlayerMovmentInfo(Vector3 pPosition)
     {
-        P1.position = pPosition;
     }
     
     public void GetPlayerShotInfo(GameObject pShot, Vector3 pShotPosition)
     {
-        P1.shot = pShot;
-        P1.shotPosition = pShotPosition;
     }
     public void GetPlayerHPInfo(int pHp)
     {
-        P1.hp = pHp;
+  
     }
 }

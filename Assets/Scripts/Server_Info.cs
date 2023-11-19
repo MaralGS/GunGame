@@ -16,9 +16,4 @@ public class Server_Info : MonoBehaviour
     {
         DontDestroyOnLoad(this);
     }
-  
-    public void SaveInfo(int type)
-    {
-        this.type = type;
-    }
 }

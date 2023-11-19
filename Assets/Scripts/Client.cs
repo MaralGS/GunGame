@@ -23,7 +23,6 @@ public class Client : MonoBehaviour
     public GameObject TextName;
     string ServerM;
     string usingIP;
-    Server_Info info;
     Thread clientThread;
 
     [HideInInspector] public Socket client;
@@ -31,29 +30,14 @@ public class Client : MonoBehaviour
     public EndPoint remote;
     [HideInInspector] public string type = "Client";
 
-    private void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    void Start()
-    {
-        info = GameObject.Find("Perma_server").GetComponent<Server_Info>();
-    }
 
     private void Update()
     {
         if (ServerM == "StartServer")
         {
-            info.SaveInfo(1);
+            Server_Info S_info = FindAnyObjectByType<Server_Info>();
+            S_info.sock = client;
+            S_info.ep = remote;
             SceneManager.LoadScene(1);
             ServerM = "StopServer";
         }

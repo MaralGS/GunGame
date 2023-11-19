@@ -28,20 +28,7 @@ public class Server : MonoBehaviour
     public GameObject TextName;
     string UserName;
     string ClientM;
-    Server_Info info;
     [HideInInspector] public string type = "Server"; 
-    private void Awake()
-    {
-        if(_instance == null)
-        {
-            _instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     public void ChangeName()
     {
@@ -73,7 +60,6 @@ public class Server : MonoBehaviour
 
         newsock.Bind(ipep);
 
-        info = GameObject.Find("Perma_server").GetComponent<Server_Info>();
 
         Debug.Log("Waiting for a client...");
         serverThread = new Thread(StartThread);
@@ -104,7 +90,9 @@ public class Server : MonoBehaviour
 
     void SaveServer()
     {
-        info.SaveInfo(0);
+        Server_Info S_info = FindAnyObjectByType<Server_Info>();
+        S_info.sock = newsock;
+        S_info.ep = Remote;
         SceneManager.LoadScene(1);
     }
 }
