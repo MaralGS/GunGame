@@ -29,7 +29,7 @@ public class Server : MonoBehaviour
     string UserName;
     string ClientM;
     Server_Info info;
-    [HideInInspector] public string type = "Server";
+    [HideInInspector] public string type = "Server"; 
     private void Awake()
     {
         if(_instance == null)

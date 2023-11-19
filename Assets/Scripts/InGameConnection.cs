@@ -9,6 +9,7 @@ using System.Text;
 using System.Xml.Linq;
 using UnityEngine;
 using System.Threading;
+//using UnityEditor.PackageManager;
 //using UnityEngine.tvOS;
 
 public class InGameConnection : MonoBehaviour
@@ -22,36 +23,57 @@ public class InGameConnection : MonoBehaviour
         public GameObject shot;
         public Vector3 shotPosition;
     }
-    Server _server;
+    public Server _server;
     Client _client;
     Player_Info P1;
-    Thread _threadSend;
+    Thread _threadRecieveClient;
     // Start is called before the first frame update
     void Start()
     {
          _server = Server.Instanace;
          _client = Client.Instanace;
-
-
+        if (_server.type == "Server")
+        {
+            StartServerThread();
+        }
+        else
+        {
+            StartClientThread();
+            
+        }
     }
-  
+
+    private void StartClientThread()
+    {
+        _threadRecieveClient = new Thread(ReciveInfoFS);
+        _threadRecieveClient.Start();
+    }
+    private void StartServerThread()
+    {
+        _threadRecieveClient = new Thread(ReciveInfoFC);
+        _threadRecieveClient.Start();
+    }
+
     // Update is called once per frame
     void Update()
     {
-          if (_server.type == "Server") //0 server 
+        if (GameObject.Find("Player1").GetComponent<PlayerMovment>().anyMovement) //0 server 
         {
-            //_threadSend = new Thread(SendInfo);
-            //_threadSend.Start();
+            //Send info from server to client
             //Debug.Log(_server.type);
-            SendInfo();
+            SendInfoCTS();
+            GameObject.Find("Player1").GetComponent<PlayerMovment>().anyMovement = false;
         }
-        else if (_server.type == "Client") //1 player
+        /*else if (GameObject.Find("Player2").GetComponent<PlayerMovment>().anyMovement) //1 player
         {
-            // ReciveInfo();
-        }
+            //Send info from client to server
+            //Debug.Log(_server.type);
+            SendInfoSTC();
+            GameObject.Find("Player2").GetComponent<PlayerMovment>().anyMovement = false;
+        }*/
     }
   
-    void SendInfo()
+    void SendInfoSTC()
     {
         try
         {
@@ -59,7 +81,7 @@ public class InGameConnection : MonoBehaviour
             string P_Info = JsonUtility.ToJson(P1);
             data = Encoding.ASCII.GetBytes(P_Info);
             Debug.Log(data + "holaaaa");
-            _server.newsock.SendTo(data, data.Length, SocketFlags.None, _server.Remote);
+            _server.newsock.SendTo(data, data.Length, SocketFlags.None, _server.Remote); //server to client
         }
         catch(Exception)
         {
@@ -67,10 +89,34 @@ public class InGameConnection : MonoBehaviour
             throw;
         }
     }
-  
-    void ReciveInfo(byte[] data, Socket Server, EndPoint remote)
+    void SendInfoCTS()
     {
-        int recv = Server.ReceiveFrom(data, ref remote);
+        try
+        {
+            byte[] data = new byte[1024];
+            string P_Info = JsonUtility.ToJson(P1);
+            data = Encoding.ASCII.GetBytes(P_Info);
+            Debug.Log(data + "holaaaa");
+            _client.client.SendTo(data, data.Length, SocketFlags.None, _server.Remote); //client to server
+        }
+        catch (Exception)
+        {
+            Debug.Log("Connected failed... try again...");
+            throw;
+        }
+    }
+  
+    void ReciveInfoFS()
+    {
+        byte[] data = new byte[1024];
+        int recv = _client.client.ReceiveFrom(data, ref _client.remote);
+        string P_Info = Encoding.ASCII.GetString(data, 0, recv);
+        P1 = JsonUtility.FromJson<Player_Info>(P_Info);
+    }
+    void ReciveInfoFC()
+    {
+        byte[] data = new byte[1024];
+        int recv = _server.newsock.ReceiveFrom(data, ref _server.Remote);
         string P_Info = Encoding.ASCII.GetString(data, 0, recv);
         P1 = JsonUtility.FromJson<Player_Info>(P_Info);
     }

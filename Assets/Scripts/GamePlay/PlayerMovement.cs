@@ -20,27 +20,39 @@ public class PlayerMovment : MonoBehaviour
     public float jumpTime;
     public float maxJumpForce;
     InGameConnection infoPlayer;
+    Server _server;
+    public bool anyMovement = false;
+    public GameObject P1;
+    public GameObject P2;
     void Start()
     {
         infoPlayer = GameObject.Find("Serialization").GetComponent<InGameConnection>(); 
         movementSpeed = movementSpeed / 30;
         q = new Quaternion((float)-0.5, (float)-0.5,(float)0.5, (float)0.5);
+        _server = Server.Instanace;
     }
 
     // Update is called once per frame
     void Update()
     {
-    
+        
+        if(_server.type == "Server")
+        {
+
+        }
         if (Input.GetKey(KeyCode.A))
         {
+           anyMovement = true;
            speed += movementSpeed * Time.deltaTime;
-            if(speed > maxSpeed)
+           if(speed > maxSpeed)
             {
                 speed = maxSpeed;
             }
         }
         else if(speed > 0)
         {
+            anyMovement = true;
+
             speed += -movementSpeed * Time.deltaTime;
             if(speed < 0)
             {
@@ -50,7 +62,8 @@ public class PlayerMovment : MonoBehaviour
         
         if (Input.GetKey(KeyCode.D))
         {
-           speed -= movementSpeed * Time.deltaTime;
+            anyMovement = true;
+            speed -= movementSpeed * Time.deltaTime;
             if(speed < -maxSpeed)
             {
                 speed = -maxSpeed;
@@ -58,6 +71,8 @@ public class PlayerMovment : MonoBehaviour
         }
         else if(speed < 0)
         {
+            anyMovement = true;
+
             speed += movementSpeed * Time.deltaTime;
             if(speed > 0)
             {

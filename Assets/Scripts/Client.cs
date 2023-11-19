@@ -24,7 +24,7 @@ public class Client : MonoBehaviour
     string usingIP;
     Server_Info info;
 
-    public Socket client;
+    [HideInInspector] public Socket client;
     IPEndPoint ipep;
     public EndPoint remote;
     [HideInInspector] public string type = "Client";
