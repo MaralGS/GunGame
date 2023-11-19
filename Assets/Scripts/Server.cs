@@ -109,7 +109,7 @@ public class Server : MonoBehaviour
 
     void SaveServer()
     {
-        info.SaveInfo(newsock, ipep, 0);
+        info.SaveInfo(0);
         SceneManager.LoadScene(1);
     }
 }

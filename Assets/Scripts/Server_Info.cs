@@ -17,10 +17,8 @@ public class Server_Info : MonoBehaviour
         DontDestroyOnLoad(this);
     }
   
-    public void SaveInfo(Socket rsock, EndPoint r_ep, int type)
+    public void SaveInfo(int type)
     {
-        sock = rsock;
-        ep = r_ep;
         this.type = type;
     }
 }

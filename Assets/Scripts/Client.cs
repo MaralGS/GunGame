@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Threading;
 //using UnityEditor.PackageManager;
 //using UnityEngine.tvOS;
 
@@ -23,6 +24,7 @@ public class Client : MonoBehaviour
     string ServerM;
     string usingIP;
     Server_Info info;
+    Thread clientThread;
 
     [HideInInspector] public Socket client;
     IPEndPoint ipep;
@@ -51,7 +53,7 @@ public class Client : MonoBehaviour
     {
         if (ServerM == "StartServer")
         {
-            info.SaveInfo(client, remote, 1);
+            info.SaveInfo(1);
             SceneManager.LoadScene(1);
             ServerM = "StopServer";
         }
@@ -68,11 +70,25 @@ public class Client : MonoBehaviour
         client = new Socket(AddressFamily.InterNetwork,
                        SocketType.Dgram, ProtocolType.Udp);
 
+        clientThread = new Thread(StartThread);
+        clientThread.Start();
+    }
+
+    void StartThread()
+    {
+        IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
+        remote = (EndPoint)sender;
+
         try
         {
             string welcome = "Connected";
             data = Encoding.ASCII.GetBytes(welcome);
             client.SendTo(data, data.Length, SocketFlags.None, ipep);
+            data = new byte[1024];
+            int recv = client.ReceiveFrom(data, ref remote);
+            Debug.Log("Message received from:" + remote.ToString());
+            //Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
+            ServerM = Encoding.ASCII.GetString(data, 0, recv);
         }
         catch (Exception e)
         {
@@ -80,18 +96,6 @@ public class Client : MonoBehaviour
             Debug.Log(e.ToString());
 
         }
-
-
-        IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-        remote = (EndPoint)sender;
-
-        data = new byte[1024];
-        int recv = client.ReceiveFrom(data, ref remote);
-
-        Debug.Log("Message received from:" + remote.ToString());
-        Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
-        ServerM = Encoding.ASCII.GetString(data, 0, recv);
-
         //Debug.Log("Stopping client");
         //server.Close();
     }
