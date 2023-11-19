@@ -23,29 +23,32 @@ public class InGameConnection : MonoBehaviour
         public Vector3 shotPosition;
     }
     Server _server;
+    Client _client;
     Player_Info P1;
     Thread _threadSend;
     // Start is called before the first frame update
     void Start()
     {
          _server = Server.Instanace;
+         _client = Client.Instanace;
 
-        if (_server.type == "Server") //0 server 
-        {
-            _threadSend = new Thread(SendInfo);
-            _threadSend.Start();
-            Debug.Log(_server.type);
-        }
-        else if (_server.type == "Client") //1 player
-        {
-            // ReciveInfo();
-        }
+
     }
   
     // Update is called once per frame
     void Update()
     {
-  
+          if (_server.type == "Server") //0 server 
+        {
+            //_threadSend = new Thread(SendInfo);
+            //_threadSend.Start();
+            //Debug.Log(_server.type);
+            SendInfo();
+        }
+        else if (_server.type == "Client") //1 player
+        {
+            // ReciveInfo();
+        }
     }
   
     void SendInfo()

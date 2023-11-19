@@ -66,6 +66,7 @@ public class Server : MonoBehaviour
         if (ClientM == "Connected")
         {
             SaveServer();
+            ClientM = "Disconnected";
         }
     }
     public void StartServer()

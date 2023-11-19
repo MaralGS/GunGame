@@ -24,9 +24,9 @@ public class Client : MonoBehaviour
     string usingIP;
     Server_Info info;
 
-    Socket client;
+    public Socket client;
     IPEndPoint ipep;
-    EndPoint remote;
+    public EndPoint remote;
     [HideInInspector] public string type = "Client";
 
     private void Awake()
@@ -53,6 +53,7 @@ public class Client : MonoBehaviour
         {
             info.SaveInfo(client, remote, 1);
             SceneManager.LoadScene(1);
+            ServerM = "StopServer";
         }
     }
     public void ConnectPlayer()
