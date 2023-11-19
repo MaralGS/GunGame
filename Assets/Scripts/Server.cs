@@ -43,11 +43,6 @@ public class Server : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        //StartServer();
-    }
-
     public void ChangeName()
     {
         if (UserName != "")

@@ -24,9 +24,11 @@ public class PlayerMovment : MonoBehaviour
     public bool anyMovement = false;
     public GameObject P1;
     public GameObject P2;
+    Server_Info _type;
     void Start()
     {
-        infoPlayer = GameObject.Find("Serialization").GetComponent<InGameConnection>(); 
+        infoPlayer = GameObject.Find("Serialization").GetComponent<InGameConnection>();
+        _type = GameObject.Find("Perma_server").gameObject.GetComponent<Server_Info>();
         movementSpeed = movementSpeed / 30;
         q = new Quaternion((float)-0.5, (float)-0.5,(float)0.5, (float)0.5);
         _server = Server.Instanace;
@@ -103,7 +105,11 @@ public class PlayerMovment : MonoBehaviour
         transform.position += Vector3.left * speed;
         transform.rotation = q;
 
-        infoPlayer.GetPlayerMovmentInfo(transform.position, transform.rotation);
+        infoPlayer.GetPlayerMovmentInfo(transform.position);
+        if (_type.type == 1 && Input.GetMouseButtonDown(0))
+        {
+         transform.position = infoPlayer.P1.position;
+        }
     }
 
     void OnCollisionEnter(Collision collision)

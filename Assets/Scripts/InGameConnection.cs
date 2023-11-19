@@ -14,18 +14,17 @@ using System.Threading;
 
 public class InGameConnection : MonoBehaviour
 {
-    struct Player_Info 
+    public struct Player_Info 
     {
-        public string name;
         public Vector3 position;
         public int hp;
-        public Quaternion rotation;
         public GameObject shot;
         public Vector3 shotPosition;
+        public int gunType;
     }
     public Server _server;
     public Client _client;
-    Player_Info P1;
+    public Player_Info P1;
     Thread _threadRecieveClient;
     Server_Info _info;
     // Start is called before the first frame update
@@ -34,11 +33,6 @@ public class InGameConnection : MonoBehaviour
         _server = Server.Instanace;
         _client = Client.Instanace;
         _info = GameObject.Find("Perma_server").gameObject.GetComponent<Server_Info>();
-       //if (_server.type == "Server")
-       //{
-       //    StartServerThread();
-       //}
-     
     }
 
     private void StartClientThread()
@@ -48,8 +42,8 @@ public class InGameConnection : MonoBehaviour
     }
     private void StartServerThread()
     {
-        //_threadRecieveClient = new Thread(ReciveInfoFC);
-        //_threadRecieveClient.Start();
+        _threadRecieveClient = new Thread(ReciveInfoFC);
+        _threadRecieveClient.Start();
     }
 
     // Update is called once per frame
@@ -59,17 +53,15 @@ public class InGameConnection : MonoBehaviour
         {
             StartClientThread();
         }
+        else if(_info.type == 0)
+        {
+            StartServerThread();
+        }
         if (GameObject.Find("Player1").GetComponent<PlayerMovment>().anyMovement) //0 server 
         {
             SendInfoSTC();
             GameObject.Find("Player1").GetComponent<PlayerMovment>().anyMovement = false;
         }
-        /*
-        else if (GameObject.Find("Player2").GetComponent<PlayerMovment>().anyMovement) //1 player
-        {
-            SendInfoCTS();
-            GameObject.Find("Player2").GetComponent<PlayerMovment>().anyMovement = false;
-        }*/
     }
   
     void SendInfoSTC()
@@ -121,16 +113,22 @@ public class InGameConnection : MonoBehaviour
     }
     void ReciveInfoFC()
     {
-        byte[] data = new byte[1024];
-        int recv = _server.newsock.ReceiveFrom(data, ref _server.Remote);
-        string P_Info = Encoding.ASCII.GetString(data, 0, recv);
-        P1 = JsonUtility.FromJson<Player_Info>(P_Info);
+        try
+        {
+            byte[] data = new byte[1024];
+            int recv = _server.newsock.ReceiveFrom(data, ref _server.Remote);
+            string P_Info = Encoding.ASCII.GetString(data, 0, recv);
+            P1 = JsonUtility.FromJson<Player_Info>(P_Info);
+        }
+        catch (Exception)
+        {
+            //Debug.Log("ERROR");
+        }
     }
     
-    public void GetPlayerMovmentInfo(Vector3 pPosition, Quaternion pRotation)
+    public void GetPlayerMovmentInfo(Vector3 pPosition)
     {
         P1.position = pPosition;
-        P1.rotation = pRotation;
     }
     
     public void GetPlayerShotInfo(GameObject pShot, Vector3 pShotPosition)
