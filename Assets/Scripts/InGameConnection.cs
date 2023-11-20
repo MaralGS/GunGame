@@ -29,7 +29,6 @@ public class InGameConnection : MonoBehaviour
     Thread ThreadRecieveInfo;
     Thread ThreadSendInfo;
     Server_Info _info;
-    PlayerMovment P1_movement;
     GameObject Player1;
     GameObject Player2;
     bool imServer = false;
@@ -42,7 +41,6 @@ public class InGameConnection : MonoBehaviour
         P1_S = new Player_Info();
         P2_S = new Player_Info();
         _info = FindAnyObjectByType<Server_Info>();
-        P1_movement = FindAnyObjectByType<PlayerMovment>();
         if (_info.type == 1)
         {
             Player1 = GameObject.FindGameObjectWithTag("Player");
@@ -56,7 +54,6 @@ public class InGameConnection : MonoBehaviour
         }
         Player2.GetComponent<PlayerMovment>().enabled = false;
         Player2.GetComponent<PlayerShoot>().enabled = false;
-        //Player2.GetComponent<HpHandler>().enabled = false;
         going = true;
         StartThread();
     }
@@ -70,7 +67,6 @@ public class InGameConnection : MonoBehaviour
             P1_S.rotation = Player1.transform.rotation;
             P1_S.alive = Player1.GetComponent<HpHandler>().alive;
             P1_S.gunNum = Player1.GetComponent<PlayerShoot>().gunType;
-            //P1_S.hp = Player1.GetComponent<HpHandler>().hp;
             imServer = false;
 
         }

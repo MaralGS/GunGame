@@ -10,8 +10,6 @@ public class Server_Info : MonoBehaviour
     [HideInInspector] public Socket sock;
     [HideInInspector] public EndPoint ep;
     [HideInInspector] public int type; 
-    //Server SUDP;
-    //// Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(this);

@@ -19,17 +19,12 @@ public class PlayerMovment : MonoBehaviour
     public float minJumpForce;
     public float jumpTime;
     public float maxJumpForce;
-    InGameConnection infoPlayer;
-    Server _server;
     public bool anyMovement = false;
-    Server_Info _type;
+ 
     void Start()
     {
-        infoPlayer = GameObject.Find("Serialization").GetComponent<InGameConnection>();
-        _type = FindAnyObjectByType<Server_Info>();
         movementSpeed = movementSpeed / 30;
         q = new Quaternion((float)-0.5, (float)-0.5,(float)0.5, (float)0.5);
-        _server = Server.Instanace;
     }
 
     // Update is called once per frame
