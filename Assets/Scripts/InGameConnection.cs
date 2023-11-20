@@ -18,7 +18,8 @@ public class InGameConnection : MonoBehaviour
     {
         public Vector3 position;
         public Quaternion rotation;
-       // public int hp;
+        public int hp;
+        public bool alive;
        // public GameObject shot;
        // public Vector3 shotPosition;
        // public int gunType;
@@ -53,14 +54,11 @@ public class InGameConnection : MonoBehaviour
         {
             Player1 = GameObject.FindGameObjectWithTag("Player");
             Player2 = GameObject.FindGameObjectWithTag("Player2");
-            Player2.GetComponent<PlayerMovment>().enabled = false;
 
         }
         going = true;
         StartThread();
     }
-
- 
 
     // Update is called once per frame
     void Update()
@@ -69,6 +67,7 @@ public class InGameConnection : MonoBehaviour
         {
             P1_S.position = Player1.transform.position;
             P1_S.rotation = Player1.transform.rotation;
+            P1_S.alive = Player1.GetComponent<HpHandler>().alive;
             imServer = false;
 
         }
@@ -76,6 +75,10 @@ public class InGameConnection : MonoBehaviour
         {
             Player2.transform.position = P2_S.position;
             Player2.transform.rotation = P2_S.rotation;
+            Player2.GetComponent<Collider>().enabled = P2_S.alive;
+            Player2.GetComponent<MeshRenderer>().enabled = P2_S.alive;
+            Player2.GetComponent<PlayerMovment>().enabled = P2_S.alive;
+            Player2.GetComponent<PlayerShoot>().enabled = false;
             imClient = false;
         }
     }

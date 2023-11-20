@@ -16,6 +16,9 @@ public class HpHandler : MonoBehaviour
     int randomInt;
     public GameObject enemy;
     InGameConnection playerInfo;
+
+    public bool alive = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,9 +46,10 @@ public class HpHandler : MonoBehaviour
 
     private void Respawn()
     {
-        //gameObject.GetComponent<PlayerMovment>().enabled = true;
-        //gameObject.GetComponent<PlayerShoot>().enabled = true;
+        gameObject.GetComponent<PlayerMovment>().enabled = true;
+        gameObject.GetComponent<PlayerShoot>().enabled = true;
         gameObject.GetComponent<Collider>().enabled = true;
+        alive = true;
         gameObject.GetComponent<MeshRenderer>().enabled = true;
 
         dieTimer = 0.0f;
@@ -76,19 +80,25 @@ public class HpHandler : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Projectile1") && collision.gameObject != gameObject)
+        if (collision.gameObject.CompareTag("Projectile1"))
         {
             hp -= 5;
+            Destroy(collision.gameObject);
+        }
+        if (collision.gameObject.CompareTag("Projectile2"))
+        {
+            hp -= 10;
             Destroy(collision.gameObject);
         }
     }
 
     private void Die()
     {
-        //gameObject.GetComponent<PlayerMovment>().enabled = false;
-        //gameObject.GetComponent<PlayerShoot>().enabled = false;
+        gameObject.GetComponent<PlayerMovment>().enabled = false;
+        gameObject.GetComponent<PlayerShoot>().enabled = false;
         gameObject.GetComponent<Collider>().enabled = false;
-        gameObject.GetComponent<MeshRenderer>().enabled = false;  
+        alive = false;
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
         dieTimer += Time.deltaTime;
         ChangeEnemyWeapon();
 

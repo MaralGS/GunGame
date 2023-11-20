@@ -35,43 +35,43 @@ public class PlayerMovment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
 
         if (Input.GetKey(KeyCode.A))
         {
-           anyMovement = true;
-           speed += movementSpeed * Time.deltaTime;
-           if(speed > maxSpeed)
+            anyMovement = true;
+            speed += movementSpeed * Time.deltaTime;
+            if (speed > maxSpeed)
             {
                 speed = maxSpeed;
             }
         }
-        else if(speed > 0)
+        else if (speed > 0)
         {
             anyMovement = true;
 
             speed += -movementSpeed * Time.deltaTime;
-            if(speed < 0)
+            if (speed < 0)
             {
                 speed = 0;
             }
         }
-        
+
         if (Input.GetKey(KeyCode.D))
         {
             anyMovement = true;
             speed -= movementSpeed * Time.deltaTime;
-            if(speed < -maxSpeed)
+            if (speed < -maxSpeed)
             {
                 speed = -maxSpeed;
             }
         }
-        else if(speed < 0)
+        else if (speed < 0)
         {
             anyMovement = true;
 
             speed += movementSpeed * Time.deltaTime;
-            if(speed > 0)
+            if (speed > 0)
             {
                 speed = 0;
             }
@@ -98,6 +98,7 @@ public class PlayerMovment : MonoBehaviour
         }
 
         transform.position += Vector3.left * speed;
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         transform.rotation = q;
 
         //infoPlayer.GetPlayerMovmentInfo(transform.position);
