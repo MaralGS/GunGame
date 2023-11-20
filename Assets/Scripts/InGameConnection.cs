@@ -55,6 +55,8 @@ public class InGameConnection : MonoBehaviour
             Player2 = GameObject.FindGameObjectWithTag("Player");
         }
         Player2.GetComponent<PlayerMovment>().enabled = false;
+        Player2.GetComponent<PlayerShoot>().enabled = false;
+        //Player2.GetComponent<HpHandler>().enabled = false;
         going = true;
         StartThread();
     }
@@ -68,7 +70,7 @@ public class InGameConnection : MonoBehaviour
             P1_S.rotation = Player1.transform.rotation;
             P1_S.alive = Player1.GetComponent<HpHandler>().alive;
             P1_S.gunNum = Player1.GetComponent<PlayerShoot>().gunType;
-            P1_S.hp = Player1.GetComponent<HpHandler>().hp;
+            //P1_S.hp = Player1.GetComponent<HpHandler>().hp;
             imServer = false;
 
         }
@@ -77,7 +79,7 @@ public class InGameConnection : MonoBehaviour
             Player2.transform.position = P2_S.position;
             Player2.transform.rotation = P2_S.rotation;
             Player2.GetComponent<HpHandler>().alive = P2_S.alive;
-            Player2.GetComponent<HpHandler>().hp = P2_S.hp;
+            //Player2.GetComponent<HpHandler>().hp = P2_S.hp;
             Player2.GetComponent<PlayerShoot>().gunType = P2_S.gunNum;
             
             imClient = false;

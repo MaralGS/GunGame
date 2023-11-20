@@ -28,7 +28,12 @@ public class HpHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(hp <= 0) {
+        if(hp <= 0)
+        {
+            alive = false;
+        }
+        if(alive == false) 
+        {
             Die();
             if (dieTimer > deathTime)
             {
@@ -96,7 +101,6 @@ public class HpHandler : MonoBehaviour
         gameObject.GetComponent<PlayerMovment>().enabled = false;
         gameObject.GetComponent<PlayerShoot>().enabled = false;
         gameObject.GetComponent<Collider>().enabled = false;
-        alive = false;
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         dieTimer += Time.deltaTime;
         ChangeEnemyWeapon();
