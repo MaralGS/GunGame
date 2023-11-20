@@ -21,16 +21,15 @@ public class InGameConnection : MonoBehaviour
         public int hp;
         public bool alive;
         public int gunNum;
-       // public GameObject shot;
-       // public Vector3 shotPosition;
-       // public int gunType;
+        public GameObject shot;
+        public Vector3 shotPosition;
     }
     Player_Info P1_S;
     Player_Info P2_S;
     Thread ThreadRecieveInfo;
     Thread ThreadSendInfo;
     Server_Info _info;
-    PlayerMovment P1;
+    PlayerMovment P1_movement;
     GameObject Player1;
     GameObject Player2;
     bool imServer = false;
@@ -43,20 +42,19 @@ public class InGameConnection : MonoBehaviour
         P1_S = new Player_Info();
         P2_S = new Player_Info();
         _info = FindAnyObjectByType<Server_Info>();
-        P1 = FindAnyObjectByType<PlayerMovment>();
+        P1_movement = FindAnyObjectByType<PlayerMovment>();
         if (_info.type == 1)
         {
             Player1 = GameObject.FindGameObjectWithTag("Player");
-            Player2 = GameObject.FindGameObjectWithTag("Player2");
-            Player2.GetComponent<PlayerMovment>().enabled = false;
+            Player2 = GameObject.FindGameObjectWithTag("Player2");  
 
         }
         else if (_info.type == 0)
         {
-            Player1 = GameObject.FindGameObjectWithTag("Player");
-            Player2 = GameObject.FindGameObjectWithTag("Player2");
-
+            Player1 = GameObject.FindGameObjectWithTag("Player2");
+            Player2 = GameObject.FindGameObjectWithTag("Player");
         }
+        Player2.GetComponent<PlayerMovment>().enabled = false;
         going = true;
         StartThread();
     }
@@ -77,10 +75,7 @@ public class InGameConnection : MonoBehaviour
         {
             Player2.transform.position = P2_S.position;
             Player2.transform.rotation = P2_S.rotation;
-            Player2.GetComponent<Collider>().enabled = P2_S.alive;
-            Player2.GetComponent<MeshRenderer>().enabled = P2_S.alive;
-            Player2.GetComponent<PlayerMovment>().enabled = P2_S.alive;
-            Player2.GetComponent<PlayerShoot>().enabled = false;
+            Player1.GetComponent<HpHandler>().alive = P2_S.alive;
             Player2.GetComponent<PlayerShoot>().gunType = P2_S.gunNum;
             imClient = false;
         }
@@ -122,19 +117,5 @@ public class InGameConnection : MonoBehaviour
 
         }
             
-    }
-    
-    public void GetPlayerMovmentInfo(Vector3 pPosition)
-    {
-       
-    }
-    
-    public void GetPlayerShotInfo(GameObject pShot, Vector3 pShotPosition)
-    {
-
-    }
-    public void GetPlayerHPInfo(int pHp)
-    {
-  
     }
 }

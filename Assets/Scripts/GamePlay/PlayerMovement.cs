@@ -101,7 +101,6 @@ public class PlayerMovment : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         transform.rotation = q;
 
-        //infoPlayer.GetPlayerMovmentInfo(transform.position);
 
     }
 

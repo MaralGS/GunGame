@@ -40,6 +40,8 @@ public class PlayerShoot : MonoBehaviour
             Vector3 shootDirection = (worldMousePosition - transform.position).normalized;
 
             Shoot(shootDirection);
+    
+            
         }
         if (activeCoolDown)
         {
@@ -59,7 +61,6 @@ public class PlayerShoot : MonoBehaviour
                 coolDownTimer = 0.0f;
             }
         }
-        infoPlayer.GetPlayerShotInfo(projectilePrefab, transform.position);
     }
 
     private void Shoot(Vector3 shootDirection)
