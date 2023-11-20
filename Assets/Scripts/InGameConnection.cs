@@ -20,6 +20,7 @@ public class InGameConnection : MonoBehaviour
         public Quaternion rotation;
         public int hp;
         public bool alive;
+        public int gunNum;
        // public GameObject shot;
        // public Vector3 shotPosition;
        // public int gunType;
@@ -68,6 +69,7 @@ public class InGameConnection : MonoBehaviour
             P1_S.position = Player1.transform.position;
             P1_S.rotation = Player1.transform.rotation;
             P1_S.alive = Player1.GetComponent<HpHandler>().alive;
+            P1_S.gunNum = Player1.GetComponent<PlayerShoot>().gunType;
             imServer = false;
 
         }
@@ -79,6 +81,7 @@ public class InGameConnection : MonoBehaviour
             Player2.GetComponent<MeshRenderer>().enabled = P2_S.alive;
             Player2.GetComponent<PlayerMovment>().enabled = P2_S.alive;
             Player2.GetComponent<PlayerShoot>().enabled = false;
+            Player2.GetComponent<PlayerShoot>().gunType = P2_S.gunNum;
             imClient = false;
         }
     }
