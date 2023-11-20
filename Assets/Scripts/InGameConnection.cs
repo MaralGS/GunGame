@@ -75,7 +75,7 @@ public class InGameConnection : MonoBehaviour
         {
             Player2.transform.position = P2_S.position;
             Player2.transform.rotation = P2_S.rotation;
-            Player1.GetComponent<HpHandler>().alive = P2_S.alive;
+            Player2.GetComponent<HpHandler>().alive = P2_S.alive;
             Player2.GetComponent<PlayerShoot>().gunType = P2_S.gunNum;
             imClient = false;
         }

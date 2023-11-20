@@ -36,7 +36,6 @@ public class HpHandler : MonoBehaviour
             }
         }
 
-        playerInfo.GetPlayerHPInfo(hp);
     }
 
     private void ChangeEnemyWeapon()
