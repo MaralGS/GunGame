@@ -22,8 +22,6 @@ public class PlayerMovment : MonoBehaviour
     InGameConnection infoPlayer;
     Server _server;
     public bool anyMovement = false;
-    public GameObject P1;
-    public GameObject P2;
     Server_Info _type;
     void Start()
     {
@@ -102,7 +100,7 @@ public class PlayerMovment : MonoBehaviour
         transform.position += Vector3.left * speed;
         transform.rotation = q;
 
-        infoPlayer.GetPlayerMovmentInfo(transform.position);
+        //infoPlayer.GetPlayerMovmentInfo(transform.position);
 
     }
 

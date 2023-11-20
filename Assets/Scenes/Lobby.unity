@@ -450,7 +450,7 @@ MonoBehaviour:
   maxSpeed: 0.25
   maxJumpTime: 3
   jumpForce: 0.1
-  q: {x: 0, y: 0, z: 0, w: 0}
+  q: {x: -0.5, y: -0.5, z: 0.5, w: 0.5}
   jumpTimeCounter: 0.25
   minJumpForce: 2.5
   jumpTime: 0.25
@@ -783,7 +783,7 @@ MonoBehaviour:
   maxSpeed: 0.25
   maxJumpTime: 3
   jumpForce: 0.1
-  q: {x: 0, y: 0, z: 0, w: 0}
+  q: {x: -0.5, y: -0.5, z: 0.5, w: 0.5}
   jumpTimeCounter: 0.25
   minJumpForce: 2.5
   jumpTime: 0.25

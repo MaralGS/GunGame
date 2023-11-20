@@ -17,6 +17,7 @@ public class InGameConnection : MonoBehaviour
     public struct Player_Info 
     {
         public Vector3 position;
+        public Quaternion rotation;
        // public int hp;
        // public GameObject shot;
        // public Vector3 shotPosition;
@@ -45,15 +46,18 @@ public class InGameConnection : MonoBehaviour
         {
             Player1 = GameObject.FindGameObjectWithTag("Player");
             Player2 = GameObject.FindGameObjectWithTag("Player2");
+            Player2.GetComponent<PlayerMovment>().enabled = false;
+
         }
         else if (_info.type == 0)
         {
-            Player1 = GameObject.FindGameObjectWithTag("Player2");
-            Player2 = GameObject.FindGameObjectWithTag("Player");
+            Player1 = GameObject.FindGameObjectWithTag("Player");
+            Player2 = GameObject.FindGameObjectWithTag("Player2");
+            Player2.GetComponent<PlayerMovment>().enabled = false;
+
         }
         going = true;
         StartThread();
-        Player2.GetComponent<PlayerMovment>().enabled = false;
     }
 
  
@@ -64,12 +68,14 @@ public class InGameConnection : MonoBehaviour
         if(imServer)
         {
             P1_S.position = Player1.transform.position;
+            P1_S.rotation = Player1.transform.rotation;
             imServer = false;
 
         }
         if (imClient)
         {
             Player2.transform.position = P2_S.position;
+            Player2.transform.rotation = P2_S.rotation;
             imClient = false;
         }
     }

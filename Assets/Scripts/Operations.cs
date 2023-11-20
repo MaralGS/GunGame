@@ -14,7 +14,7 @@ public class Operations : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Normal Operation start");
             for (int i = 0; i < 15000000; i++)
@@ -29,7 +29,7 @@ public class Operations : MonoBehaviour
         {
             Thread myThread = new Thread(ThreadInfiniteSecondPrinter);
             myThread.Start();
-        }
+        }*/
     }
 
     void ThreadInfiniteSecondPrinter()
