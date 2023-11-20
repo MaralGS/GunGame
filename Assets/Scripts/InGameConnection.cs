@@ -21,8 +21,8 @@ public class InGameConnection : MonoBehaviour
         public int hp;
         public bool alive;
         public int gunNum;
-        public GameObject shot;
-        public Vector3 shotPosition;
+        //public GameObject shot;
+        //public Vector3 shotPosition;
     }
     Player_Info P1_S;
     Player_Info P2_S;
@@ -66,8 +66,9 @@ public class InGameConnection : MonoBehaviour
         {
             P1_S.position = Player1.transform.position;
             P1_S.rotation = Player1.transform.rotation;
-            P1_S.alive = Player1.GetComponent<HpHandler>().alive;
+            //P1_S.alive = Player1.GetComponent<HpHandler>().alive;
             P1_S.gunNum = Player1.GetComponent<PlayerShoot>().gunType;
+            P1_S.hp = Player1.GetComponent<HpHandler>().hp;
             imServer = false;
 
         }
@@ -75,8 +76,10 @@ public class InGameConnection : MonoBehaviour
         {
             Player2.transform.position = P2_S.position;
             Player2.transform.rotation = P2_S.rotation;
-            Player2.GetComponent<HpHandler>().alive = P2_S.alive;
+            //Player2.GetComponent<HpHandler>().alive = P2_S.alive;
+            Player2.GetComponent<HpHandler>().hp = P2_S.hp;
             Player2.GetComponent<PlayerShoot>().gunType = P2_S.gunNum;
+            
             imClient = false;
         }
     }
