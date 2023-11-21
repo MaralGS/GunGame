@@ -28,9 +28,6 @@ public class PlayerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-      
-
         if (Input.GetMouseButtonDown(0))
         {
             imShooting=true;
@@ -46,30 +43,33 @@ public class PlayerShoot : MonoBehaviour
             // Calculate direction towards the mouse position
             shootDirection = (worldMousePosition - transform.position).normalized;
 
-            Shoot(shootDirection);
+            Shoot(shootDirection, transform.position, gunType);
     
             
         }
+        else
+        {
+            imShooting = false;
+        }
+        
 
         if (player._info.type == 1 && player.P1_S.shot == true)
         {
 
-            GameObject projectile = Instantiate(projectilePrefab, (player.P2_S.position + shootDirection), Quaternion.identity);
-        
-            // Apply force to the projectile in the shoot direction
-            projectile.GetComponent<Rigidbody>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed;
-            player.P1_S.shot = false;
+            Shoot(GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().v2, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.position, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.gunNum);
+            imShooting = false;
+            player.P2_S.shot = false;
 
         }
         if (player._info.type == 0 && player.P2_S.shot == true)
         {
 
-            GameObject projectile = Instantiate(projectilePrefab, (player.P2_S.position + shootDirection), Quaternion.identity);
-        
-            // Apply force to the projectile in the shoot direction
-            projectile.GetComponent<Rigidbody>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed;
+            Shoot(GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().v2, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.position, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.gunNum);
+            
             activeCoolDown = true;
-            player.P2_S.shot = false;
+            imShooting = false;
+
+            player.P1_S.shot = false;
         }
 
     
@@ -93,14 +93,14 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    private void Shoot(Vector3 shootDirection)
+    private void Shoot(Vector3 shootDirection, Vector3 go, int gunType)
     {
         switch (gunType)
         {
             case 0:
                 if (activeCoolDown == false)
                 {
-                    GameObject projectile = Instantiate(projectilePrefab, (transform.position + shootDirection), Quaternion.identity);
+                    GameObject projectile = Instantiate(projectilePrefab, (go + shootDirection), Quaternion.identity);
            
                     // Apply force to the projectile in the shoot direction
                     projectile.GetComponent<Rigidbody>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed;
@@ -111,7 +111,7 @@ public class PlayerShoot : MonoBehaviour
             default:
                 if (activeCoolDown1 == false)
                 {
-                    GameObject projectile1 = Instantiate(projectilePrefab1, (transform.position + shootDirection), Quaternion.identity);
+                    GameObject projectile1 = Instantiate(projectilePrefab1, (go + shootDirection), Quaternion.identity);
 
                     // Apply force to the projectile in the shoot direction
                     projectile1.GetComponent<Rigidbody>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed / 3;

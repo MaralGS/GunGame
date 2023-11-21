@@ -14,7 +14,7 @@ using System.Threading;
 
 public class InGameConnection : MonoBehaviour
 {
-    public struct Player_Info 
+    public struct Player_Info
     {
         public Vector3 position;
         public Quaternion rotation;
@@ -22,6 +22,7 @@ public class InGameConnection : MonoBehaviour
         public bool alive;
         public int gunNum;
         public bool shot;
+        public Vector3 v;
         //public GameObject shot;
         //public Vector3 shotPosition;
     }
@@ -35,6 +36,7 @@ public class InGameConnection : MonoBehaviour
     bool imServer = false;
     bool imClient = false;
     bool going;
+    public Vector3 v2;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,6 +71,7 @@ public class InGameConnection : MonoBehaviour
             P1_S.alive = Player1.GetComponent<HpHandler>().alive;
             P1_S.gunNum = Player1.GetComponent<PlayerShoot>().gunType;
             P1_S.shot = Player1.GetComponent<PlayerShoot>().imShooting;
+            P1_S.v = Player1.GetComponent<PlayerShoot>().shootDirection;
             imServer = false;
 
         }
@@ -82,7 +85,7 @@ public class InGameConnection : MonoBehaviour
             Player2.GetComponent<PlayerShoot>().enabled = false;
             Player2.GetComponent<PlayerShoot>().gunType = P2_S.gunNum;
             Player2.GetComponent<PlayerShoot>().imShooting = P2_S.shot;
-
+            v2 = P2_S.v;
             imClient = false;
         }
     }
