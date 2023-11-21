@@ -15,16 +15,25 @@ public class PlayerShoot : MonoBehaviour
     public bool activeCoolDown = false;
     public float coolDown1 = 5.5f;
     public bool activeCoolDown1 = false;
+    public bool imShooting = false;
+    public Vector3 shootDirection;
+    InGameConnection player;
+
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+      
+
         if (Input.GetMouseButtonDown(0))
         {
+            imShooting=true;
             // Get mouse position in screen coordinates
             Vector3 mousePosition = Input.mousePosition;
 
@@ -35,12 +44,35 @@ public class PlayerShoot : MonoBehaviour
             // Spawn projectile at player position
 
             // Calculate direction towards the mouse position
-            Vector3 shootDirection = (worldMousePosition - transform.position).normalized;
+            shootDirection = (worldMousePosition - transform.position).normalized;
 
             Shoot(shootDirection);
     
             
         }
+
+        if (player._info.type == 1 && player.P1_S.shot == true)
+        {
+
+            GameObject projectile = Instantiate(projectilePrefab, (player.P2_S.position + shootDirection), Quaternion.identity);
+        
+            // Apply force to the projectile in the shoot direction
+            projectile.GetComponent<Rigidbody>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed;
+            player.P1_S.shot = false;
+
+        }
+        if (player._info.type == 0 && player.P2_S.shot == true)
+        {
+
+            GameObject projectile = Instantiate(projectilePrefab, (player.P2_S.position + shootDirection), Quaternion.identity);
+        
+            // Apply force to the projectile in the shoot direction
+            projectile.GetComponent<Rigidbody>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed;
+            activeCoolDown = true;
+            player.P2_S.shot = false;
+        }
+
+    
         if (activeCoolDown)
         {
             coolDownTimer += Time.deltaTime;
@@ -69,7 +101,7 @@ public class PlayerShoot : MonoBehaviour
                 if (activeCoolDown == false)
                 {
                     GameObject projectile = Instantiate(projectilePrefab, (transform.position + shootDirection), Quaternion.identity);
-
+           
                     // Apply force to the projectile in the shoot direction
                     projectile.GetComponent<Rigidbody>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed;
                     activeCoolDown = true;

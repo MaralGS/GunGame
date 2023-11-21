@@ -20,9 +20,11 @@ public class PlayerMovment : MonoBehaviour
     public float jumpTime;
     public float maxJumpForce;
     public bool anyMovement = false;
- 
+
+
     void Start()
     {
+
         movementSpeed = movementSpeed / 30;
         q = new Quaternion((float)-0.5, (float)-0.5,(float)0.5, (float)0.5);
     }
