@@ -21,10 +21,17 @@ public class PlayerMovment : MonoBehaviour
     public float maxJumpForce;
     public bool anyMovement = false;
 
+    enum TYPES
+    {
+        NONE,
+        LEFT,
+        RIGHT,
+        JUMP
+    }
 
     void Start()
     {
-
+       
         movementSpeed = movementSpeed / 30;
         q = new Quaternion((float)-0.5, (float)-0.5,(float)0.5, (float)0.5);
     }
@@ -33,15 +40,9 @@ public class PlayerMovment : MonoBehaviour
     void Update()
     {
 
-
         if (Input.GetKey(KeyCode.A))
         {
-            anyMovement = true;
-            speed += movementSpeed * Time.deltaTime;
-            if (speed > maxSpeed)
-            {
-                speed = maxSpeed;
-            }
+            Movment(TYPES.LEFT);
         }
         else if (speed > 0)
         {
@@ -56,12 +57,7 @@ public class PlayerMovment : MonoBehaviour
 
         if (Input.GetKey(KeyCode.D))
         {
-            anyMovement = true;
-            speed -= movementSpeed * Time.deltaTime;
-            if (speed < -maxSpeed)
-            {
-                speed = -maxSpeed;
-            }
+           Movment(TYPES.RIGHT);
         }
         else if (speed < 0)
         {
@@ -76,7 +72,7 @@ public class PlayerMovment : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            StartJump();
+            Movment(TYPES.JUMP);
         }
 
         if (Input.GetButton("Jump") && jumpTimeCounter > 0 && isGrounded)
@@ -121,12 +117,6 @@ public class PlayerMovment : MonoBehaviour
         }
     }
 
-    void StartJump()
-    {
-        jumpForce = minJumpForce;
-        jumpTimeCounter = jumpTime;
-    }
-
     void ContinueJump()
     {
         if (jumpTimeCounter > 0)
@@ -146,6 +136,35 @@ public class PlayerMovment : MonoBehaviour
         jumpTimeCounter = 0;
     }
 
-}
+    void Movment(TYPES type)
+    {
+
+        int i = (int)type;
+
+        switch (i)
+        {
+            case 1:
+                anyMovement = true;
+                speed += movementSpeed * Time.deltaTime;
+                if (speed > maxSpeed)
+                {
+                    speed = maxSpeed;
+                }
+                break;
+            case 2:
+                anyMovement = true;
+                speed -= movementSpeed * Time.deltaTime;
+                if (speed < -maxSpeed)
+                {
+                    speed = -maxSpeed;
+                }
+                break;
+            case 3:
+                jumpForce = minJumpForce;
+                jumpTimeCounter = jumpTime;
+                break;
+        }
+    }
+}   
 
 
