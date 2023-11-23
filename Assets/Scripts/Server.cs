@@ -28,6 +28,7 @@ public class Server : MonoBehaviour
     public GameObject TextName;
     string UserName;
     string ClientM;
+    bool imWaiting = false;
     [HideInInspector] public string type = "Server"; 
 
     public void ChangeName()
@@ -53,19 +54,31 @@ public class Server : MonoBehaviour
     }
     public void StartServer()
     {
-        ipep = new IPEndPoint(IPAddress.Any, 9050);
+        if (!imWaiting)
+        {
+            ipep = new IPEndPoint(IPAddress.Any, 9050);
 
-        newsock = new Socket(AddressFamily.InterNetwork,
-                SocketType.Dgram, ProtocolType.Udp);
+            newsock = new Socket(AddressFamily.InterNetwork,
+                    SocketType.Dgram, ProtocolType.Udp);
 
-        newsock.Bind(ipep);
+            newsock.Bind(ipep);
 
 
-        Debug.Log("Waiting for a client...");
-        serverThread = new Thread(StartThread);
-        serverThread.Start();
-     
-        
+
+            serverThread = new Thread(StartThread);
+
+            serverThread.Start();
+
+            Debug.Log("Waiting for a client...");
+
+            imWaiting = true;
+        }
+        else
+        {
+            Debug.Log("Server is Already Started");
+        }
+
+
     }
     void StartThread()
     {
@@ -94,5 +107,6 @@ public class Server : MonoBehaviour
         S_info.sock = newsock;
         S_info.ep = Remote;
         SceneManager.LoadScene(1);
+        S_info.name = UserName;
     }
 }

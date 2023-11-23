@@ -9,6 +9,9 @@ using System.Text;
 using System.Xml.Linq;
 using UnityEngine;
 using System.Threading;
+using UnityEngine.UI;
+using TMPro;
+using Unity.VisualScripting;
 //using UnityEditor.PackageManager;
 //using UnityEngine.tvOS;
 
@@ -16,6 +19,7 @@ public class InGameConnection : MonoBehaviour
 {
     public struct Player_Info
     {
+        public string name;
         public Vector3 position;
         public Quaternion rotation;
         public int hp;
@@ -40,6 +44,10 @@ public class InGameConnection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        //usernames
+        SetUsernames();
+
 
         P1_S = new Player_Info();
         P2_S = new Player_Info();
@@ -66,6 +74,7 @@ public class InGameConnection : MonoBehaviour
     {
         if(imServer)
         {
+            P1_S.name = Player1.GetComponent<TextMeshPro>().text;
             P1_S.position = Player1.transform.position;
             P1_S.rotation = Player1.transform.rotation;
             P1_S.alive = Player1.GetComponent<HpHandler>().alive;
@@ -77,6 +86,7 @@ public class InGameConnection : MonoBehaviour
         }
         if (imClient)
         {
+            P2_S.name = Player2.GetComponent<TextMeshPro>().text;
             Player2.transform.position = P2_S.position;
             Player2.transform.rotation = P2_S.rotation;
             Player2.GetComponent<Collider>().enabled = P2_S.alive;
@@ -126,5 +136,10 @@ public class InGameConnection : MonoBehaviour
 
         }
             
+    }
+
+    void SetUsernames()
+    {
+        Player1.GetComponent<TextMeshPro>().text = _info.name;
     }
 }
