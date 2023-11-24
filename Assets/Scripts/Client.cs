@@ -20,7 +20,6 @@ public class Client : MonoBehaviour
 
     byte[] data = new byte[1024];
     public GameObject ip;
-    public GameObject TextName;
     string ServerM;
     string usingIP;
     Thread clientThread;

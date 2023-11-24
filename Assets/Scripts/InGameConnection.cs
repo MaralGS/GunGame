@@ -44,24 +44,23 @@ public class InGameConnection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        //usernames
-        SetUsernames();
-
-
+        
         P1_S = new Player_Info();
         P2_S = new Player_Info();
         _info = FindAnyObjectByType<Server_Info>();
-        if (_info.type == 1)
+
+        if (_info.type == 0)
         {
             Player1 = GameObject.FindGameObjectWithTag("Player");
-            Player2 = GameObject.FindGameObjectWithTag("Player2");  
+            Player2 = GameObject.FindGameObjectWithTag("Player2");
+            SetUsernames();
 
         }
-        else if (_info.type == 0)
+        else if (_info.type == 1)
         {
             Player1 = GameObject.FindGameObjectWithTag("Player2");
             Player2 = GameObject.FindGameObjectWithTag("Player");
+            SetUsernames();
         }
         Player2.GetComponent<PlayerMovment>().enabled = false;
         Player2.GetComponent<PlayerShoot>().enabled = false;
@@ -74,7 +73,7 @@ public class InGameConnection : MonoBehaviour
     {
         if(imServer)
         {
-            P1_S.name = Player1.GetComponent<TextMeshPro>().text;
+            P1_S.name = Player1.GetComponentInChildren<TextMeshPro>().text;
             P1_S.position = Player1.transform.position;
             P1_S.rotation = Player1.transform.rotation;
             P1_S.alive = Player1.GetComponent<HpHandler>().alive;
@@ -83,10 +82,10 @@ public class InGameConnection : MonoBehaviour
             P1_S.v = Player1.GetComponent<PlayerShoot>().shootDirection;
             imServer = false;
 
-        }
+        } 
         if (imClient)
         {
-            P2_S.name = Player2.GetComponent<TextMeshPro>().text;
+            P2_S.name = Player2.GetComponentInChildren<TextMeshPro>().text;
             Player2.transform.position = P2_S.position;
             Player2.transform.rotation = P2_S.rotation;
             Player2.GetComponent<Collider>().enabled = P2_S.alive;
@@ -140,6 +139,9 @@ public class InGameConnection : MonoBehaviour
 
     void SetUsernames()
     {
-        Player1.GetComponent<TextMeshPro>().text = _info.name;
+
+     Player1.GetComponentInChildren<TextMeshPro>().text = _info.name;
+     Player2.GetComponentInChildren<TextMeshPro>().text = _info.name;
+
     }
 }
