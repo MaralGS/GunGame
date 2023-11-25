@@ -22,14 +22,18 @@ public class Client : MonoBehaviour
     public GameObject ip;
     string ServerM;
     string usingIP;
+    string userName;
     Thread clientThread;
-
+    TMP_InputField textName;
     [HideInInspector] public Socket client;
     IPEndPoint ipep;
     public EndPoint remote;
     [HideInInspector] public string type = "Client";
 
-
+    private void Start()
+    {
+        textName = gameObject.GetComponentInChildren<TMP_InputField>();
+    }
     private void Update()
     {
         if (ServerM == "StartServer")
@@ -37,6 +41,7 @@ public class Client : MonoBehaviour
             Server_Info S_info = FindAnyObjectByType<Server_Info>();
             S_info.sock = client;
             S_info.ep = remote;
+            S_info.name = 
             SceneManager.LoadScene(1);
             ServerM = "StopServer";
         }
@@ -81,5 +86,18 @@ public class Client : MonoBehaviour
         }
         //Debug.Log("Stopping client");
         //server.Close();
+    }
+
+    public void ChangeName()
+    {
+        if (userName != "")
+        {
+            userName = textName.GetComponent<TMP_InputField>().text;
+        }
+        else
+        {
+            userName = "Hola";
+        }
+
     }
 }
