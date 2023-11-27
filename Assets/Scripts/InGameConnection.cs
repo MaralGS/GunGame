@@ -53,14 +53,15 @@ public class InGameConnection : MonoBehaviour
         {
             Player1 = GameObject.FindGameObjectWithTag("Player");
             Player2 = GameObject.FindGameObjectWithTag("Player2");
-            SetUsernames();
+            Player1.GetComponentInChildren<TextMeshPro>().text = _info.name;
+
 
         }
         else if (_info.type == 1)
         {
             Player1 = GameObject.FindGameObjectWithTag("Player2");
             Player2 = GameObject.FindGameObjectWithTag("Player");
-            SetUsernames();
+            Player2.GetComponentInChildren<TextMeshPro>().text = _info.name;
         }
         Player2.GetComponent<PlayerMovment>().enabled = false;
         Player2.GetComponent<PlayerShoot>().enabled = false;
@@ -85,7 +86,7 @@ public class InGameConnection : MonoBehaviour
         } 
         if (imClient)
         {
-            P2_S.name = Player2.GetComponentInChildren<TextMeshPro>().text;
+            Player2.GetComponentInChildren<TextMeshPro>().text = P2_S.name;
             Player2.transform.position = P2_S.position;
             Player2.transform.rotation = P2_S.rotation;
             Player2.GetComponent<Collider>().enabled = P2_S.alive;
@@ -135,13 +136,5 @@ public class InGameConnection : MonoBehaviour
 
         }
             
-    }
-
-    void SetUsernames()
-    {
-
-     Player1.GetComponentInChildren<TextMeshPro>().text = _info.name;
-     Player2.GetComponentInChildren<TextMeshPro>().text = _info.name;
-
     }
 }

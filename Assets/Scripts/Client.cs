@@ -20,20 +20,16 @@ public class Client : MonoBehaviour
 
     byte[] data = new byte[1024];
     public GameObject ip;
+    public GameObject textName;
     string ServerM;
     string usingIP;
     string userName;
     Thread clientThread;
-    TMP_InputField textName;
     [HideInInspector] public Socket client;
     IPEndPoint ipep;
     public EndPoint remote;
     [HideInInspector] public string type = "Client";
 
-    private void Start()
-    {
-        textName = gameObject.GetComponentInChildren<TMP_InputField>();
-    }
     private void Update()
     {
         if (ServerM == "StartServer")
@@ -41,7 +37,7 @@ public class Client : MonoBehaviour
             Server_Info S_info = FindAnyObjectByType<Server_Info>();
             S_info.sock = client;
             S_info.ep = remote;
-            S_info.name = 
+            S_info.name = userName;
             SceneManager.LoadScene(1);
             ServerM = "StopServer";
         }
