@@ -118,10 +118,9 @@ public class InGameConnection : MonoBehaviour
             string P_Info = JsonUtility.ToJson(P1_S);
 
             byte[] data = Encoding.ASCII.GetBytes(P_Info);
-            for (int i = 0; i < _info.ep.Length; i++)
-            {
-                _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[i]);
-            }
+
+            _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep);
+            
 
         }     
     }
@@ -132,12 +131,11 @@ public class InGameConnection : MonoBehaviour
         {
            
             byte[] data = new byte[1024];
-            for (int i = 0; i < _info.ep.Length; i++)
-            {
-                int recv = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
-                string P_Info = Encoding.ASCII.GetString(data, 0, recv);
-                P2_S = JsonUtility.FromJson<Player_Info>(P_Info);
-            }
+
+            int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
+            string P_Info = Encoding.ASCII.GetString(data, 0, recv);
+            P2_S = JsonUtility.FromJson<Player_Info>(P_Info);
+            
     
 
             imClient = true;

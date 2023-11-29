@@ -25,7 +25,7 @@ public class Server : MonoBehaviour
     byte[] data = new byte[1024];
     [HideInInspector] public Socket[] clientSock;
     [HideInInspector] public Socket newsock;
-    [HideInInspector] public EndPoint[] Remote;
+    [HideInInspector] public EndPoint Remote;
     IPEndPoint[] ipep;
     public GameObject TextName;
     string UserName;
@@ -49,7 +49,9 @@ public class Server : MonoBehaviour
 
             newsock = new Socket(AddressFamily.InterNetwork,
             SocketType.Dgram, ProtocolType.Udp);
-
+            
+            ipep[0] = new IPEndPoint(IPAddress.Any, 9050);
+            newsock.Bind(ipep[0]);
            
             serverThread.Start();
             serverThread = new Thread(StartThread);
@@ -77,27 +79,32 @@ public class Server : MonoBehaviour
    void StartThread()
    {
        while (serverStarted == true) { 
-           for (int i = 0; i < ipep.Length; i++)
+           for (int i = 1; i < ipep.Length; i++)
            {
-               ipep[i] = new IPEndPoint(IPAddress.Any, 9050+i);
-               newsock.Bind(ipep[i]);
-               Remote[i] = (EndPoint)(ipep[i]);
-               try
-               {
-                   int recv = newsock.ReceiveFrom(data, ref Remote[i]); //recv????
-                   Debug.Log("Message received from:" + Remote.ToString());
-                   Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
-                   ClientM = Encoding.ASCII.GetString(data, 0, recv);
-                   string welcome = "StartServer";
-                   data = Encoding.ASCII.GetBytes(welcome);
-                   newsock.SendTo(data, data.Length, SocketFlags.None, Remote[i]);
-               }
-               catch (Exception)
-               {
-                   Debug.Log("Connected failed... try again...");
-                   throw;
-               }
-           }
+                if (ipep[i] != null)
+                {
+                    ipep[i] = new IPEndPoint(IPAddress.Any, 9050 + i);
+                    newsock.Bind(ipep[i]);
+                    Remote = (EndPoint)(ipep[i]);
+               
+
+                    try
+                    {
+                        int recv = newsock.ReceiveFrom(data, ref Remote); //recv????
+                        Debug.Log("Message received from:" + Remote.ToString());
+                        Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
+                        ClientM = Encoding.ASCII.GetString(data, 0, recv);
+                        string welcome = "StartServer";
+                        data = Encoding.ASCII.GetBytes(welcome);
+                        newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
+                    }
+                    catch (Exception)
+                    {
+                        Debug.Log("Connected failed... try again...");
+                        throw;
+                    }
+                }
+            }
        }
    }
 
@@ -106,10 +113,8 @@ public class Server : MonoBehaviour
 
         Server_Info S_info = FindAnyObjectByType<Server_Info>();
         S_info.sock = newsock;
-        for (int i = 0; i <= Remote.Length; i++)
-        {
-            S_info.ep[i] = Remote[i];
-        }
+        S_info.ep = Remote;
+       
 
         SceneManager.LoadScene(1);
         S_info.name = UserName;
