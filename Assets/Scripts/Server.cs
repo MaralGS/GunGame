@@ -21,7 +21,7 @@ public class Server : MonoBehaviour
     public static Server Instanace => _instance;
 
     Thread serverThread;
-    int numberPlayers;
+    int numberPlayers = 0;
     byte[] data = new byte[1024];
     [HideInInspector] public Socket[] clientSock;
     [HideInInspector] public Socket newsock;
@@ -32,6 +32,7 @@ public class Server : MonoBehaviour
     string ClientM;
     bool imWaiting = false;
     bool serverStarted = true;
+
     [HideInInspector] public string type = "Server";
 
     private void Awake()
@@ -83,11 +84,10 @@ public class Server : MonoBehaviour
            {
                 if (ipep[i] != null)
                 {
+                    numberPlayers++;
                     ipep[i] = new IPEndPoint(IPAddress.Any, 9050 + i);
                     newsock.Bind(ipep[i]);
                     Remote = (EndPoint)(ipep[i]);
-               
-
                     try
                     {
                         int recv = newsock.ReceiveFrom(data, ref Remote); //recv????
@@ -104,6 +104,7 @@ public class Server : MonoBehaviour
                         throw;
                     }
                 }
+
             }
        }
    }
@@ -118,6 +119,7 @@ public class Server : MonoBehaviour
 
         SceneManager.LoadScene(1);
         S_info.name = UserName;
+        S_info.numberOfPlayers = numberPlayers;
     }
 
     public void ChangeName()

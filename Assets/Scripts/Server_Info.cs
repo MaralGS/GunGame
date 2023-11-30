@@ -11,6 +11,7 @@ public class Server_Info : MonoBehaviour
     [HideInInspector] public EndPoint ep;
     [HideInInspector] public int type; 
     [HideInInspector] public string name;
+    [HideInInspector] public int numberOfPlayers;
     void Start()
     {
         DontDestroyOnLoad(this);

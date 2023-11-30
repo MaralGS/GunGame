@@ -12,6 +12,7 @@ using System.Threading;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 //using UnityEditor.PackageManager;
 //using UnityEngine.tvOS;
 
@@ -35,6 +36,7 @@ public class InGameConnection : MonoBehaviour
     Thread ThreadRecieveInfo;
     Thread ThreadSendInfo;
     public Server_Info _info;
+    public GameObject Players;
     GameObject Player1;
     GameObject Player2;
     bool imServer = false;
@@ -45,6 +47,10 @@ public class InGameConnection : MonoBehaviour
     void Start()
     {
         
+        for (int i = 0; i < _info.numberOfPlayers; i++) {
+            GameObject player = Instantiate(Players);
+            player.gameObject.name = "Player"+i+1;
+        }
         P1_S = new Player_Info();
         P2_S = new Player_Info();
         _info = FindAnyObjectByType<Server_Info>();
