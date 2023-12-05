@@ -54,9 +54,8 @@ public class Server : MonoBehaviour
             ipep[0] = new IPEndPoint(IPAddress.Any, 9050);
             newsock.Bind(ipep[0]);
            
-           
-            serverThread = new Thread(StartThread);
             serverThread.Start();
+            serverThread = new Thread(StartThread);
             imWaiting = true;
         }
         else
@@ -83,34 +82,28 @@ public class Server : MonoBehaviour
        while (serverStarted == true) { 
            for (int i = 1; i < ipep.Length; i++)
            {
-                if (ipep[i] == null)
+                if (ipep[i] != null)
                 {
-                   
+                    numberPlayers++;
                     ipep[i] = new IPEndPoint(IPAddress.Any, 9050 + i);
-                }
-                else if(ipep[i] != null)
-                {
                     newsock.Bind(ipep[i]);
                     Remote = (EndPoint)(ipep[i]);
+                    try
+                    {
+                        int recv = newsock.ReceiveFrom(data, ref Remote); //recv????
+                        Debug.Log("Message received from:" + Remote.ToString());
+                        Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
+                        ClientM = Encoding.ASCII.GetString(data, 0, recv);
+                        string welcome = "StartServer";
+                        data = Encoding.ASCII.GetBytes(welcome);
+                        newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
+                    }
+                    catch (Exception)
+                    {
+                        Debug.Log("Connected failed... try again...");
+                        throw;
+                    }
                 }
-
-                try
-                {
-                    int recv = newsock.ReceiveFrom(data, ref Remote); //recv????
-                    Debug.Log("Message received from:" + Remote.ToString());
-                    Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
-                    ClientM = Encoding.ASCII.GetString(data, 0, recv);
-                    string welcome = "StartServer";
-                    data = Encoding.ASCII.GetBytes(welcome);
-                    newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
-                    numberPlayers++;
-                }
-                catch (Exception)
-                {
-                    Debug.Log("Connected failed... try again...");
-                    throw;
-                }
-                
 
             }
        }
@@ -124,7 +117,7 @@ public class Server : MonoBehaviour
         S_info.ep = Remote;
        
 
-        //SceneManager.LoadScene(1);
+        SceneManager.LoadScene(1);
         S_info.name = UserName;
         S_info.numberOfPlayers = numberPlayers;
     }
