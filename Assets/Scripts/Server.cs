@@ -85,34 +85,27 @@ public class Server : MonoBehaviour
            {
                 if (ipep[i] == null)
                 {
-                    ipep[i] = new IPEndPoint(IPAddress.Any, 9050 + i);
+                    ipep[i] = new IPEndPoint(IPAddress.Any, 9050 + i);                   
+                    Remote = (EndPoint)(ipep[i]);
+                    try
+                    {
+                        int recv = newsock.ReceiveFrom(data, ref Remote); //recv????
+                        Debug.Log("Message received from:" + Remote.ToString());
+                        Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
+                        ClientM = Encoding.ASCII.GetString(data, 0, recv);
+                        string welcome = "StartServer";
+                        numberPlayers++;
+                        data = Encoding.ASCII.GetBytes(welcome);
+                        newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
+
+                    }
+                    catch (Exception)
+                    {
+                        Debug.Log("Connected failed... try again...");
+                       // throw;
+                    }
                 }
-               // else if(ipep[i] != null)
-               // {
-               //     newsock.Bind(ipep[i]);
-               //     Remote = (EndPoint)(ipep[i]);
-               //     try
-               //     {
-               //         int recv = newsock.ReceiveFrom(data, ref Remote); //recv????
-               //         Debug.Log("Message received from:" + Remote.ToString());
-               //         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
-               //         ClientM = Encoding.ASCII.GetString(data, 0, recv);
-               //         string welcome = "StartServer";
-               //         data = Encoding.ASCII.GetBytes(welcome);
-               //         newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
-               //         numberPlayers++;
-               //     }
-               //     catch (Exception)
-               //     {
-               //         Debug.Log("Connected failed... try again...");
-               //        // throw;
-               //     }
-               // }
-
-               
-                
-
-            }
+           }
        }
    }
 
