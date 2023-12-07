@@ -29,6 +29,7 @@ public class Client : MonoBehaviour
     IPEndPoint ipep;
     public EndPoint remote;
     [HideInInspector] public string type = "Client";
+    [HideInInspector] public bool gameStarted = false;
 
     private void Update()
     {
@@ -38,8 +39,12 @@ public class Client : MonoBehaviour
             S_info.sock = client;
             S_info.ep = remote;
             S_info.name = userName;
-            SceneManager.LoadScene(1);
+
             ServerM = "StopServer";
+        }
+        if (gameStarted == true)
+        {
+            SceneManager.LoadScene(1);
         }
     }
     public void ConnectPlayer()

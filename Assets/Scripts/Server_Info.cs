@@ -12,6 +12,7 @@ public class Server_Info : MonoBehaviour
     [HideInInspector] public int type; 
     [HideInInspector] public string name;
     [HideInInspector] public int numberOfPlayers;
+    [HideInInspector] public bool startServer;
     void Start()
     {
         DontDestroyOnLoad(this);

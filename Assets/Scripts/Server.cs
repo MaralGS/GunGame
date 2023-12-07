@@ -31,7 +31,7 @@ public class Server : MonoBehaviour
     string UserName;
     string ClientM;
     bool imWaiting = false;
-    bool serverStarted = true;
+    [HideInInspector] public bool gameStarted = false;
 
     [HideInInspector] public string type = "Server";
 
@@ -80,7 +80,7 @@ public class Server : MonoBehaviour
    
    void StartThread()
    {
-       while (serverStarted == true) { 
+       while (gameStarted == false) { 
            for (int i = 1; i < ipep.Length; i++)
            {
                 if (ipep[i] == null)
@@ -117,9 +117,9 @@ public class Server : MonoBehaviour
         S_info.ep = Remote;
        
 
-        //SceneManager.LoadScene(1);
         S_info.name = UserName;
         S_info.numberOfPlayers = numberPlayers;
+        S_info.startServer = gameStarted;
     }
 
     public void ChangeName()
@@ -133,6 +133,12 @@ public class Server : MonoBehaviour
             UserName = "Hola";
         }
 
+    }
+    public void GameStart()
+    {
+        gameStarted = true;
+        SaveServer();
+        SceneManager.LoadScene(1);
     }
 
 }
