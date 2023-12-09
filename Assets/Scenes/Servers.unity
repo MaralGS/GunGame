@@ -855,6 +855,7 @@ MonoBehaviour:
   textName: {fileID: 512752474}
   type: Client
   gameStarted: 0
+  mConections: {fileID: 0}
 --- !u!4 &258147259
 Transform:
   m_ObjectHideFlags: 0
@@ -2051,6 +2052,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _info: {fileID: 1113889493}
   client: {fileID: 258147257}
+  server: {fileID: 2034321972}
+  start: 0
 --- !u!4 &793822366
 Transform:
   m_ObjectHideFlags: 0
@@ -6391,6 +6394,7 @@ MonoBehaviour:
   TextName: {fileID: 955123602}
   gameStarted: 0
   type: Server
+  mConections: {fileID: 0}
 --- !u!4 &2034321974
 Transform:
   m_ObjectHideFlags: 0

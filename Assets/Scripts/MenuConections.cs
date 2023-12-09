@@ -13,6 +13,7 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 //using UnityEditor.PackageManager;
 //using UnityEngine.tvOS;
 
@@ -24,6 +25,7 @@ public class MenuConections : MonoBehaviour
         public bool Start;
     }
 
+    public ConectionsInfo P1_S;
     public ConectionsInfo P2_S;
 
 
@@ -31,15 +33,25 @@ public class MenuConections : MonoBehaviour
     Thread ThreadSendInfo;
     public Server_Info _info;
     public GameObject client;
+    public GameObject server;
     [HideInInspector] public bool start;
+    [HideInInspector] public bool cstart;
     private bool going;
+    [HideInInspector] public bool imServer;
+    [HideInInspector] public bool imClient;
+    bool gameStarted;
     // Start is called before the first frame update
     void Start() {
 
+        P1_S = new ConectionsInfo();
         P2_S = new ConectionsInfo();
+
+        imServer = false;
+        imClient = false;
 
         going = true;
         start = false;
+        gameStarted = false;
         StartThread();
     }
 
@@ -47,8 +59,22 @@ public class MenuConections : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        client.GetComponent<Client>().gameStarted = P2_S.Start;
+
+        if (imServer == true)
+        {
+           P1_S.Start = server.GetComponent<Server>().gameStarted;
+           //imServer = false;
+        }
+        else if (imClient == true)
+        {
+            client.GetComponent<Client>().gameStarted = P2_S.Start;
+            //imClient = false;
+        }
+
+        if (gameStarted == true)
+        {
+
+        }
     }
 
     public void StartGame()
@@ -61,10 +87,11 @@ public class MenuConections : MonoBehaviour
 
     void StartThread()
     {
-        ThreadSendInfo = new Thread(SendInfo);
-        ThreadSendInfo.Start();
         ThreadRecieveInfo = new Thread(ReciveInfo);
         ThreadRecieveInfo.Start();
+        ThreadSendInfo = new Thread(SendInfo);
+        ThreadSendInfo.Start();
+ 
 
 
     }
@@ -75,9 +102,10 @@ public class MenuConections : MonoBehaviour
         {
             if (start == true)
             {
-                string P_Info = JsonUtility.ToJson(_info.startServer);
+                string P_Info = JsonUtility.ToJson(P1_S);
                 byte[] data = Encoding.ASCII.GetBytes(P_Info);
                 _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep);
+          
             }
 
         }
@@ -88,7 +116,7 @@ public class MenuConections : MonoBehaviour
     {
         while (going == true)
         {
-            if (start == true)
+            if (cstart == true)
             {
                 byte[] data = new byte[1024];
                 int recv = _info.sock.ReceiveFrom(data, ref _info.ep);

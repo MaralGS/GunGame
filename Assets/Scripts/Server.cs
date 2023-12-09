@@ -11,7 +11,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
+
 
 public class Server : MonoBehaviour
 {
@@ -47,6 +47,7 @@ public class Server : MonoBehaviour
     private void Start()
     {
         mConections = GameObject.Find("MenuConections").GetComponent<MenuConections>();
+   
     }
 
     public void StartServer()
@@ -64,6 +65,7 @@ public class Server : MonoBehaviour
             serverThread = new Thread(StartThread);
             serverThread.Start();
             imWaiting = true;
+
         }
         else
         {
@@ -110,6 +112,7 @@ public class Server : MonoBehaviour
                         data = Encoding.ASCII.GetBytes(welcome);
                         newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
                         mConections.start = true;
+                        mConections.imServer = true;
                         Debug.Log("WTF");
 
                     }
@@ -151,7 +154,7 @@ public class Server : MonoBehaviour
     public void GameStart()
     {
         gameStarted = true;
-        SceneManager.LoadScene(1);
+
     }
 
 }
