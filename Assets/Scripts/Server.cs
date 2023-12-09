@@ -151,6 +151,7 @@ public class Server : MonoBehaviour
     public void GameStart()
     {
         gameStarted = true;
+        SceneManager.LoadScene(1);
     }
 
 }

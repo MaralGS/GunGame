@@ -18,7 +18,15 @@ using UnityEngine.UIElements;
 
 public class MenuConections : MonoBehaviour
 {
-    
+
+    public struct ConectionsInfo
+    {
+        public bool Start;
+    }
+
+    public ConectionsInfo P2_S;
+
+
     Thread ThreadRecieveInfo;
     Thread ThreadSendInfo;
     public Server_Info _info;
@@ -27,6 +35,9 @@ public class MenuConections : MonoBehaviour
     private bool going;
     // Start is called before the first frame update
     void Start() {
+
+        P2_S = new ConectionsInfo();
+
         going = true;
         start = false;
         StartThread();
@@ -36,7 +47,8 @@ public class MenuConections : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        client.GetComponent<Client>().gameStarted = _info.startServer;
+        
+        client.GetComponent<Client>().gameStarted = P2_S.Start;
     }
 
     public void StartGame()
@@ -81,7 +93,7 @@ public class MenuConections : MonoBehaviour
                 byte[] data = new byte[1024];
                 int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
                 string P_Info = Encoding.ASCII.GetString(data, 0, recv);
-                _info = JsonUtility.FromJson<Server_Info>(P_Info);
+                P2_S = JsonUtility.FromJson<ConectionsInfo>(P_Info);
             }
 
         }
