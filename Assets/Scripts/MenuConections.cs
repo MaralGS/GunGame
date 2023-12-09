@@ -22,7 +22,7 @@ public class MenuConections : MonoBehaviour
     Thread ThreadRecieveInfo;
     Thread ThreadSendInfo;
     public Server_Info _info;
-    GameObject client;
+    public GameObject client;
     // Start is called before the first frame update
     void Start() { 
 
