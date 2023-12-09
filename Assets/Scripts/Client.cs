@@ -45,7 +45,7 @@ public class Client : MonoBehaviour
             S_info.sock = client;
             S_info.ep = remote;
             S_info.name = userName;
-            mConections.cstart = true; 
+            mConections.start = true; 
             mConections.imClient = true;
             ServerM = "StopServer";
         }

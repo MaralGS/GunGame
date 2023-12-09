@@ -21,20 +21,20 @@ public class Server : MonoBehaviour
     public static Server Instanace => _instance;
 
     Thread serverThread;
-    int numberPlayers = 0;
     byte[] data = new byte[1024];
+    [HideInInspector] public int numberPlayers = 1;
     [HideInInspector] public Socket[] clientSock;
     [HideInInspector] public Socket newsock;
     [HideInInspector] public EndPoint Remote;
+    [HideInInspector] public bool gameStarted = false;
+    [HideInInspector] public string type = "Server";
+    [HideInInspector] public MenuConections mConections;
     IPEndPoint[] ipep;
     public GameObject TextName;
     string UserName;
     string ClientM;
     bool imWaiting = false;
-    [HideInInspector] public bool gameStarted = false;
 
-    [HideInInspector] public string type = "Server";
-    [HideInInspector] public MenuConections mConections;
 
     private void Awake()
     {
@@ -84,9 +84,7 @@ public class Server : MonoBehaviour
             
             SaveServer();
             ClientM = "Disconnected";
-            Debug.Log("ENTERRRR!!!!!!!!!!");
         }
-        Debug.Log(Remote);
     }
    
    void StartThread()
@@ -108,12 +106,11 @@ public class Server : MonoBehaviour
                         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
                         ClientM = Encoding.ASCII.GetString(data, 0, recv);
                         string welcome = "StartServer";
-                        numberPlayers++;
                         data = Encoding.ASCII.GetBytes(welcome);
                         newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
+
                         mConections.start = true;
                         mConections.imServer = true;
-                        Debug.Log("WTF");
 
                     }
                     catch (Exception)
@@ -137,6 +134,7 @@ public class Server : MonoBehaviour
         S_info.name = UserName;
         S_info.numberOfPlayers = numberPlayers;
         S_info.startServer = gameStarted;
+        numberPlayers++;
     }
 
     public void ChangeName()

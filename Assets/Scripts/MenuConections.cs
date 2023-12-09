@@ -35,16 +35,18 @@ public class MenuConections : MonoBehaviour
     public GameObject client;
     public GameObject server;
     [HideInInspector] public bool start;
-    [HideInInspector] public bool cstart;
     private bool going;
     [HideInInspector] public bool imServer;
     [HideInInspector] public bool imClient;
+    Server _server;
     bool gameStarted;
     // Start is called before the first frame update
     void Start() {
 
         P1_S = new ConectionsInfo();
         P2_S = new ConectionsInfo();
+
+        _server = FindAnyObjectByType<Server>();
 
         imServer = false;
         imClient = false;
@@ -116,13 +118,21 @@ public class MenuConections : MonoBehaviour
     {
         while (going == true)
         {
-            if (cstart == true)
+            if (start == true && _server.numberPlayers > 1 )
             {
                 byte[] data = new byte[1024];
                 int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
                 string P_Info = Encoding.ASCII.GetString(data, 0, recv);
                 P2_S = JsonUtility.FromJson<ConectionsInfo>(P_Info);
             }
+            else if (imClient == true)
+            {
+                byte[] data = new byte[1024];
+                int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
+                string P_Info = Encoding.ASCII.GetString(data, 0, recv);
+                P2_S = JsonUtility.FromJson<ConectionsInfo>(P_Info);
+            }
+
 
         }
     }
