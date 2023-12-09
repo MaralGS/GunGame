@@ -34,6 +34,7 @@ public class Server : MonoBehaviour
     [HideInInspector] public bool gameStarted = false;
 
     [HideInInspector] public string type = "Server";
+    [HideInInspector] public MenuConections mConections;
 
     private void Awake()
     {
@@ -41,6 +42,11 @@ public class Server : MonoBehaviour
         ipep = new IPEndPoint[4];
 
 
+    }
+
+    private void Start()
+    {
+        mConections = GameObject.Find("MenuConections").GetComponent<MenuConections>();
     }
 
     public void StartServer()
@@ -73,9 +79,12 @@ public class Server : MonoBehaviour
 
         if (ClientM == "Connected")
         {
+            
             SaveServer();
             ClientM = "Disconnected";
+            Debug.Log("ENTERRRR!!!!!!!!!!");
         }
+        Debug.Log(Remote);
     }
    
    void StartThread()
@@ -83,10 +92,13 @@ public class Server : MonoBehaviour
        while (gameStarted == false) { 
            for (int i = 1; i < ipep.Length; i++)
            {
-                if (ipep[i] == null)
+                //REVISAR
+                if (ipep[1] == null)
                 {
                     ipep[i] = new IPEndPoint(IPAddress.Any, 9050 + i);                   
                     Remote = (EndPoint)(ipep[i]);
+                    //HASTA AQUI
+
                     try
                     {
                         int recv = newsock.ReceiveFrom(data, ref Remote); //recv????
@@ -97,6 +109,8 @@ public class Server : MonoBehaviour
                         numberPlayers++;
                         data = Encoding.ASCII.GetBytes(welcome);
                         newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
+                        mConections.start = true;
+                        Debug.Log("WTF");
 
                     }
                     catch (Exception)
@@ -137,8 +151,6 @@ public class Server : MonoBehaviour
     public void GameStart()
     {
         gameStarted = true;
-        SaveServer();
-        SceneManager.LoadScene(1);
     }
 
 }

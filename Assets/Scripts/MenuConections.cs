@@ -23,9 +23,13 @@ public class MenuConections : MonoBehaviour
     Thread ThreadSendInfo;
     public Server_Info _info;
     public GameObject client;
+    [HideInInspector] public bool start;
+    private bool going;
     // Start is called before the first frame update
-    void Start() { 
-
+    void Start() {
+        going = true;
+        start = false;
+        StartThread();
     }
 
 
@@ -38,33 +42,48 @@ public class MenuConections : MonoBehaviour
     public void StartGame()
     {
         _info = FindAnyObjectByType<Server_Info>();
-        client = GameObject.Find("Client");
 
-        StartThread();
+
+
     }
 
     void StartThread()
     {
-        ThreadRecieveInfo = new Thread(ReciveInfo);
-        ThreadRecieveInfo.Start();
         ThreadSendInfo = new Thread(SendInfo);
         ThreadSendInfo.Start();
+        ThreadRecieveInfo = new Thread(ReciveInfo);
+        ThreadRecieveInfo.Start();
+
 
     }
 
     void SendInfo()
     {
-      string P_Info = JsonUtility.ToJson(_info.startServer);
-      byte[] data = Encoding.ASCII.GetBytes(P_Info);
-      _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep);
+        while (going == true)
+        {
+            if (start == true)
+            {
+                string P_Info = JsonUtility.ToJson(_info.startServer);
+                byte[] data = Encoding.ASCII.GetBytes(P_Info);
+                _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep);
+            }
+
+        }
 
     }
 
     void ReciveInfo()
     {
-        byte[] data = new byte[1024];
-        int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
-        string P_Info = Encoding.ASCII.GetString(data, 0, recv);
-        _info = JsonUtility.FromJson<Server_Info>(P_Info);
+        while (going == true)
+        {
+            if (start == true)
+            {
+                byte[] data = new byte[1024];
+                int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
+                string P_Info = Encoding.ASCII.GetString(data, 0, recv);
+                _info = JsonUtility.FromJson<Server_Info>(P_Info);
+            }
+
+        }
     }
 }

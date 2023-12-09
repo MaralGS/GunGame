@@ -30,6 +30,12 @@ public class Client : MonoBehaviour
     public EndPoint remote;
     [HideInInspector] public string type = "Client";
     [HideInInspector] public bool gameStarted = false;
+    [HideInInspector] public MenuConections mConections;
+
+    private void Start()
+    {
+        mConections = GameObject.Find("MenuConections").GetComponent<MenuConections>();
+    }
 
     private void Update()
     {
@@ -39,7 +45,7 @@ public class Client : MonoBehaviour
             S_info.sock = client;
             S_info.ep = remote;
             S_info.name = userName;
-
+            mConections.start = true;
             ServerM = "StopServer";
         }
         if (gameStarted == true)
@@ -76,6 +82,7 @@ public class Client : MonoBehaviour
             data = new byte[1024];
             int recv = client.ReceiveFrom(data, ref remote);
             Debug.Log("Message received from:" + remote.ToString());
+ 
             //Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
             ServerM = Encoding.ASCII.GetString(data, 0, recv);
         }

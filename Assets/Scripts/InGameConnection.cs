@@ -47,10 +47,10 @@ public class InGameConnection : MonoBehaviour
     void Start()
     {
         
-        for (int i = 0; i < _info.numberOfPlayers; i++) {
-            GameObject player = Instantiate(Players);
-            player.gameObject.name = "Player"+i+1;
-        }
+       //for (int i = 0; i < _info.numberOfPlayers; i++) {
+       //    GameObject player = Instantiate(Players);
+       //    player.gameObject.name = "Player"+i+1;
+       //}
         P1_S = new Player_Info();
         P2_S = new Player_Info();
         _info = FindAnyObjectByType<Server_Info>();
