@@ -106,11 +106,12 @@ public class MenuConections : MonoBehaviour
     {
         while (going == true)
         {
-            //clint no pot fer send ara
+           
             if (start == true && imClient == false)
             {
                 string P_Info = JsonUtility.ToJson(_serverStruct);
                 byte[] data = Encoding.ASCII.GetBytes(P_Info);
+                //Si es fa pause Funciona, Sino peta ns PK
                 for (int i = 0; i < _server.numberPlayers; i++) {
                     _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[i]);
                 }
@@ -138,12 +139,12 @@ public class MenuConections : MonoBehaviour
         {
            if (start == true && _server.numberPlayers > 0 )
            {
-               for (int i = 0; i < _server.numberPlayers; i++)
-               {
-                   recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
-                   p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
-                   _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_info[i]);
-               }
+              // for (int i = 0; i < _server.numberPlayers; i++)
+              // {
+              //     recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
+              //     p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
+              //     _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_info[i]);
+              // }
            
            }
            else if (imClient == true)
