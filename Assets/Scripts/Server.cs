@@ -25,7 +25,7 @@ public class Server : MonoBehaviour
     [HideInInspector] public int numberPlayers = 0;
     [HideInInspector] public Socket newsock;
     [HideInInspector] public EndPoint[] Remote;
-    [HideInInspector] public bool gameStarted = false;
+    [HideInInspector] public bool gameStarted;
     [HideInInspector] public string type = "Server";
     [HideInInspector] public MenuConections mConections;
     IPEndPoint[] ipep;
@@ -38,6 +38,7 @@ public class Server : MonoBehaviour
 
     private void Awake()
     {
+        gameStarted = false;
         numberPlayers = 0;
         ipep = new IPEndPoint[4];
         Remote = new EndPoint[3];
