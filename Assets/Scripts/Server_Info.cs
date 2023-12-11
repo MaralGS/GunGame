@@ -16,7 +16,7 @@ public class Server_Info : MonoBehaviour
     [HideInInspector] public bool startServer;
     void Start()
     {
-        ep = new EndPoint[4];
+        ep = new EndPoint[3];
         DontDestroyOnLoad(this);
     }
 }

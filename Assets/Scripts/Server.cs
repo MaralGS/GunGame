@@ -39,7 +39,7 @@ public class Server : MonoBehaviour
     {
         numberPlayers = 0;
         ipep = new IPEndPoint[4];
-        Remote = new EndPoint[4];
+        Remote = new EndPoint[3];
 
     }
 
