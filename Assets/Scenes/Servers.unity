@@ -2054,6 +2054,8 @@ MonoBehaviour:
   client: {fileID: 258147257}
   server: {fileID: 2034321972}
   start: 0
+  imServer: 0
+  imClient: 0
 --- !u!4 &793822366
 Transform:
   m_ObjectHideFlags: 0
@@ -4137,6 +4139,30 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 371940669}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1793388025}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1326879643
 MonoBehaviour:
@@ -6391,10 +6417,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d609a8b784327e7448bdcfe0f32d725f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextName: {fileID: 955123602}
+  numberPlayers: 0
   gameStarted: 0
   type: Server
   mConections: {fileID: 0}
+  TextName: {fileID: 955123602}
 --- !u!4 &2034321974
 Transform:
   m_ObjectHideFlags: 0
