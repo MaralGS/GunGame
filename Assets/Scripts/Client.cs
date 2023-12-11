@@ -8,7 +8,6 @@ using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.Threading;
-using UnityEngine.UI;
 //using UnityEditor.PackageManager;
 //using UnityEngine.tvOS;
 
@@ -32,10 +31,6 @@ public class Client : MonoBehaviour
     [HideInInspector] public string type = "Client";
     [HideInInspector] public bool gameStarted = false;
     [HideInInspector] public MenuConections mConections;
-
-    //Green/Grey Button for connection of players
-    public GameObject[] Buttons;
-    [HideInInspector] public int players;
 
     private void Start()
     {
@@ -113,10 +108,5 @@ public class Client : MonoBehaviour
             userName = "Hola";
         }
 
-    }
-    public void OnConnectToServer()
-    {
-        Buttons[players].GetComponent<Image>().color = new Color(0f, 1f, 0f);
-        Debug.Log("COLORRRRR");
     }
 }

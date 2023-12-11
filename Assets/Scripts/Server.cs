@@ -33,7 +33,6 @@ public class Server : MonoBehaviour
     string UserName;
     string ClientM;
     bool imWaiting = false;
-    public int Connection;
 
 
     private void Awake()
@@ -65,14 +64,12 @@ public class Server : MonoBehaviour
             serverThread = new Thread(StartThread);
             serverThread.Start();
             imWaiting = true;
-            Connection = 1;
 
         }
         else
         {
             imWaiting = false;
             Debug.Log("server started");
-            
         }
 
     }
