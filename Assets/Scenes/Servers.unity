@@ -856,6 +856,12 @@ MonoBehaviour:
   type: Client
   gameStarted: 0
   mConections: {fileID: 0}
+  Buttons:
+  - {fileID: 696897805}
+  - {fileID: 1649436999}
+  - {fileID: 1521876051}
+  - {fileID: 2066493475}
+  players: 0
 --- !u!4 &258147259
 Transform:
   m_ObjectHideFlags: 0
@@ -4699,7 +4705,7 @@ GameObject:
   - component: {fileID: 1521876054}
   - component: {fileID: 1521876053}
   m_Layer: 5
-  m_Name: Check
+  m_Name: Check3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4945,7 +4951,7 @@ GameObject:
   - component: {fileID: 1649437002}
   - component: {fileID: 1649437001}
   m_Layer: 5
-  m_Name: Check
+  m_Name: Check2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6422,6 +6428,7 @@ MonoBehaviour:
   type: Server
   mConections: {fileID: 0}
   TextName: {fileID: 955123602}
+  Connection: 0
 --- !u!4 &2034321974
 Transform:
   m_ObjectHideFlags: 0
@@ -6865,7 +6872,7 @@ GameObject:
   - component: {fileID: 2066493478}
   - component: {fileID: 2066493477}
   m_Layer: 5
-  m_Name: Check
+  m_Name: Check4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
