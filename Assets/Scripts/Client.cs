@@ -43,7 +43,7 @@ public class Client : MonoBehaviour
         {
             Server_Info S_info = FindAnyObjectByType<Server_Info>();
             S_info.sock = client;
-            S_info.ep = remote;
+            S_info.serverEp = remote;
             S_info.name = userName;
             mConections.start = true; 
             mConections.imClient = true;

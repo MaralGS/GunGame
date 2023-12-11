@@ -106,7 +106,10 @@ public class MenuConections : MonoBehaviour
             {
                 string P_Info = JsonUtility.ToJson(P1_S);
                 byte[] data = Encoding.ASCII.GetBytes(P_Info);
-                _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep);
+                for (int i = 0; i < _server.numberPlayers; i++) {
+                    _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[i]);
+                }
+
           
             }
 
@@ -116,21 +119,29 @@ public class MenuConections : MonoBehaviour
 
     void ReciveInfo()
     {
+        int[] recv = new int[4];
+        string[] p_info = new string[4];
+
+        byte[] data = new byte[1024];
+
         while (going == true)
         {
             if (start == true && _server.numberPlayers > 1 )
             {
-                byte[] data = new byte[1024];
-                int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
-                string P_Info = Encoding.ASCII.GetString(data, 0, recv);
-                P2_S = JsonUtility.FromJson<ConectionsInfo>(P_Info);
+                for (int i = 0; i < _server.numberPlayers; i++)
+                {
+                    recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
+                    p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
+                    P2_S = JsonUtility.FromJson<ConectionsInfo>(p_info[i]);
+                }
+
             }
             else if (imClient == true)
             {
-                byte[] data = new byte[1024];
-                int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
-                string P_Info = Encoding.ASCII.GetString(data, 0, recv);
-                P2_S = JsonUtility.FromJson<ConectionsInfo>(P_Info);
+                byte[] dataC = new byte[1024];
+                int recvC = _info.sock.ReceiveFrom(data, ref _info.serverEp);
+                string p_infoC = Encoding.ASCII.GetString(data, 0, recvC);
+                P2_S = JsonUtility.FromJson<ConectionsInfo>(p_infoC);
             }
 
 

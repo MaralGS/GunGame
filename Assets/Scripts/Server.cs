@@ -22,10 +22,9 @@ public class Server : MonoBehaviour
 
     Thread serverThread;
     byte[] data = new byte[1024];
-    [HideInInspector] public int numberPlayers = 1;
-    [HideInInspector] public Socket[] clientSock;
+    [HideInInspector] public int numberPlayers = 0;
     [HideInInspector] public Socket newsock;
-    [HideInInspector] public EndPoint Remote;
+    [HideInInspector] public EndPoint[] Remote;
     [HideInInspector] public bool gameStarted = false;
     [HideInInspector] public string type = "Server";
     [HideInInspector] public MenuConections mConections;
@@ -38,9 +37,9 @@ public class Server : MonoBehaviour
 
     private void Awake()
     {
-        clientSock = new Socket[4];
+        numberPlayers = 0;
         ipep = new IPEndPoint[4];
-
+        Remote = new EndPoint[4];
 
     }
 
@@ -81,36 +80,37 @@ public class Server : MonoBehaviour
 
         if (ClientM == "Connected")
         {
-            
+            numberPlayers++;
             SaveServer();
             ClientM = "Disconnected";
         }
+        Debug.Log("Numero de Players: "+numberPlayers);
     }
    
    void StartThread()
    {
+
        while (gameStarted == false) { 
            for (int i = 1; i < ipep.Length; i++)
            {
                 //REVISAR
-                if (ipep[1] == null)
+                if (ipep[i] == null )
                 {
-                    ipep[i] = new IPEndPoint(IPAddress.Any, 9050 + i);                   
-                    Remote = (EndPoint)(ipep[i]);
+                    ipep[i] = new IPEndPoint(IPAddress.Any, 9050 + i);
+                    Remote[i-1] = (EndPoint)(ipep[i]);
                     //HASTA AQUI
 
                     try
                     {
-                        int recv = newsock.ReceiveFrom(data, ref Remote); //recv????
+                        int recv = newsock.ReceiveFrom(data, ref Remote[i-1]); //recv????
                         Debug.Log("Message received from:" + Remote.ToString());
                         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
                         ClientM = Encoding.ASCII.GetString(data, 0, recv);
                         string welcome = "StartServer";
                         data = Encoding.ASCII.GetBytes(welcome);
-                        newsock.SendTo(data, data.Length, SocketFlags.None, Remote);
+                        newsock.SendTo(data, data.Length, SocketFlags.None, Remote[i- 1]);
 
-                        mConections.start = true;
-                        mConections.imServer = true;
+
 
                     }
                     catch (Exception)
@@ -128,13 +128,18 @@ public class Server : MonoBehaviour
 
         Server_Info S_info = FindAnyObjectByType<Server_Info>();
         S_info.sock = newsock;
-        S_info.ep = Remote;
-       
+        for (int i = 0; i < numberPlayers; i++)
+        {
+            S_info.ep[i] = Remote[i];
+        }
+
 
         S_info.name = UserName;
         S_info.numberOfPlayers = numberPlayers;
         S_info.startServer = gameStarted;
-        numberPlayers++;
+        mConections.start = true;
+        mConections.imServer = true;
+
     }
 
     public void ChangeName()

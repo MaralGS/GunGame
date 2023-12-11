@@ -13,6 +13,7 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.UIElements;
+using static MenuConections;
 //using UnityEditor.PackageManager;
 //using UnityEngine.tvOS;
 
@@ -125,7 +126,11 @@ public class InGameConnection : MonoBehaviour
 
             byte[] data = Encoding.ASCII.GetBytes(P_Info);
 
-            _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep);
+            for (int i = 0; i < 4; i++)
+            {
+                _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[i]);
+            }
+
             
 
         }     
@@ -135,14 +140,17 @@ public class InGameConnection : MonoBehaviour
     {
         while (going)
         {
-           
-            byte[] data = new byte[1024];
+ 
+                byte[] data = new byte[1024];
+                int[] recv = new int[4];
+                string[] P_Info = new string[4];
+                for (int i = 0; i < 4; i++)
+                {
+                    recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
+                    P_Info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
+                    P2_S = JsonUtility.FromJson<Player_Info>(P_Info[i]);
 
-            int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
-            string P_Info = Encoding.ASCII.GetString(data, 0, recv);
-            P2_S = JsonUtility.FromJson<Player_Info>(P_Info);
-            
-    
+                }
 
             imClient = true;
 
