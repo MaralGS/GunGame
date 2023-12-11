@@ -23,6 +23,7 @@ public class MenuConections : MonoBehaviour
     public struct ConectionsInfo
     {
         public bool Start;
+        public int ConnectedPlayer;
     }
 
     public ConectionsInfo _serverStruct;
@@ -65,11 +66,14 @@ public class MenuConections : MonoBehaviour
         if (imServer == true)
         {
            _serverStruct.Start = server.GetComponent<Server>().gameStarted;
+           _serverStruct.ConnectedPlayer = server.GetComponent<Server>().Connection;
            //imServer = false;
         }
         else if (imClient == true)
         {
             client.GetComponent<Client>().gameStarted = _clientStruct.Start;
+            client.GetComponent<Client>().players = _clientStruct.ConnectedPlayer;
+            client.GetComponent<Client>().OnConnectToServer();
             //imClient = false;
         }
 
