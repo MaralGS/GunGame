@@ -112,8 +112,13 @@ public class MenuConections : MonoBehaviour
                 string P_Info = JsonUtility.ToJson(_serverStruct);
                 byte[] data = Encoding.ASCII.GetBytes(P_Info);
                 //Si es fa pause Funciona, Sino peta ns PK
+
                 for (int i = 0; i < _server.numberPlayers; i++) {
-                    _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[i]);
+                    if (_info.ep[i] != null)
+                    {
+                        _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[i]);
+                    }
+
                 }
             }
             //else if (imClient == true)
