@@ -12,6 +12,8 @@ using System.Threading;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
+using static MenuConections;
 //using UnityEditor.PackageManager;
 //using UnityEngine.tvOS;
 
@@ -35,6 +37,7 @@ public class InGameConnection : MonoBehaviour
     Thread ThreadRecieveInfo;
     Thread ThreadSendInfo;
     public Server_Info _info;
+    public GameObject Players;
     GameObject Player1;
     GameObject Player2;
     bool imServer = false;
@@ -45,6 +48,10 @@ public class InGameConnection : MonoBehaviour
     void Start()
     {
         
+       //for (int i = 0; i < _info.numberOfPlayers; i++) {
+       //    GameObject player = Instantiate(Players);
+       //    player.gameObject.name = "Player"+i+1;
+       //}
         P1_S = new Player_Info();
         P2_S = new Player_Info();
         _info = FindAnyObjectByType<Server_Info>();
@@ -118,7 +125,14 @@ public class InGameConnection : MonoBehaviour
             string P_Info = JsonUtility.ToJson(P1_S);
 
             byte[] data = Encoding.ASCII.GetBytes(P_Info);
-            _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep);
+
+            for (int i = 0; i < 4; i++)
+            {
+                _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[i]);
+            }
+
+            
+
         }     
     }
 
@@ -126,11 +140,17 @@ public class InGameConnection : MonoBehaviour
     {
         while (going)
         {
-           
-            byte[] data = new byte[1024];
-            int recv = _info.sock.ReceiveFrom(data, ref _info.ep);
-            string P_Info = Encoding.ASCII.GetString(data, 0, recv);
-            P2_S = JsonUtility.FromJson<Player_Info>(P_Info);
+ 
+                byte[] data = new byte[1024];
+                int[] recv = new int[4];
+                string[] P_Info = new string[4];
+                for (int i = 0; i < 4; i++)
+                {
+                    recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
+                    P_Info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
+                    P2_S = JsonUtility.FromJson<Player_Info>(P_Info[i]);
+
+                }
 
             imClient = true;
 

@@ -8,6 +8,7 @@ using System.Text;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.Threading;
+using UnityEngine.UI;
 //using UnityEditor.PackageManager;
 //using UnityEngine.tvOS;
 
@@ -29,6 +30,17 @@ public class Client : MonoBehaviour
     IPEndPoint ipep;
     public EndPoint remote;
     [HideInInspector] public string type = "Client";
+    [HideInInspector] public bool gameStarted = false;
+    [HideInInspector] public MenuConections mConections;
+
+    //Green/Grey Button for connection of players
+    public GameObject[] Buttons;
+    [HideInInspector] public int players;
+
+    private void Start()
+    {
+        mConections = GameObject.Find("MenuConections").GetComponent<MenuConections>();
+    }
 
     private void Update()
     {
@@ -36,10 +48,15 @@ public class Client : MonoBehaviour
         {
             Server_Info S_info = FindAnyObjectByType<Server_Info>();
             S_info.sock = client;
-            S_info.ep = remote;
+            S_info.serverEp = remote;
             S_info.name = userName;
-            SceneManager.LoadScene(1);
+            mConections.start = true; 
+            mConections.imClient = true;
             ServerM = "StopServer";
+        }
+        if (gameStarted == true)
+        {
+            SceneManager.LoadScene(1);
         }
     }
     public void ConnectPlayer()
@@ -71,6 +88,7 @@ public class Client : MonoBehaviour
             data = new byte[1024];
             int recv = client.ReceiveFrom(data, ref remote);
             Debug.Log("Message received from:" + remote.ToString());
+ 
             //Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
             ServerM = Encoding.ASCII.GetString(data, 0, recv);
         }
@@ -95,5 +113,10 @@ public class Client : MonoBehaviour
             userName = "Hola";
         }
 
+    }
+    public void OnConnectToServer()
+    {
+        Buttons[players].GetComponent<Image>().color = new Color(0f, 1f, 0f);
+        Debug.Log("COLORRRRR");
     }
 }
