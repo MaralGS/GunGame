@@ -121,13 +121,13 @@ public class MenuConections : MonoBehaviour
 
                 }
             }
-            //else if (imClient == true)
-            //{
-            //    string P_Info = JsonUtility.ToJson(_serverStruct);
-            //    byte[] data = Encoding.ASCII.GetBytes(P_Info);
-            //    _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.serverEp);
-            //    
-            //}
+            else if (imClient == true)
+            {
+                string P_Info = JsonUtility.ToJson(_serverStruct);
+                byte[] data = Encoding.ASCII.GetBytes(P_Info);
+                _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.serverEp);
+                
+            }
 
         }
 
@@ -135,26 +135,26 @@ public class MenuConections : MonoBehaviour
 
     void ReciveInfo()
     {
-        int[] recv = new int[_server.numberPlayers];
-        string[] p_info = new string[_server.numberPlayers];
-
-        byte[] data = new byte[1024];
-
         while (going == true)
         {
-           if (start == true && _server.numberPlayers > 0 )
-           {
-              // for (int i = 0; i < _server.numberPlayers; i++)
-              // {
-              //     recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
-              //     p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
-              //     _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_info[i]);
-              // }
+
+            if (start == true && _server.numberPlayers > 0 )
+            {
+                byte[] data = new byte[1024];
+                int[] recv = new int[_server.numberPlayers];
+                string[] p_info = new string[_server.numberPlayers];
+                for (int i = 0; i < _server.numberPlayers; i++)
+              {
+                  
+                  recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
+                  p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
+                  _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_info[i]);
+              }
            
            }
            else if (imClient == true)
-           {
-         
+            {
+                byte[] data = new byte[1024];
                 int recvC = _info.sock.ReceiveFrom(data, ref _info.serverEp);
                 string p_infoC = Encoding.ASCII.GetString(data, 0, recvC);
                 _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_infoC);
