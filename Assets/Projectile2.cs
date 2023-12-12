@@ -21,5 +21,12 @@ public class Projectile2 : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Shield"))
+        {
+            Destroy(gameObject);
+        }
+    }
 
 }
