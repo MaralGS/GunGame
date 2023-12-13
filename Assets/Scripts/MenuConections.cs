@@ -123,7 +123,7 @@ public class MenuConections : MonoBehaviour
             }
            else if (imClient == true)
            {
-               string P_Info = JsonUtility.ToJson(_serverStruct);
+               string P_Info = JsonUtility.ToJson(_clientStruct);
                byte[] data = Encoding.ASCII.GetBytes(P_Info);
                _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.serverEp);
                
@@ -140,17 +140,17 @@ public class MenuConections : MonoBehaviour
         while (going == true)
         {
          
-            if (start == true && _server.numberPlayers > 0 )
+            if (start == true && _server.numberPlayers > 0)
             {
-                //int[] recv = new int[_server.numberPlayers];
-                //string[] p_info = new string[_server.numberPlayers];
-                //byte[] data = new byte[1024];
-                // for (int i = 0; i < _server.numberPlayers; i++)
-                // {
-                //     recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
-                //     p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
-                //     _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_info[i]);
-                // }
+                int[] recv = new int[_server.numberPlayers];
+                string[] p_info = new string[_server.numberPlayers];
+                byte[] data = new byte[1024];
+                for (int i = 0; i < _server.numberPlayers; i++)
+                {
+                    recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
+                    p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
+                    _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_info[i]);
+                }
 
             }
             else if (imClient == true)

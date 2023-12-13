@@ -26,6 +26,7 @@ public class Server : MonoBehaviour
     [HideInInspector] public Socket newsock;
     [HideInInspector] public EndPoint[] Remote;
     [HideInInspector] public bool gameStarted;
+    [HideInInspector] public bool menuReciveActive;
     [HideInInspector] public string type = "Server";
     [HideInInspector] public MenuConections mConections;
     IPEndPoint[] ipep;
@@ -38,7 +39,7 @@ public class Server : MonoBehaviour
 
     private void Awake()
     {
-        gameStarted = false;
+        gameStarted = false; 
         numberPlayers = 0;
         ipep = new IPEndPoint[4];
         Remote = new EndPoint[3];
@@ -98,7 +99,7 @@ public class Server : MonoBehaviour
            for (int i = 1; i < ipep.Length; i++)
            {
                 //REVISAR
-                if (ipep[i] == null )
+                if (ipep[i] == null && menuReciveActive == false)
                 {
                     ipep[i] = new IPEndPoint(IPAddress.Any, 9050 + i);
                     Remote[i-1] = (EndPoint)(ipep[i]);
@@ -106,15 +107,16 @@ public class Server : MonoBehaviour
 
                     try
                     {
-                        int recv = newsock.ReceiveFrom(data, ref Remote[i-1]); //recv????
-                        Debug.Log("Message received from:" + Remote.ToString());
-                        Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
-                        ClientM = Encoding.ASCII.GetString(data, 0, recv);
-                        string welcome = "StartServer";
-                        data = Encoding.ASCII.GetBytes(welcome);
-                        newsock.SendTo(data, data.Length, SocketFlags.None, Remote[i- 1]);
-
-
+                        if (Remote[i-1] != ipep[0])
+                        {
+                            int recv = newsock.ReceiveFrom(data, ref Remote[i - 1]); //recv????
+                            Debug.Log("Message received from:" + Remote.ToString());
+                            Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
+                            ClientM = Encoding.ASCII.GetString(data, 0, recv);
+                            string welcome = "StartServer";
+                            data = Encoding.ASCII.GetBytes(welcome);
+                            newsock.SendTo(data, data.Length, SocketFlags.None, Remote[i - 1]);
+                        }
 
                     }
                     catch (Exception)
