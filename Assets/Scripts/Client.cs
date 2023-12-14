@@ -34,8 +34,6 @@ public class Client : MonoBehaviour
     [HideInInspector] public MenuConections mConections;
 
     //Green/Grey Button for connection of players
-    public GameObject[] Buttons;
-    [HideInInspector] public int players;
 
     private void Start()
     {
@@ -58,6 +56,7 @@ public class Client : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
+
     }
     public void ConnectPlayer()
     {
@@ -73,6 +72,7 @@ public class Client : MonoBehaviour
 
         clientThread = new Thread(StartThread);
         clientThread.Start();
+        
     }
 
     void StartThread()
@@ -114,9 +114,5 @@ public class Client : MonoBehaviour
         }
 
     }
-    public void OnConnectToServer()
-    {
-        Buttons[players].GetComponent<Image>().color = new Color(0f, 1f, 0f);
-        Debug.Log("COLORRRRR");
-    }
+
 }

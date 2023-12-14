@@ -1,4 +1,4 @@
-//https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.select?view=net-5.0
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -86,9 +86,10 @@ public class Server : MonoBehaviour
         {
             numberPlayers++;
             SaveServer();
+            Connection = numberPlayers;
             ClientM = "Disconnected";
         }
-        Debug.Log("Numero de Players: "+numberPlayers);
+        //Debug.Log("Numero de Players: "+ numberPlayers);
     }
    
    void StartThread()

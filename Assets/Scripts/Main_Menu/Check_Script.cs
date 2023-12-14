@@ -13,7 +13,6 @@ public class Check_Script : MonoBehaviour
     {
         check =! check;
         gameObject.GetComponentInChildren<Image>().color = get_color();
-        Debug.Log("CHANGEEE");
     }
     Color get_color()
     {

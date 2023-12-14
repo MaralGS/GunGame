@@ -861,7 +861,6 @@ MonoBehaviour:
   - {fileID: 1649436999}
   - {fileID: 1521876051}
   - {fileID: 2066493475}
-  players: 0
 --- !u!4 &258147259
 Transform:
   m_ObjectHideFlags: 0
@@ -2062,6 +2061,11 @@ MonoBehaviour:
   start: 0
   imServer: 0
   imClient: 0
+  Buttons:
+  - {fileID: 696897805}
+  - {fileID: 1649436999}
+  - {fileID: 1521876051}
+  - {fileID: 2066493475}
 --- !u!4 &793822366
 Transform:
   m_ObjectHideFlags: 0

@@ -12,7 +12,6 @@ using System.Threading;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 //using UnityEditor.PackageManager;
 //using UnityEngine.tvOS;
@@ -41,6 +40,7 @@ public class MenuConections : MonoBehaviour
     [HideInInspector] public bool imClient;
     Server _server;
     bool gameStarted;
+    public GameObject[] Buttons;
     // Start is called before the first frame update
     void Start() {
 
@@ -66,21 +66,18 @@ public class MenuConections : MonoBehaviour
         if (imServer == true)
         {
            _serverStruct.Start = server.GetComponent<Server>().gameStarted;
-          // _serverStruct.ConnectedPlayer = server.GetComponent<Server>().Connection;
-           //imServer = false;
+           _serverStruct.ConnectedPlayer = server.GetComponent<Server>().Connection;
         }
         else if (imClient == true)
         {
             client.GetComponent<Client>().gameStarted = _clientStruct.Start;
-            client.GetComponent<Client>().players = _clientStruct.ConnectedPlayer;
-            client.GetComponent<Client>().OnConnectToServer();
-            //imClient = false;
         }
 
         if (gameStarted == true)
         {
 
         }
+        OnConnectToServer();
     }
 
     public void StartGame()
@@ -163,5 +160,18 @@ public class MenuConections : MonoBehaviour
 
            }
         }
+    }
+
+    public void OnConnectToServer()
+    {
+        if (imServer == true)
+        {
+            Buttons[_serverStruct.ConnectedPlayer].GetComponent<Image>().color = new Color(0f, 1f, 0f);
+        }
+        else if(imClient == true) 
+        {
+            Buttons[_clientStruct.ConnectedPlayer].GetComponent<Image>().color = new Color(0f, 1f, 0f);
+        }
+        
     }
 }
