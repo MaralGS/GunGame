@@ -78,7 +78,7 @@ public class MenuConections : MonoBehaviour
             //imClient = false;
         }
 
-        if (gameStarted == true)
+        if (gameStarted == true )
         {
             SceneManager.LoadScene(1);
         }
@@ -125,8 +125,6 @@ public class MenuConections : MonoBehaviour
                 if (_server.gameStarted == true)
                 {
                     gameStarted = true;
-                    ThreadSendInfo.Abort();
-
                 }
             }
            else if (imClient == true)
@@ -168,12 +166,6 @@ public class MenuConections : MonoBehaviour
                 int recvC = _info.sock.ReceiveFrom(data, ref _info.serverEp);
                 string p_infoC = Encoding.ASCII.GetString(data, 0, recvC);
                 _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_infoC);
-                if (_server.gameStarted == true)
-                {
-                    gameStarted = true;
-                    ThreadRecieveInfo.Abort();
-                }
-
             }
         }
     }
