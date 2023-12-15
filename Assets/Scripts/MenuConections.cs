@@ -78,11 +78,15 @@ public class MenuConections : MonoBehaviour
             //imClient = false;
         }
 
-        if (gameStarted == true )
+        if (gameStarted == true || client.GetComponent<Client>().gameStarted == true)
         {
             ThreadRecieveInfo.Abort();
             ThreadSendInfo.Abort();
-            SceneManager.LoadScene(1);
+            if (imServer == true)
+            {
+                SceneManager.LoadScene(1);
+            }
+
         }
     }
 
