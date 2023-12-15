@@ -53,6 +53,7 @@ public class Client : MonoBehaviour
             mConections.start = true; 
             mConections.imClient = true;
             ServerM = "StopServer";
+            S_info.im_Client = true;
         }
         if (gameStarted == true)
         {

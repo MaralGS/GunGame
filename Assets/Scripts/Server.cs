@@ -89,10 +89,16 @@ public class Server : MonoBehaviour
             SaveServer();
             ClientM = "Disconnected";
         }
+
+        if (gameStarted == true)
+        {
+            gameStarted = true;
+            serverThread.Abort();
+        }
         Debug.Log("Numero de Players: "+numberPlayers);
     }
    
-   void StartThread()
+   public void StartThread()
    {
 
        while (gameStarted == false) { 
@@ -103,20 +109,21 @@ public class Server : MonoBehaviour
                 {
                     ipep[i] = new IPEndPoint(IPAddress.Any, 9050 + i);
                     Remote[i-1] = (EndPoint)(ipep[i]);
+                
                     //HASTA AQUI
 
                     try
                     {
-                        if (Remote[i-1] != ipep[0])
-                        {
-                            int recv = newsock.ReceiveFrom(data, ref Remote[i - 1]); //recv????
-                            Debug.Log("Message received from:" + Remote.ToString());
-                            Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
-                            ClientM = Encoding.ASCII.GetString(data, 0, recv);
-                            string welcome = "StartServer";
-                            data = Encoding.ASCII.GetBytes(welcome);
-                            newsock.SendTo(data, data.Length, SocketFlags.None, Remote[i - 1]);
-                        }
+          
+                      int recv = newsock.ReceiveFrom(data, ref Remote[i - 1]); //recv????
+                      Debug.Log("Message received from:" + Remote.ToString());
+                      Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
+                      ClientM = Encoding.ASCII.GetString(data, 0, recv);
+                      string welcome = "StartServer";
+                      data = Encoding.ASCII.GetBytes(welcome);
+                      newsock.SendTo(data, data.Length, SocketFlags.None, Remote[i - 1]);
+                        
+
 
                     }
                     catch (Exception)
