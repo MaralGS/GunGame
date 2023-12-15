@@ -40,8 +40,6 @@ public class InGameConnection : MonoBehaviour
     public GameObject Players;
     GameObject Player1;
     GameObject Player2;
-    bool imServer = false;
-    bool imClient = false;
     bool going;
     public Vector3 v2;
     // Start is called before the first frame update
@@ -79,7 +77,7 @@ public class InGameConnection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(imServer == true)
+        if(_info.im_Client == false)
         {
             P1_S.name = Player1.GetComponentInChildren<TextMeshPro>().text;
             P1_S.position = Player1.transform.position;
@@ -88,10 +86,8 @@ public class InGameConnection : MonoBehaviour
             P1_S.gunNum = Player1.GetComponent<PlayerShoot>().gunType;
             P1_S.shot = Player1.GetComponent<PlayerShoot>().imShooting;
             P1_S.v = Player1.GetComponent<PlayerShoot>().shootDirection;
-            imServer = false;
-
         } 
-        if (imClient == true)
+        if (_info.im_Client == true)
         {
             Player2.GetComponentInChildren<TextMeshPro>().text = P2_S.name;
             Player2.transform.position = P2_S.position;
@@ -103,7 +99,6 @@ public class InGameConnection : MonoBehaviour
             Player2.GetComponent<PlayerShoot>().gunType = P2_S.gunNum;
             Player2.GetComponent<PlayerShoot>().imShooting = P2_S.shot;
             v2 = P2_S.v;
-            imClient = false;
         }
     }
 
@@ -136,7 +131,7 @@ public class InGameConnection : MonoBehaviour
 
                 }
             }
-            else if (imClient == true)
+            else if (_info.im_Client == true)
             {
                 //Aixo tambe esta Xungo
                 // string P_Info = JsonUtility.ToJson(_clientStruct);
@@ -154,7 +149,7 @@ public class InGameConnection : MonoBehaviour
         while (going == true)
         {
 
-            if (imClient == false && _info.numberOfPlayers > 0)
+            if (_info.im_Client == false && _info.numberOfPlayers > 0)
             {
                 //int[] recv = new int[_server.numberPlayers];
                 //string[] p_info = new string[_server.numberPlayers];
@@ -167,7 +162,7 @@ public class InGameConnection : MonoBehaviour
                 //}
 
             }
-            else if (imClient == true)
+            else if (_info.im_Client == true)
             {
                 byte[] data = new byte[1024];
                 int recvC = _info.sock.ReceiveFrom(data, ref _info.serverEp);
