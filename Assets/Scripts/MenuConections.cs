@@ -80,6 +80,8 @@ public class MenuConections : MonoBehaviour
 
         if (gameStarted == true )
         {
+            ThreadRecieveInfo.Abort();
+            ThreadSendInfo.Abort();
             SceneManager.LoadScene(1);
         }
     }

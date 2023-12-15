@@ -45,7 +45,7 @@ public class InGameConnection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+       
        //for (int i = 0; i < _info.numberOfPlayers; i++) {
        //    GameObject player = Instantiate(Players);
        //    player.gameObject.name = "Player"+i+1;
