@@ -41,6 +41,7 @@ public class MenuConections : MonoBehaviour
     Server _server;
     bool gameStarted;
     public GameObject[] Buttons;
+
     // Start is called before the first frame update
     void Start() {
 
@@ -73,8 +74,14 @@ public class MenuConections : MonoBehaviour
             client.GetComponent<Client>().gameStarted = _clientStruct.Start;
         }
 
-        if (gameStarted == true)
+        if (gameStarted == true || client.GetComponent<Client>().gameStarted == true)
         {
+            ThreadRecieveInfo.Abort();
+            ThreadSendInfo.Abort();
+            if (imServer == true)
+            {
+                SceneManager.LoadScene(1);
+            }
 
         }
         OnConnectToServer();
@@ -110,19 +117,25 @@ public class MenuConections : MonoBehaviour
                 byte[] data = Encoding.ASCII.GetBytes(P_Info);
                 //Si es fa pause Funciona, Sino peta ns PK
 
-                for (int i = 0; i < _server.numberPlayers; i++) {
+                for (int i = 0; i < _info.numberOfPlayers; i++)
+                {
                     if (_info.ep[i] != null)
                     {
                         _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[i]);
                     }
 
                 }
+                if (_server.gameStarted == true)
+                {
+                    gameStarted = true;
+                }
             }
            else if (imClient == true)
            {
-               string P_Info = JsonUtility.ToJson(_serverStruct);
-               byte[] data = Encoding.ASCII.GetBytes(P_Info);
-               _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.serverEp);
+                //Aixo tambe esta Xungo
+             // string P_Info = JsonUtility.ToJson(_clientStruct);
+             // byte[] data = Encoding.ASCII.GetBytes(P_Info);
+             // _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.serverEp);
                
            }
 
@@ -137,17 +150,17 @@ public class MenuConections : MonoBehaviour
         while (going == true)
         {
          
-            if (start == true && _server.numberPlayers > 0 )
+            if (start == true && _info.numberOfPlayers > 0)
             {
                 //int[] recv = new int[_server.numberPlayers];
                 //string[] p_info = new string[_server.numberPlayers];
                 //byte[] data = new byte[1024];
-                // for (int i = 0; i < _server.numberPlayers; i++)
-                // {
-                //     recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
-                //     p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
-                //     _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_info[i]);
-                // }
+                //for (int i = 0; i < _server.numberPlayers; i++)
+                //{
+                //    recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
+                //    p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
+                //    _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_info[i]);
+                //}
 
             }
             else if (imClient == true)
@@ -156,9 +169,7 @@ public class MenuConections : MonoBehaviour
                 int recvC = _info.sock.ReceiveFrom(data, ref _info.serverEp);
                 string p_infoC = Encoding.ASCII.GetString(data, 0, recvC);
                 _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_infoC);
-             
-
-           }
+            }
         }
     }
 

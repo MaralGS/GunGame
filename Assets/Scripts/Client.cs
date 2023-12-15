@@ -51,6 +51,7 @@ public class Client : MonoBehaviour
             mConections.start = true; 
             mConections.imClient = true;
             ServerM = "StopServer";
+            S_info.im_Client = true;
         }
         if (gameStarted == true)
         {
@@ -88,7 +89,6 @@ public class Client : MonoBehaviour
             data = new byte[1024];
             int recv = client.ReceiveFrom(data, ref remote);
             Debug.Log("Message received from:" + remote.ToString());
- 
             //Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
             ServerM = Encoding.ASCII.GetString(data, 0, recv);
         }
