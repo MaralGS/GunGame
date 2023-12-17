@@ -856,11 +856,6 @@ MonoBehaviour:
   type: Client
   gameStarted: 0
   mConections: {fileID: 0}
-  Buttons:
-  - {fileID: 696897805}
-  - {fileID: 1649436999}
-  - {fileID: 1521876051}
-  - {fileID: 2066493475}
 --- !u!4 &258147259
 Transform:
   m_ObjectHideFlags: 0
@@ -3148,6 +3143,7 @@ MonoBehaviour:
   name: 
   numberOfPlayers: 0
   startServer: 0
+  im_Client: 0
 --- !u!4 &1113889494
 Transform:
   m_ObjectHideFlags: 0
@@ -5629,7 +5625,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.811
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -6429,6 +6425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberPlayers: 0
   gameStarted: 0
+  menuReciveActive: 0
   type: Server
   mConections: {fileID: 0}
   TextName: {fileID: 955123602}

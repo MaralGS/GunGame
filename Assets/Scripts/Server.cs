@@ -54,27 +54,39 @@ public class Server : MonoBehaviour
 
     public void StartServer()
     {
+        int port = 9050;
+        bool ConnectPort = false;
+
         if (!imWaiting)
         {
-
             newsock = new Socket(AddressFamily.InterNetwork,
             SocketType.Dgram, ProtocolType.Udp);
-            
-            ipep[0] = new IPEndPoint(IPAddress.Any, 9050);
-            newsock.Bind(ipep[0]);
-           
-           
+
+            while(!ConnectPort)
+            {
+                try
+                {
+                    ipep[0] = new IPEndPoint(IPAddress.Any, port);
+                    newsock.Bind(ipep[0]);
+
+                    ConnectPort = true;
+                   
+                }
+                catch
+                {
+                    port++;
+                }
+            }
+
             serverThread = new Thread(StartThread);
             serverThread.Start();
             imWaiting = true;
             Connection = 1;
-
         }
         else
         {
             imWaiting = false;
-            Debug.Log("server started");
-            
+            Debug.Log("server started");  
         }
 
     }
@@ -117,9 +129,8 @@ public class Server : MonoBehaviour
                     {
           
                       int recv = newsock.ReceiveFrom(data, ref Remote[i - 1]); //recv????
-                      Debug.Log("Message received from:" + Remote.ToString());
-                      Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
                       ClientM = Encoding.ASCII.GetString(data, 0, recv);
+
                       string welcome = "StartServer";
                       data = Encoding.ASCII.GetBytes(welcome);
                       newsock.SendTo(data, data.Length, SocketFlags.None, Remote[i - 1]);
