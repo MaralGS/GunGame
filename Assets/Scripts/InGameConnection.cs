@@ -77,8 +77,7 @@ public class InGameConnection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_info.im_Client == false)
-        {
+  
             P1_S.name = Player1.GetComponentInChildren<TextMeshPro>().text;
             P1_S.position = Player1.transform.position;
             P1_S.rotation = Player1.transform.rotation;
@@ -86,9 +85,7 @@ public class InGameConnection : MonoBehaviour
             P1_S.gunNum = Player1.GetComponent<PlayerShoot>().gunType;
             P1_S.shot = Player1.GetComponent<PlayerShoot>().imShooting;
             P1_S.v = Player1.GetComponent<PlayerShoot>().shootDirection;
-        } 
-        if (_info.im_Client == true)
-        {
+    
             Player2.GetComponentInChildren<TextMeshPro>().text = P2_S.name;
             Player2.transform.position = P2_S.position;
             Player2.transform.rotation = P2_S.rotation;
@@ -99,7 +96,7 @@ public class InGameConnection : MonoBehaviour
             Player2.GetComponent<PlayerShoot>().gunType = P2_S.gunNum;
             Player2.GetComponent<PlayerShoot>().imShooting = P2_S.shot;
             v2 = P2_S.v;
-        }
+        
     }
 
     private void StartThread()
@@ -134,9 +131,9 @@ public class InGameConnection : MonoBehaviour
             else if (_info.im_Client == true)
             {
                 //Aixo tambe esta Xungo
-                // string P_Info = JsonUtility.ToJson(_clientStruct);
-                // byte[] data = Encoding.ASCII.GetBytes(P_Info);
-                // _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.serverEp);
+                 string P_Info = JsonUtility.ToJson(P1_S);
+                 byte[] data = Encoding.ASCII.GetBytes(P_Info);
+                 _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.serverEp);
 
             }
 
@@ -151,15 +148,15 @@ public class InGameConnection : MonoBehaviour
 
             if (_info.im_Client == false && _info.numberOfPlayers > 0)
             {
-                //int[] recv = new int[_server.numberPlayers];
-                //string[] p_info = new string[_server.numberPlayers];
-                //byte[] data = new byte[1024];
-                //for (int i = 0; i < _server.numberPlayers; i++)
-                //{
-                //    recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
-                //    p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
-                //    _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_info[i]);
-                //}
+                int[] recv = new int[_info.numberOfPlayers];
+                string[] p_info = new string[_info.numberOfPlayers];
+                byte[] data = new byte[1024];
+                for (int i = 0; i < _info.numberOfPlayers; i++)
+                {
+                    recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
+                    p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
+                    P2_S = JsonUtility.FromJson<Player_Info>(p_info[i]);
+                }
 
             }
             else if (_info.im_Client == true)

@@ -40,7 +40,6 @@ public class Server : MonoBehaviour
     private void Awake()
     {
         gameStarted = false; 
-        numberPlayers = 0;
         ipep = new IPEndPoint[4];
         Remote = new EndPoint[3];
 
