@@ -20,7 +20,7 @@ public class Shield : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKey(KeyCode.S) && shieldCooldown >= 1.0f && shield.gameObject.name == "Shield1")
+        if (Input.GetKey(KeyCode.S) && shieldCooldown >= 1.0f)
         {
             shieldActive = true;
             shield.SetActive(true);

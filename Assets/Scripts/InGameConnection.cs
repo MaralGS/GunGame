@@ -26,6 +26,7 @@ public class InGameConnection : MonoBehaviour
         public Quaternion rotation;
         public int hp;
         public bool alive;
+        public bool shield;
         public int gunNum;
         public bool shot;
         public Vector3 v;
@@ -95,6 +96,8 @@ public class InGameConnection : MonoBehaviour
             P1_S.gunNum = Player1.GetComponent<PlayerShoot>().gunType;
             P1_S.shot = Player1.GetComponent<PlayerShoot>().imShooting;
             P1_S.v = Player1.GetComponent<PlayerShoot>().shootDirection;
+            P1_S.shield = Player1.GetComponent<Shield>().shieldActive;
+            Player2.GetComponent<Shield>().enabled = false;
     
             Player2.GetComponentInChildren<TextMeshPro>().text = P2_S.name;
             Player2.transform.position = P2_S.position;
@@ -102,6 +105,7 @@ public class InGameConnection : MonoBehaviour
             Player2.GetComponent<Collider>().enabled = P2_S.alive;
             Player2.GetComponent<MeshRenderer>().enabled = P2_S.alive;
             Player2.GetComponent<PlayerMovment>().enabled = P2_S.alive;
+            Player2.GetComponent<Shield>().shield.SetActive(P2_S.shield);
             Player2.GetComponent<PlayerShoot>().enabled = false;
             Player2.GetComponent<PlayerShoot>().gunType = P2_S.gunNum;
             Player2.GetComponent<PlayerShoot>().imShooting = P2_S.shot;

@@ -3260,6 +3260,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1623586978}
+    - target: {fileID: 4155397163421938971, guid: d1dcb4fc4d761d84bb26cec3e39f4db7, type: 3}
+      propertyPath: coolDown
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8383649818329260346, guid: d1dcb4fc4d761d84bb26cec3e39f4db7, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3315,8 +3319,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5256684806830605687, guid: d1dcb4fc4d761d84bb26cec3e39f4db7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1dcb4fc4d761d84bb26cec3e39f4db7, type: 3}
