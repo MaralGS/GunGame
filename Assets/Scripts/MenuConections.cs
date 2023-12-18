@@ -23,6 +23,7 @@ public class MenuConections : MonoBehaviour
     {
         public bool Start;
         public int ConnectedPlayer;
+        public int NumberOfPlayers;
     }
 
     public ConectionsInfo _serverStruct;
@@ -68,10 +69,12 @@ public class MenuConections : MonoBehaviour
         {
            _serverStruct.Start = server.GetComponent<Server>().gameStarted;
            _serverStruct.ConnectedPlayer = server.GetComponent<Server>().Connection;
+           _serverStruct.NumberOfPlayers = _info.numberOfPlayers;
         }
         else if (imClient == true)
         {
             client.GetComponent<Client>().gameStarted = _clientStruct.Start;
+            client.GetComponent<Client>().nplayers = _clientStruct.NumberOfPlayers;
         }
 
         if (gameStarted == true || client.GetComponent<Client>().gameStarted == true)
@@ -90,9 +93,6 @@ public class MenuConections : MonoBehaviour
     public void StartGame()
     {
         _info = FindAnyObjectByType<Server_Info>();
-
-
-
     }
 
     void StartThread()
@@ -101,9 +101,6 @@ public class MenuConections : MonoBehaviour
         ThreadRecieveInfo.Start();
         ThreadSendInfo = new Thread(SendInfo);
         ThreadSendInfo.Start();
- 
-
-
     }
 
     void SendInfo()

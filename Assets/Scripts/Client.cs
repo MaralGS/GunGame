@@ -32,11 +32,13 @@ public class Client : MonoBehaviour
     [HideInInspector] public string type = "Client";
     [HideInInspector] public bool gameStarted = false;
     [HideInInspector] public MenuConections mConections;
-
+    [HideInInspector] public int nplayers = 0;
+    Server_Info S_info;
     //Green/Grey Button for connection of players
 
     private void Start()
     {
+        S_info = FindAnyObjectByType<Server_Info>();
         mConections = GameObject.Find("MenuConections").GetComponent<MenuConections>();
     }
 
@@ -44,7 +46,7 @@ public class Client : MonoBehaviour
     {
         if (ServerM == "StartServer")
         {
-            Server_Info S_info = FindAnyObjectByType<Server_Info>();
+
             S_info.sock = client;
             S_info.serverEp = remote;
             S_info.name = userName;
@@ -52,9 +54,12 @@ public class Client : MonoBehaviour
             mConections.imClient = true;
             ServerM = "StopServer";
             S_info.im_Client = true;
+            S_info.type = 1;
+
         }
         if (gameStarted == true)
         {
+            S_info.numberOfPlayers = nplayers;
             SceneManager.LoadScene(1);
         }
 

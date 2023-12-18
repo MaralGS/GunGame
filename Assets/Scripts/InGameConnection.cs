@@ -36,7 +36,7 @@ public class InGameConnection : MonoBehaviour
     public Player_Info P2_S;
     Thread ThreadRecieveInfo;
     Thread ThreadSendInfo;
-    public Server_Info _info;
+    [HideInInspector] public Server_Info _info;
     public GameObject Players;
     GameObject Player1;
     GameObject Player2;
@@ -45,27 +45,37 @@ public class InGameConnection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
-       //for (int i = 0; i < _info.numberOfPlayers; i++) {
-       //    GameObject player = Instantiate(Players);
-       //    player.gameObject.name = "Player"+i+1;
-       //}
+
         P1_S = new Player_Info();
         P2_S = new Player_Info();
         _info = FindAnyObjectByType<Server_Info>();
 
+        for (int i = 0; i <= _info.numberOfPlayers; i++)
+        {
+
+            GameObject player = Instantiate(Players);
+
+            player.gameObject.name = "Player" + i;
+            if (i != 0)
+            {
+                player.gameObject.transform.position = new Vector3(7.8f, 0.86607f, 0);
+            }
+
+        }
+
         if (_info.type == 0)
         {
-            Player1 = GameObject.FindGameObjectWithTag("Player");
-            Player2 = GameObject.FindGameObjectWithTag("Player2");
-            Player1.GetComponentInChildren<TextMeshPro>().text = _info.name;
+
+            Player1 = GameObject.Find("Player0");
+            Player2 = GameObject.Find("Player1");
+            //Player1.GetComponentInChildren<TextMeshPro>().text = _info.name;
 
 
         }
         else if (_info.type == 1)
         {
-            Player1 = GameObject.FindGameObjectWithTag("Player2");
-            Player2 = GameObject.FindGameObjectWithTag("Player");
+            Player1 = GameObject.Find("Player1");
+            Player2 = GameObject.Find("Player0");
             Player2.GetComponentInChildren<TextMeshPro>().text = _info.name;
         }
         Player2.GetComponent<PlayerMovment>().enabled = false;
