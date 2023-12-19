@@ -480,10 +480,10 @@ MonoBehaviour:
   hp: 10
   dieTimer: 0
   deathTime: 3
-  respawnPosition1: {fileID: 0}
-  respawnPosition2: {fileID: 0}
-  respawnPosition3: {fileID: 0}
-  respawnPosition4: {fileID: 0}
+  respawnPosition1: {fileID: 457313917596271030, guid: 233b14e8ba801d84b89befc2e01d89a2, type: 3}
+  respawnPosition2: {fileID: 9100713872309957299, guid: 782f65a3b06dbf6408724002a5694970, type: 3}
+  respawnPosition3: {fileID: 2139185675273876077, guid: 136bc0602d48f99459a7e87e190dc624, type: 3}
+  respawnPosition4: {fileID: 6646526167554087166, guid: d6ebb0b394144894a95bfafefa47fcf5, type: 3}
   enemy: {fileID: 0}
   alive: 1
 --- !u!114 &3177417979192435434

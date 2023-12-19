@@ -17,17 +17,43 @@ public class HpHandler : MonoBehaviour
     public GameObject enemy;
 
     public bool alive = true;
-
+    public List<Vector3> respawnPositions;
+    public bool enemyAlive = true;
+    public int whichRespawn = 0;
     // Start is called before the first frame update
     void Start()
     {
-     
+        Instantiate(respawnPosition1);
+        Instantiate(respawnPosition2);
+        Instantiate(respawnPosition3);
+        Instantiate(respawnPosition4);
+        respawnPositions = new List<Vector3>
+        {
+            respawnPosition1.transform.position,
+            respawnPosition2.transform.position,
+            respawnPosition3.transform.position,
+            respawnPosition4.transform.position
+        };
     }
 
     // Update is called once per frame
     void Update()
     {
         if (hp <= 0)
+        {
+            Die();
+            if (dieTimer > deathTime)
+            {
+                Respawn();
+            }
+        }
+
+        if(enemy.GetComponent<HpHandler>().hp <= 0)
+        {
+            enemyAlive = false;
+        }
+
+        if(gameObject.transform.position.y < -100.0f)
         {
             Die();
             if (dieTimer > deathTime)
@@ -53,28 +79,20 @@ public class HpHandler : MonoBehaviour
 
         dieTimer = 0.0f;
         hp = 10;
-        randomInt = UnityEngine.Random.Range(1, 3 + 1);
-        switch(randomInt)
-        {
-            case 1:
-                gameObject.transform.position = respawnPosition1.transform.position;
-                break;
-            case 2:
-                gameObject.transform.position = respawnPosition2.transform.position;
-                break;
-
-            case 3:
-                gameObject.transform.position = respawnPosition3.transform.position;
-                break;
-
-            case 4:
-                gameObject.transform.position = respawnPosition4.transform.position;
-                break;
-
-            default:
-                gameObject.transform.position = respawnPosition1.transform.position;
-                break;
+        
+        float mayorDistance = 0.0f;
+        
+        for(int i = 0; i < 4; i++) {
+            float calculatedPosition = Mathf.Abs(Vector3.Distance(enemy.transform.position, respawnPositions[i]));
+            if (calculatedPosition > mayorDistance)
+            {
+                mayorDistance = calculatedPosition;
+                whichRespawn = i;
+            }
         }
+
+        gameObject.transform.position = respawnPositions[whichRespawn];
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     private void OnCollisionEnter(Collision collision)

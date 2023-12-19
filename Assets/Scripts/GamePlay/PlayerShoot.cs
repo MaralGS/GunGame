@@ -64,7 +64,7 @@ public class PlayerShoot : MonoBehaviour
         if (player._info.type == 0 && player.P2_S.shot == true)
         {
 
-            Shoot(GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().v2, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.position, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.gunNum);
+            Shoot(GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().v2, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.position, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P1_S.gunNum);
             
             activeCoolDown = true;
             imShooting = false;
