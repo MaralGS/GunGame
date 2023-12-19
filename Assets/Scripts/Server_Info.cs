@@ -10,6 +10,7 @@ public class Server_Info : MonoBehaviour
     [HideInInspector] public Socket sock;
     [HideInInspector] public EndPoint[] ep;
     [HideInInspector] public EndPoint serverEp;
+    [HideInInspector] public EndPoint clientEp;
     [HideInInspector] public int type; 
     [HideInInspector] public string name;
     [HideInInspector] public int numberOfPlayers;

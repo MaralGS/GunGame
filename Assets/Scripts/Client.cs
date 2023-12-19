@@ -49,6 +49,7 @@ public class Client : MonoBehaviour
 
             S_info.sock = client;
             S_info.serverEp = remote;
+            S_info.clientEp = ipep;
             S_info.name = userName;
             mConections.start = true; 
             mConections.imClient = true;
