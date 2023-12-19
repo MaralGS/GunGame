@@ -33,7 +33,7 @@ public class PlayerMovment : MonoBehaviour
     {
        
         movementSpeed = movementSpeed / 30;
-        q = new Quaternion((float)-0.5, (float)-0.5,(float)0.5, (float)0.5);
+        //q = new Quaternion((float)-0.5, (float)-0.5,(float)0.5, (float)0.5);
     }
 
     // Update is called once per frame
@@ -73,11 +73,13 @@ public class PlayerMovment : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             Movment(TYPES.JUMP);
+            Debug.Log("Jump");
         }
 
         if (Input.GetButton("Jump") && jumpTimeCounter > 0 && isGrounded)
         {
             ContinueJump();
+            Debug.Log("Jumpp");
         }
 
         if (Input.GetButtonUp("Jump") && isGrounded)
@@ -92,23 +94,24 @@ public class PlayerMovment : MonoBehaviour
 
         transform.position += Vector3.left * speed;
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-        transform.rotation = q;
+        //transform.rotation = q;
 
 
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if the player is on the ground
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
             jumpTimeCounter = jumpTime;
+            Debug.Log("DAVID TONTO");
 
         }
     }
 
-    void OnCollisionExit(Collision collision)
+    void OnCollisionExit2D(Collision2D collision)
     {
         // Check if the player is not on the ground
         if (collision.gameObject.CompareTag("Ground"))
@@ -132,7 +135,7 @@ public class PlayerMovment : MonoBehaviour
 
     void EndJump()
     {
-        GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        GetComponent<Rigidbody2D>().AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
         jumpTimeCounter = 0;
     }
 
@@ -162,6 +165,7 @@ public class PlayerMovment : MonoBehaviour
             case 3:
                 jumpForce = minJumpForce;
                 jumpTimeCounter = jumpTime;
+                Debug.Log("Jumppp");
                 break;
         }
     }
