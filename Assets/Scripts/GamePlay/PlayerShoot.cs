@@ -53,7 +53,7 @@ public class PlayerShoot : MonoBehaviour
         }
         
 
-        if (player._info.type == 1 && player.P1_S.shot == true)
+        if (player._info.type == 1 && player.P2_S.shot == true)
         {
 
             Shoot(GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().v2, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.position, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.gunNum);

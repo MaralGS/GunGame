@@ -70,6 +70,8 @@ public class InGameConnection : MonoBehaviour
 
             Player1 = GameObject.Find("Player0");
             Player2 = GameObject.Find("Player1");
+            Player1.GetComponent<HpHandler>().enemy = Player2;
+            Player2.GetComponent<HpHandler>().enemy = Player1;
             Instantiate(Camera, new Vector3(0, 0, -4), Quaternion.identity);
             //Player1.GetComponentInChildren<TextMeshPro>().text = _info.name;
 
@@ -80,6 +82,8 @@ public class InGameConnection : MonoBehaviour
             Instantiate(Camera, new Vector3(0, 0, -4), Quaternion.identity);
             Player1 = GameObject.Find("Player1");
             Player2 = GameObject.Find("Player0");
+            Player1.GetComponent<HpHandler>().enemy = Player2;
+            Player2.GetComponent<HpHandler>().enemy = Player1;
             Player2.GetComponentInChildren<TextMeshPro>().text = _info.name;
         }
         Player2.GetComponent<PlayerMovment>().enabled = false;
