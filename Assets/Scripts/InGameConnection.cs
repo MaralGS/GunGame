@@ -43,6 +43,7 @@ public class InGameConnection : MonoBehaviour
     GameObject Player2;
     bool going;
     public Vector3 v2;
+    public Camera Camera;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,12 +70,14 @@ public class InGameConnection : MonoBehaviour
 
             Player1 = GameObject.Find("Player0");
             Player2 = GameObject.Find("Player1");
+            Instantiate(Camera, new Vector3(0, 0, -4), Quaternion.identity);
             //Player1.GetComponentInChildren<TextMeshPro>().text = _info.name;
 
 
         }
         else if (_info.type == 1)
         {
+            Instantiate(Camera, new Vector3(0, 0, -4), Quaternion.identity);
             Player1 = GameObject.Find("Player1");
             Player2 = GameObject.Find("Player0");
             Player2.GetComponentInChildren<TextMeshPro>().text = _info.name;
