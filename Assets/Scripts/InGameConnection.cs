@@ -118,7 +118,9 @@ public class InGameConnection : MonoBehaviour
             Player2.GetComponent<Shield>().shield.SetActive(P2_S.shield);
             Player2.GetComponent<PlayerShoot>().enabled = false;
             Player2.GetComponent<PlayerShoot>().gunType = P2_S.gunNum;
-            Player2.GetComponent<PlayerShoot>().imShooting = P2_S.shot;
+            Player1.GetComponent<PlayerShoot>().isTheOtherShooting = P2_S.shot;
+        P2_S.shot = false;
+        P1_S.shot = false;
             v2 = P2_S.v;
         
     }
