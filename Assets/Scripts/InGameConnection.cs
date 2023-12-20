@@ -107,7 +107,6 @@ public class InGameConnection : MonoBehaviour
             P1_S.v = Player1.GetComponent<PlayerShoot>().shootDirection;
             P1_S.shield = Player1.GetComponent<Shield>().shieldActive;
             Player2.GetComponent<Shield>().enabled = false;
-        P1_S.isEnemyAlive = Player2.GetComponent<HpHandler>().enemyAlive;
     
             Player2.GetComponentInChildren<TextMeshPro>().text = P2_S.name;
             Player2.transform.position = P2_S.position;
@@ -120,7 +119,6 @@ public class InGameConnection : MonoBehaviour
             Player2.GetComponent<PlayerShoot>().enabled = false;
             Player2.GetComponent<PlayerShoot>().gunType = P2_S.gunNum;
             Player2.GetComponent<PlayerShoot>().imShooting = P2_S.shot;
-        //Player1.SetActive(P2_S.isEnemyAlive);
             v2 = P2_S.v;
         
     }

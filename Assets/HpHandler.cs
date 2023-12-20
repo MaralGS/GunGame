@@ -97,7 +97,7 @@ public class HpHandler : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Projectile1"))
+        /*if (collision.gameObject.CompareTag("Projectile1"))
         {
             hp -= 5;
             Destroy(collision.gameObject);
@@ -106,7 +106,7 @@ public class HpHandler : MonoBehaviour
         {
             hp -= 10;
             Destroy(collision.gameObject);
-        }
+        }/*/
     }
 
     private void Die()

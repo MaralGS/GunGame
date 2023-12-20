@@ -24,9 +24,19 @@ public class Projectile1 : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            
+                collision.gameObject.transform.position = new Vector3(100, 0, 0);
+            Debug.Log("Hit with projectile");
+            
+        }
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Shield"))
         {
             Destroy(gameObject);
+            
         }
+        
+        
     }
 }
