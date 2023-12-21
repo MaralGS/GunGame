@@ -133,23 +133,14 @@ public class Server : MonoBehaviour
                       string welcome = "StartServer";
                       data = Encoding.ASCII.GetBytes(welcome);
                       newsock.SendTo(data, data.Length, SocketFlags.None, Remote[i - 1]);
+                        
+
 
                     }
                     catch (Exception)
                     {
                         Debug.Log("Connected failed... try again...");
                        // throw;
-                    }
-                    try
-                    {
-                        string player = "Player " + (i).ToString();
-                        Debug.Log(player);
-                        data = Encoding.ASCII.GetBytes(player);
-                        newsock.SendTo(data, data.Length, SocketFlags.None, Remote[i - 1]);
-                    }
-                    catch 
-                    {
-                        Debug.Log("Connected failed... try again...");
                     }
                 }
            }
