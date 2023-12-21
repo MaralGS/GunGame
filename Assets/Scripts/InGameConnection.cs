@@ -47,7 +47,7 @@ public class InGameConnection : MonoBehaviour
         _info = FindAnyObjectByType<Server_Info>();
         Ps = new Player_Info[_info.numberOfPlayers + 1];
         player = new GameObject[_info.numberOfPlayers + 1];
-        
+
 
 
         for (int i = 0; i <= _info.numberOfPlayers; i++)
@@ -65,17 +65,25 @@ public class InGameConnection : MonoBehaviour
             }
 
         }
-        Setplayers(GetPlayerNumber(_info.clientEp));
 
+        if (_info.im_Client == false)
+        {
+            Setplayers(0);
+        }
+        else if (_info.im_Client == true) { 
+
+            Setplayers(1);
+        }
 
         going = true;
         StartThread();
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        Ps[0].name = player[0].GetComponentInChildren<TextMeshPro>().text;
+        //Ps[0].name = player[0].GetComponentInChildren<TextMeshPro>().text;
         Ps[0].position = player[0].transform.position;
         Ps[0].rotation = player[0].transform.rotation;
         Ps[0].alive = player[0].GetComponent<HpHandler>().alive;
@@ -88,7 +96,7 @@ public class InGameConnection : MonoBehaviour
         {
 
         
-            player[i].GetComponentInChildren<TextMeshPro>().text = Ps[i].name;
+            //player[i].GetComponentInChildren<TextMeshPro>().text = Ps[i].name;
             player[i].transform.position = Ps[i].position;
             player[i].transform.rotation = Ps[i].rotation;
             player[i].GetComponent<Collider>().enabled = Ps[i].alive;
@@ -178,11 +186,11 @@ public class InGameConnection : MonoBehaviour
                 int[] recv = new int[_info.numberOfPlayers];
                 string[] p_info = new string[_info.numberOfPlayers];
                 byte[] data = new byte[1024];
-                for (int i = 1; i < _info.numberOfPlayers; i++)
+                for (int i = 0; i < _info.numberOfPlayers; i++)
                 {
                     recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
                     p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
-                    Ps[i] = JsonUtility.FromJson<Player_Info>(p_info[i]);
+                    Ps[i + 1] = JsonUtility.FromJson<Player_Info>(p_info[i]);
                 }
 
             }
@@ -191,28 +199,15 @@ public class InGameConnection : MonoBehaviour
                 byte[] data = new byte[1024];
                 int recvC = _info.sock.ReceiveFrom(data, ref _info.serverEp);
                 string p_infoC = Encoding.ASCII.GetString(data, 0, recvC);
-                for (int i = 1; i < _info.numberOfPlayers; i++)
+                for (int i = 0; i < _info.numberOfPlayers; i++)
                 {
-                    Ps[i] = JsonUtility.FromJson<Player_Info>(p_infoC);
+                    Ps[i + 1] = JsonUtility.FromJson<Player_Info>(p_infoC);
                 }
  
             }
         }
     }
 
-    int GetPlayerNumber(EndPoint ep)
-    {
-        int playerid = 0;
-        for (int i = 0; i < _info.numberOfPlayers; i++)
-        {
-            if (_info.ep[i] == ep)
-            {
-                i = playerid;
-                return i;
-            }
-        }
-        return playerid;
-    }
 
     void Setplayers(int numberPlayer)
     {
