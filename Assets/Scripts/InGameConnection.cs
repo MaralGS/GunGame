@@ -92,7 +92,7 @@ public class InGameConnection : MonoBehaviour
         Ps[0].v = player[0].GetComponent<PlayerShoot>().shootDirection;
         Ps[0].shield = player[0].GetComponent<Shield>().shieldActive;
 
-        for (int i = 1; i < _info.numberOfPlayers; i++)
+        for (int i = 1; i <= _info.numberOfPlayers; i++)
         {
 
         
