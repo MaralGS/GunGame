@@ -9,6 +9,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Threading;
 using UnityEngine.UI;
+using System.Linq.Expressions;
 //using UnityEditor.PackageManager;
 //using UnityEngine.tvOS;
 
@@ -87,6 +88,9 @@ public class Client : MonoBehaviour
         IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
         remote = (EndPoint)sender;
 
+        string numPlayer = "";
+
+
         try
         {
             string welcome = "Connected";
@@ -95,7 +99,6 @@ public class Client : MonoBehaviour
             data = new byte[1024];
             int recv = client.ReceiveFrom(data, ref remote);
             Debug.Log("Message received from:" + remote.ToString());
-            //Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
             ServerM = Encoding.ASCII.GetString(data, 0, recv);
         }
         catch (Exception e)
@@ -104,8 +107,28 @@ public class Client : MonoBehaviour
             Debug.Log(e.ToString());
 
         }
+
+        try
+        {
+            data = new byte[1024];
+            int recv = client.ReceiveFrom(data, ref remote);
+            numPlayer = Encoding.ASCII.GetString(data, 0, recv);
+            Debug.Log(numPlayer);
+        }
+        catch
+        {
+            Debug.Log("Unable to connect to server.");
+            return;
+        }
         //Debug.Log("Stopping client");
         //server.Close();
+        for (int i = 1; i <= 3; i++)
+        {
+            if (numPlayer == "Player " + i)
+            {
+                S_info.type = i;
+            }
+        }
     }
 
     public void ChangeName()
