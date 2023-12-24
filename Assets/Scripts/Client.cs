@@ -33,6 +33,7 @@ public class Client : MonoBehaviour
     [HideInInspector] public bool gameStarted = false;
     [HideInInspector] public MenuConections mConections;
     [HideInInspector] public int nplayers = 0;
+
     Server_Info S_info;
     //Green/Grey Button for connection of players
 
@@ -55,7 +56,6 @@ public class Client : MonoBehaviour
             mConections.imClient = true;
             ServerM = "StopServer";
             S_info.im_Client = true;
-            S_info.type = 1;
 
         }
         if (gameStarted == true)

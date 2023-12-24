@@ -38,7 +38,7 @@ public class InGameConnection : MonoBehaviour
     [HideInInspector] public Server_Info _info;
     public GameObject Players;
     GameObject[] player;
-    bool going;
+    bool going = true;
     public Vector3 v2;
     // Start is called before the first frame update
     void Start()
@@ -59,6 +59,11 @@ public class InGameConnection : MonoBehaviour
             player[i] = Gplayers;
 
             player[i].gameObject.name = "Player" + i;
+            if (_info.name != null)
+            {
+                player[i].GetComponentInChildren<TextMeshPro>().text = _info.name;
+            }
+
             if (i != 0)
             {
                 player[i].gameObject.transform.position = new Vector3(7.8f, 0.86607f, 0);
@@ -66,15 +71,8 @@ public class InGameConnection : MonoBehaviour
 
         }
 
-        if (_info.im_Client == false)
-        {
-            Setplayers(0);
-        }
-        else if (_info.im_Client == true) { 
-
-            Setplayers(1);
-        }
-
+        Setplayers(_info.clientID);
+        
         going = true;
         StartThread();
     }
@@ -83,7 +81,7 @@ public class InGameConnection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Ps[0].name = player[0].GetComponentInChildren<TextMeshPro>().text;
+        Ps[0].name = player[0].GetComponentInChildren<TextMeshPro>().text;
         Ps[0].position = player[0].transform.position;
         Ps[0].rotation = player[0].transform.rotation;
         Ps[0].alive = player[0].GetComponent<HpHandler>().alive;
@@ -96,7 +94,7 @@ public class InGameConnection : MonoBehaviour
         {
 
         
-            //player[i].GetComponentInChildren<TextMeshPro>().text = Ps[i].name;
+            player[i].GetComponentInChildren<TextMeshPro>().text = Ps[i].name;
             player[i].transform.position = Ps[i].position;
             player[i].transform.rotation = Ps[i].rotation;
             player[i].GetComponent<Collider>().enabled = Ps[i].alive;
@@ -110,6 +108,8 @@ public class InGameConnection : MonoBehaviour
 
 
         }
+        //old send function (per recordar  com va)
+        { 
         //  P1_S.name = Player1.GetComponentInChildren<TextMeshPro>().text;
         //  P1_S.position = Player1.transform.position;
         //  P1_S.rotation = Player1.transform.rotation;
@@ -131,7 +131,7 @@ public class InGameConnection : MonoBehaviour
         //  Player2.GetComponent<PlayerShoot>().gunType = P2_S.gunNum;
         //  Player2.GetComponent<PlayerShoot>().imShooting = P2_S.shot;
         //  v2 = P2_S.v;
-
+        }
     }
 
     private void StartThread()
@@ -229,17 +229,5 @@ public class InGameConnection : MonoBehaviour
             }
 
         }
-
-        //Player1.GetComponentInChildren<TextMeshPro>().text = _info.name;
-
-
-
-        //if (_info.type == 1)
-        // {
-        //     Instantiate(Camera, new Vector3(0, 0, -4), Quaternion.identity);
-        //     Player1 = GameObject.Find("Player1");
-        //     Player2 = GameObject.Find("Player0");
-        //     Player2.GetComponentInChildren<TextMeshPro>().text = _info.name;
-        // }
     }
 }
