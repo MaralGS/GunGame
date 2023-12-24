@@ -150,18 +150,19 @@ public class InGameConnection : MonoBehaviour
 
             if (_info.im_Client == false)
             {
-                 string P_Info = JsonUtility.ToJson(Ps[0]);
+                for (int i = 0; i < _info.numberOfPlayers; i++)
+                {
+                 string P_Info = JsonUtility.ToJson(Ps[i]);
                  byte[] data = Encoding.ASCII.GetBytes(P_Info);
-                 //Si es fa pause Funciona, Sino peta ns PK
-                
-                 for (int i = 0; i < _info.numberOfPlayers; i++)
-                 {
-                     if (_info.ep[i] != null)
-                     {
-                         _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[i]);
-                     }
-                
-                 }
+                    
+                    for (int j = 0;j < _info.numberOfPlayers; j++)
+                    {
+                        if (_info.ep[j] != null)
+                        {
+                            _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[j]);
+                        }
+                    }
+                }
             }
             else if (_info.im_Client == true)
             {
