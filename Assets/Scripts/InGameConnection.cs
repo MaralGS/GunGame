@@ -57,7 +57,7 @@ public class InGameConnection : MonoBehaviour
             //Instantiate Players
             GameObject Gplayers = Instantiate(Players);
             player[i] = Gplayers;
-
+     
             player[i].gameObject.name = "Player" + i;
             if (_info.name != null)
             {
@@ -87,7 +87,7 @@ public class InGameConnection : MonoBehaviour
         Ps[0].gunNum = player[0].GetComponent<PlayerShoot>().gunType;
         Ps[0].shot = player[0].GetComponent<PlayerShoot>().imShooting;
         Ps[0].v = player[0].GetComponent<PlayerShoot>().shootDirection;
-        Ps[0].shield = player[0].GetComponent<Shield>().shieldActive;
+        //Ps[0].shield = player[0].GetComponent<Shield>().shieldActive;
 
         for (int i = 1; i <= _info.numberOfPlayers; i++)
         {     
@@ -95,7 +95,7 @@ public class InGameConnection : MonoBehaviour
             player[i].transform.position = Ps[i].position;
             player[i].GetComponent<Collider2D>().enabled = Ps[i].alive;
             player[i].GetComponent<PlayerMovment>().enabled = Ps[i].alive;
-            player[i].GetComponent<Shield>().shield.SetActive(Ps[i].shield);
+            //player[i].GetComponent<Shield>().shield.SetActive(Ps[i].shield);
             player[i].GetComponent<PlayerShoot>().enabled = false;
             player[i].GetComponent<PlayerShoot>().gunType = Ps[i].gunNum;
             player[i].GetComponent<PlayerShoot>().imShooting = Ps[i].shot;
