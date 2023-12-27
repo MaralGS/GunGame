@@ -42,6 +42,7 @@ public class MenuConections : MonoBehaviour
     Server _server;
     bool gameStarted;
     public GameObject[] Buttons;
+    private int clientID;
 
     // Start is called before the first frame update
     void Start() {
@@ -179,6 +180,7 @@ public class MenuConections : MonoBehaviour
         else if(imClient == true) 
         {
             Buttons[_clientStruct.ConnectedPlayer].GetComponent<Image>().color = new Color(0f, 1f, 0f);
+            _info.clientID = _clientStruct.NumberOfPlayers;
         }
         
     }
