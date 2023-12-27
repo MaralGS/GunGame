@@ -73,13 +73,11 @@ public class PlayerMovment : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             Movment(TYPES.JUMP);
-            Debug.Log("Jump");
         }
 
         if (Input.GetButton("Jump") && jumpTimeCounter > 0 && isGrounded)
         {
             ContinueJump();
-            Debug.Log("Jumpp");
         }
 
         if (Input.GetButtonUp("Jump") && isGrounded)
@@ -106,8 +104,6 @@ public class PlayerMovment : MonoBehaviour
         {
             isGrounded = true;
             jumpTimeCounter = jumpTime;
-            Debug.Log("DAVID TONTO");
-
         }
     }
 
@@ -165,7 +161,6 @@ public class PlayerMovment : MonoBehaviour
             case 3:
                 jumpForce = minJumpForce;
                 jumpTimeCounter = jumpTime;
-                Debug.Log("Jumppp");
                 break;
         }
     }

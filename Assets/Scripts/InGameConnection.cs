@@ -83,7 +83,6 @@ public class InGameConnection : MonoBehaviour
     {
         Ps[0].name = player[0].GetComponentInChildren<TextMeshPro>().text;
         Ps[0].position = player[0].transform.position;
-        Ps[0].rotation = player[0].transform.rotation;
         Ps[0].alive = player[0].GetComponent<HpHandler>().alive;
         Ps[0].gunNum = player[0].GetComponent<PlayerShoot>().gunType;
         Ps[0].shot = player[0].GetComponent<PlayerShoot>().imShooting;
@@ -94,9 +93,7 @@ public class InGameConnection : MonoBehaviour
         {     
             player[i].GetComponentInChildren<TextMeshPro>().text = Ps[i].name;
             player[i].transform.position = Ps[i].position;
-            player[i].transform.rotation = Ps[i].rotation;
-            player[i].GetComponent<Collider>().enabled = Ps[i].alive;
-            player[i].GetComponent<MeshRenderer>().enabled = Ps[i].alive;
+            player[i].GetComponent<Collider2D>().enabled = Ps[i].alive;
             player[i].GetComponent<PlayerMovment>().enabled = Ps[i].alive;
             player[i].GetComponent<Shield>().shield.SetActive(Ps[i].shield);
             player[i].GetComponent<PlayerShoot>().enabled = false;
