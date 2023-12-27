@@ -38,6 +38,8 @@ public class InGameConnection : MonoBehaviour
     [HideInInspector] public Server_Info _info;
     public GameObject Players;
     GameObject[] player;
+    public GameObject respawnPosition;
+    public Camera cam;
     bool going = true;
     public Vector3 v2;
     // Start is called before the first frame update
@@ -48,7 +50,18 @@ public class InGameConnection : MonoBehaviour
         Ps = new Player_Info[_info.numberOfPlayers + 1];
         player = new GameObject[_info.numberOfPlayers + 1];
 
+        GameObject respawnPosition1 = Instantiate(respawnPosition);
+        respawnPosition1.transform.position = new Vector3(7.11000013f, 1.36000001f,0);
+        GameObject respawnPosition2 = Instantiate(respawnPosition);
+        respawnPosition2.transform.position = new Vector3(-6.53999996f, 0.866069973f, 0);
 
+        GameObject respawnPosition3 = Instantiate(respawnPosition);
+        respawnPosition3.transform.position = new Vector3(4.30000019f, 6.0f, 0);
+
+        GameObject respawnPosition4 = Instantiate(respawnPosition);
+        respawnPosition4.transform.position = new Vector3(-4.8499999f, 4.59000015f, 0);
+
+        Camera gameCam = Instantiate(cam);
 
         for (int i = 0; i <= _info.numberOfPlayers; i++)
         {
@@ -56,6 +69,11 @@ public class InGameConnection : MonoBehaviour
             Ps[i] = new Player_Info();
             //Instantiate Players
             GameObject Gplayers = Instantiate(Players);
+            Gplayers.GetComponent<HpHandler>().respawnPosition1 = respawnPosition1;
+            Gplayers.GetComponent<HpHandler>().respawnPosition2 = respawnPosition2;
+            Gplayers.GetComponent<HpHandler>().respawnPosition3 = respawnPosition3;
+            Gplayers.GetComponent<HpHandler>().respawnPosition4 = respawnPosition4;
+            Gplayers.GetComponent<PlayerShoot>().cam = cam;
             player[i] = Gplayers;
      
             player[i].gameObject.name = "Player" + i;
@@ -66,7 +84,7 @@ public class InGameConnection : MonoBehaviour
 
             if (i != 0)
             {
-                player[i].gameObject.transform.position = new Vector3(7.8f, 0.86607f, 0);
+                player[i].gameObject.transform.position = new Vector3(7.8f + i, 0.86607f, 0);
             }
 
         }
