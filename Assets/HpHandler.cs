@@ -14,7 +14,7 @@ public class HpHandler : MonoBehaviour
     public GameObject respawnPosition3;
     public GameObject respawnPosition4;
     int randomInt;
-    public GameObject enemy;
+    //public GameObject enemy;
 
     public bool alive = true;
 
@@ -38,18 +38,14 @@ public class HpHandler : MonoBehaviour
 
     }
 
-    private void ChangeEnemyWeapon()
-    {
-        enemy.GetComponent<PlayerShoot>().gunType += 1;
-    }
 
     private void Respawn()
     {
         gameObject.GetComponent<PlayerMovment>().enabled = true;
         gameObject.GetComponent<PlayerShoot>().enabled = true;
-        gameObject.GetComponent<Collider>().enabled = true;
+        gameObject.GetComponent<Collider2D>().enabled = true;
         alive = true;
-        gameObject.GetComponent<MeshRenderer>().enabled = true;
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
 
         dieTimer = 0.0f;
         hp = 10;
@@ -79,7 +75,7 @@ public class HpHandler : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Projectile1"))
+        /*if (collision.gameObject.CompareTag("Projectile1"))
         {
             hp -= 5;
             Destroy(collision.gameObject);
@@ -88,18 +84,17 @@ public class HpHandler : MonoBehaviour
         {
             hp -= 10;
             Destroy(collision.gameObject);
-        }
+        }*/
     }
 
     private void Die()
     {
         gameObject.GetComponent<PlayerMovment>().enabled = false;
         gameObject.GetComponent<PlayerShoot>().enabled = false;
-        gameObject.GetComponent<Collider>().enabled = false;
+        gameObject.GetComponent<Collider2D>().enabled = false;
         alive = false;
-        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
         dieTimer += Time.deltaTime;
-        ChangeEnemyWeapon();
 
     }
 }

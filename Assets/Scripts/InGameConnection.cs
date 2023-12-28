@@ -37,7 +37,7 @@ public class InGameConnection : MonoBehaviour
     Thread ThreadSendInfo;
     [HideInInspector] public Server_Info _info;
     public GameObject Players;
-    GameObject[] player;
+    public GameObject[] player;
     public GameObject respawnPosition;
     public Camera cam;
     bool going = true;
@@ -233,6 +233,7 @@ public class InGameConnection : MonoBehaviour
             {
                 player[i].GetComponent<PlayerMovment>().enabled = false;
                 player[i].GetComponent<PlayerShoot>().enabled = false;
+                player[i].GetComponent<Shield>().enabled = false;
             }
             if (numberPlayer > _info.numberOfPlayers)
             {

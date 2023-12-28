@@ -6,6 +6,7 @@ public class Projectile2 : MonoBehaviour
 {
     public float projectileLifeTime = 5.5f;
     private float currentTimer = 0.0f;
+    public int pID;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,10 +22,19 @@ public class Projectile2 : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Shield"))
         {
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<HpHandler>().hp -= 10;
+            if (collision.gameObject.GetComponent<HpHandler>().hp <= 0)
+            {
+                GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().player[pID+1].GetComponent<PlayerShoot>().gunType += 1;
+            }
             Destroy(gameObject);
         }
     }

@@ -42,8 +42,8 @@ public class PlayerShoot : MonoBehaviour
 
             // Calculate direction towards the mouse position
             shootDirection = (worldMousePosition - transform.position).normalized;
-
-            Shoot(shootDirection, transform.position, gunType);
+            
+            Shoot(shootDirection, transform.position, gunType, player._info.clientID);
     
             
         }
@@ -93,7 +93,7 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    private void Shoot(Vector3 shootDirection, Vector3 go, int gunType)
+    private void Shoot(Vector3 shootDirection, Vector3 go, int gunType, int playerID)
     {
         switch (gunType)
         {
@@ -101,9 +101,9 @@ public class PlayerShoot : MonoBehaviour
                 if (activeCoolDown == false)
                 {
                     GameObject projectile = Instantiate(projectilePrefab, (go + shootDirection), Quaternion.identity);
-           
+                    projectile.GetComponent<Projectile1>().pID = playerID;
                     // Apply force to the projectile in the shoot direction
-                    projectile.GetComponent<Rigidbody>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed;
+                    projectile.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed;
                     activeCoolDown = true;
                 }
                 
@@ -114,7 +114,7 @@ public class PlayerShoot : MonoBehaviour
                     GameObject projectile1 = Instantiate(projectilePrefab1, (go + shootDirection), Quaternion.identity);
 
                     // Apply force to the projectile in the shoot direction
-                    projectile1.GetComponent<Rigidbody>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed / 3;
+                    projectile1.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed / 3;
                     activeCoolDown1 = true;
                 }
                 break;
