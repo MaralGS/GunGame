@@ -39,6 +39,8 @@ public class InGameConnection : MonoBehaviour
     public GameObject Players;
     public GameObject[] player;
     public GameObject respawnPosition;
+    GameObject[] respawnPositions;
+
     public Camera cam;
     bool going = true;
     public Vector3 v2;
@@ -52,16 +54,21 @@ public class InGameConnection : MonoBehaviour
 
         GameObject respawnPosition1 = Instantiate(respawnPosition);
         respawnPosition1.transform.position = new Vector3(7.11000013f, 1.36000001f,0);
+        respawnPositions[0] = respawnPosition1;
         GameObject respawnPosition2 = Instantiate(respawnPosition);
         respawnPosition2.transform.position = new Vector3(-6.53999996f, 0.866069973f, 0);
+        respawnPositions[1] = respawnPosition2;
 
         GameObject respawnPosition3 = Instantiate(respawnPosition);
         respawnPosition3.transform.position = new Vector3(4.30000019f, 6.0f, 0);
+        respawnPositions[2] = respawnPosition3;
 
         GameObject respawnPosition4 = Instantiate(respawnPosition);
         respawnPosition4.transform.position = new Vector3(-4.8499999f, 4.59000015f, 0);
+        respawnPositions[3] = respawnPosition4;
 
         Camera gameCam = Instantiate(cam);
+
 
         for (int i = 0; i <= _info.numberOfPlayers; i++)
         {
@@ -84,7 +91,7 @@ public class InGameConnection : MonoBehaviour
 
             if (i != 0)
             {
-                player[i].gameObject.transform.position = new Vector3(7.8f + i, 0.86607f, 0);
+                player[i].gameObject.transform.position = respawnPositions[i].transform.position;
             }
 
         }
