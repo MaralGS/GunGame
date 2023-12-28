@@ -73,6 +73,8 @@ public class PlayerMovment : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             Movment(TYPES.JUMP);
+            gameObject.GetComponent<Animator>().SetBool("jump", true);
+
         }
 
         if (Input.GetButton("Jump") && jumpTimeCounter > 0 && isGrounded)
@@ -113,6 +115,8 @@ public class PlayerMovment : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
+            gameObject.GetComponent<Animator>().SetBool("jump", false);
+
         }
     }
 
