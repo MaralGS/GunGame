@@ -171,16 +171,10 @@ public class InGameConnection : MonoBehaviour
             {
                 for (int i = 0; i < _info.numberOfPlayers; i++)
                 {
-                 string P_Info = JsonUtility.ToJson(Ps[i]);
-                 byte[] data = Encoding.ASCII.GetBytes(P_Info);
-                    
-                    for (int j = 0;j < _info.numberOfPlayers; j++)
-                    {
-                        if (_info.ep[j] != null)
-                        {
-                            _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[j]);
-                        }
-                    }
+                 string P_Info = JsonUtility.ToJson(Ps[0]);
+                 byte[] data = Encoding.ASCII.GetBytes(P_Info); 
+                 _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[i]);
+
                 }
             }
             else if (_info.im_Client == true)
@@ -231,12 +225,13 @@ public class InGameConnection : MonoBehaviour
 
     void Setplayers(int numberPlayer)
     {
-
+        Debug.Log(numberPlayer + " Primer");
+        Debug.Log(_info.numberOfPlayers + " Players 1");
         for (int i = 0; i <= _info.numberOfPlayers; i++)
         {
-
             player[i] = GameObject.Find("Player" + numberPlayer);
             numberPlayer++;
+            
             if (i != 0)
             {
                 player[i].GetComponent<PlayerMovment>().enabled = false;
@@ -245,8 +240,9 @@ public class InGameConnection : MonoBehaviour
             }
             if (numberPlayer > _info.numberOfPlayers)
             {
-               
                 numberPlayer = i;
+                Debug.Log(_info.numberOfPlayers + " Players 2");
+                Debug.Log(numberPlayer + " Segon");
             }
 
         }

@@ -121,27 +121,14 @@ public class Server : MonoBehaviour
                 {
                     ipep[i] = new IPEndPoint(IPAddress.Any, 9050 + i);
                     Remote[i-1] = (EndPoint)(ipep[i]);
-                
-                    //HASTA AQUI
 
-                    try
-                    {
-          
-                      int recv = newsock.ReceiveFrom(data, ref Remote[i - 1]); //recv????
-                      ClientM = Encoding.ASCII.GetString(data, 0, recv);
+                    //Switch de missatges depenent del client que siguis
+                    int recv = newsock.ReceiveFrom(data, ref Remote[i - 1]); //recv????
+                    ClientM = Encoding.ASCII.GetString(data, 0, recv);
 
-                      string welcome = "StartServer";
-                      data = Encoding.ASCII.GetBytes(welcome);
-                      newsock.SendTo(data, data.Length, SocketFlags.None, Remote[i - 1]);
-                        
-
-
-                    }
-                    catch (Exception)
-                    {
-                        Debug.Log("Connected failed... try again...");
-                       // throw;
-                    }
+                    string welcome = "StartServer" + i;
+                    data = Encoding.ASCII.GetBytes(welcome);
+                    newsock.SendTo(data, data.Length, SocketFlags.None, Remote[i - 1]);   
                 }
            }
        }

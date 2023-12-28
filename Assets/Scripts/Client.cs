@@ -45,7 +45,7 @@ public class Client : MonoBehaviour
 
     private void Update()
     {
-        if (ServerM == "StartServer")
+        if (ServerM == "StartServer" + nplayers)
         {
 
             S_info.sock = client;
@@ -56,6 +56,7 @@ public class Client : MonoBehaviour
             mConections.imClient = true;
             ServerM = "StopServer";
             S_info.im_Client = true;
+            S_info.clientID = nplayers;
 
         }
         if (gameStarted == true)
