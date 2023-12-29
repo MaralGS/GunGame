@@ -60,7 +60,7 @@ public class InGameConnection : MonoBehaviour
         //Define the remote
         Remote = (EndPoint)new IPEndPoint(IPAddress.Any, 0);
         _info = FindAnyObjectByType<Server_Info>();
-        player = new GameObject[2];
+        player = new GameObject[3];
         //Define the player you will play
         _thisPlayer = new Player_Info(); 
 
@@ -109,15 +109,15 @@ public class InGameConnection : MonoBehaviour
 
                 //Server disables the 2 players
 
-                ClientPlayer.GetComponent<Animator>().enabled = false;
-                ClientPlayer.GetComponent<PlayerMovment>().enabled = false;
-                ClientPlayer.GetComponent<PlayerShoot>().enabled = false;
-                ClientPlayer.GetComponent<Shield>().enabled = false;
+                 player[1].GetComponent<Animator>().enabled = false;
+                 player[1].GetComponent<PlayerMovment>().enabled = false;
+                 player[1].GetComponent<PlayerShoot>().enabled = false;
+                 player[1].GetComponent<Shield>().enabled = false;
 
-                ClientEnemy.GetComponent<Animator>().enabled = false;
-                ClientEnemy.GetComponent<PlayerMovment>().enabled = false;
-                ClientEnemy.GetComponent<PlayerShoot>().enabled = false;
-                ClientEnemy.GetComponent<Shield>().enabled = false;  
+                 player[2].GetComponent<Animator>().enabled = false;
+                 player[2].GetComponent<PlayerMovment>().enabled = false;
+                 player[2].GetComponent<PlayerShoot>().enabled = false;
+                 player[2].GetComponent<Shield>().enabled = false;  
         }
 
         else
@@ -131,8 +131,8 @@ public class InGameConnection : MonoBehaviour
                 ClientPlayer.transform.position = respawnPosition2.transform.position;
         }
 
-        Destroy(player[1]);
-        Destroy(player[2]);
+        //Destroy(player[1]);
+        //Destroy(player[2]);
  
         
         going = true;
@@ -143,18 +143,18 @@ public class InGameConnection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_updatePlayer)
-        {
-            _thisPlayer.position = ClientPlayer.transform.position;
-            _thisPlayer.name = ClientPlayer.name;
-            _updatePlayer = false;
-        }
-        else if (_updateEnemy)
-        {
-            ClientEnemy.transform.position = _thisEnemy.position;
-            ClientEnemy.name = _thisEnemy.name;
-            _updateEnemy = false;
-        }
+       if (_updatePlayer)
+       {
+           _thisPlayer.position = ClientPlayer.transform.position;
+           _thisPlayer.name = ClientPlayer.name;
+           _updatePlayer = false;
+       }
+       else if (_updateEnemy)
+       {
+           ClientEnemy.transform.position = _thisEnemy.position;
+           ClientEnemy.name = _thisEnemy.name;
+           _updateEnemy = false;
+       }
     }
 
     private void StartThread()
