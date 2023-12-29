@@ -155,7 +155,8 @@ public class InGameConnection : MonoBehaviour
 
            _updatePlayer = false;
        }
-       else if (_updateEnemy == true)
+       
+       if (_updateEnemy == true)
        {
             if (_info.clientID == 1)
             {
