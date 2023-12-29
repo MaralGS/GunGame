@@ -45,7 +45,7 @@ public class Client : MonoBehaviour
 
     private void Update()
     {
-        for (int i = 1; i < 4; i++)
+        for (int i = 1; i <= 2; i++)
         {
             if (ServerM == "StartServer"+i)
             {
