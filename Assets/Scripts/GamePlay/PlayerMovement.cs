@@ -43,6 +43,8 @@ public class PlayerMovment : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             Movment(TYPES.LEFT);
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+
         }
         else if (speed > 0)
         {
@@ -58,6 +60,8 @@ public class PlayerMovment : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
            Movment(TYPES.RIGHT);
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+
         }
         else if (speed < 0)
         {
@@ -73,7 +77,6 @@ public class PlayerMovment : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             Movment(TYPES.JUMP);
-            gameObject.GetComponent<Animator>().SetBool("jump", true);
 
         }
 
@@ -106,6 +109,7 @@ public class PlayerMovment : MonoBehaviour
         {
             isGrounded = true;
             jumpTimeCounter = jumpTime;
+            gameObject.GetComponent<Animator>().SetBool("jump", false);
         }
     }
 
@@ -115,7 +119,7 @@ public class PlayerMovment : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
-            gameObject.GetComponent<Animator>().SetBool("jump", false);
+            gameObject.GetComponent<Animator>().SetBool("jump", true);
 
         }
     }

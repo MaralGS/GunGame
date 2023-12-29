@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -44,35 +45,53 @@ public class PlayerShoot : MonoBehaviour
             shootDirection = (worldMousePosition - transform.position).normalized;
             
             Shoot(shootDirection, transform.position, gunType, player._info.clientID);
-    
-            
+
+            if (gameObject.transform.position.x > worldMousePosition.x)
+            {
+                gameObject.GetComponent<SpriteRenderer>().flipX = true;
+                Debug.Log("Left");
+                Debug.Log(worldMousePosition.x);
+                Debug.Log(gameObject.transform.position.x);
+            }
+            else
+            {
+                Debug.Log("Right");
+                Debug.Log(worldMousePosition.x);
+                Debug.Log(gameObject.transform.position.x);
+                gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            }
+
         }
         else
         {
+
             imShooting = false;
         }
-        
+        if (Input.GetMouseButtonUp(0))
+        {
+            gameObject.GetComponent<Animator>().SetBool("attack", false);
+        }
 
-       // if (player._info.type == 1 && player.P1_S.shot == true)
-       // {
-       //
-       //     Shoot(GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().v2, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.position, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.gunNum);
-       //     imShooting = false;
-       //     player.P2_S.shot = false;
-       //
-       // }
-       // if (player._info.type == 0 && player.P2_S.shot == true)
-       // {
-       //
-       //     Shoot(GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().v2, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.position, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.gunNum);
-       //     
-       //     activeCoolDown = true;
-       //     imShooting = false;
-       //
-       //     player.P1_S.shot = false;
-       // }
+        // if (player._info.type == 1 && player.P1_S.shot == true)
+        // {
+        //
+        //     Shoot(GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().v2, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.position, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.gunNum);
+        //     imShooting = false;
+        //     player.P2_S.shot = false;
+        //
+        // }
+        // if (player._info.type == 0 && player.P2_S.shot == true)
+        // {
+        //
+        //     Shoot(GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().v2, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.position, GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().P2_S.gunNum);
+        //     
+        //     activeCoolDown = true;
+        //     imShooting = false;
+        //
+        //     player.P1_S.shot = false;
+        // }
 
-    
+
         if (activeCoolDown)
         {
             coolDownTimer += Time.deltaTime;
@@ -95,6 +114,10 @@ public class PlayerShoot : MonoBehaviour
 
     private void Shoot(Vector3 shootDirection, Vector3 go, int gunType, int playerID)
     {
+        gameObject.GetComponent<Animator>().SetBool("attack", true);
+       
+
+
         switch (gunType)
         {
             case 0:
