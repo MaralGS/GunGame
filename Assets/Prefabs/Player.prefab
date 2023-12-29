@@ -127,6 +127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 4996517791057673681, guid: 2f5365ba5e289e144913f608b47f698b, type: 3}
   projectilePrefab1: {fileID: 7116325111661921225, guid: 18c637c0407763243837f38c6772856b, type: 3}
+  projectilePrefab2: {fileID: 6856244386443057419, guid: 772aeac4af7527e4ea45ddbaf9a64405, type: 3}
+  projectilePrefab3: {fileID: 4996517791057673681, guid: ab00cd32160cfcd49b2878a3c7bf4713, type: 3}
   projectileSpeed: 10
   cam: {fileID: 3844022086453753146, guid: 4f224c6e11f27384aa23e3e5f8869910, type: 3}
   gunType: 0
@@ -135,6 +137,10 @@ MonoBehaviour:
   activeCoolDown: 0
   coolDown1: 5.5
   activeCoolDown1: 0
+  coolDown2: 1.65
+  activeCoolDown2: 0
+  coolDown3: 2.5
+  activeCoolDown3: 0
   imShooting: 0
   shootDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &5597829696323678160

@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile2 : MonoBehaviour
+public class Projectile3 : MonoBehaviour
 {
-    public float projectileLifeTime = 5.5f;
+    public float projectileLifeTime = 2.5f;
     private float currentTimer = 0.0f;
     public int pID;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -22,15 +22,16 @@ public class Projectile2 : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Shield"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Shield"))
         {
             Destroy(gameObject);
         }
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<HpHandler>().hp -= 10;
+            collision.gameObject.GetComponent<HpHandler>().hp -= 3;
             if (collision.gameObject.GetComponent<HpHandler>().hp <= 0)
             {
                 if (pID == 0)
@@ -41,9 +42,9 @@ public class Projectile2 : MonoBehaviour
                 {
                     GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().player[pID - 1].GetComponent<PlayerShoot>().gunType += 1;
                 }
+
             }
             Destroy(gameObject);
         }
     }
-
 }

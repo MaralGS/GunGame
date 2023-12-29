@@ -8,6 +8,8 @@ public class PlayerShoot : MonoBehaviour
 {
     public GameObject projectilePrefab;
     public GameObject projectilePrefab1;
+    public GameObject projectilePrefab2;
+    public GameObject projectilePrefab3;
     public float projectileSpeed = 10f;
     public Camera cam;
     public int gunType = 0;
@@ -16,6 +18,10 @@ public class PlayerShoot : MonoBehaviour
     public bool activeCoolDown = false;
     public float coolDown1 = 5.5f;
     public bool activeCoolDown1 = false;
+    public float coolDown2 = 1.65f;
+    public bool activeCoolDown2 = false;
+    public float coolDown3 = 2.5f;
+    public bool activeCoolDown3 = false;
     public bool imShooting = false;
     public Vector3 shootDirection;
     InGameConnection player;
@@ -110,6 +116,24 @@ public class PlayerShoot : MonoBehaviour
                 coolDownTimer = 0.0f;
             }
         }
+        if (activeCoolDown2)
+        {
+            coolDownTimer += Time.deltaTime;
+            if (coolDownTimer >= coolDown2)
+            {
+                activeCoolDown2 = false;
+                coolDownTimer = 0.0f;
+            }
+        }
+        if (activeCoolDown3)
+        {
+            coolDownTimer += Time.deltaTime;
+            if (coolDownTimer >= coolDown3)
+            {
+                activeCoolDown3 = false;
+                coolDownTimer = 0.0f;
+            }
+        }
     }
 
     private void Shoot(Vector3 shootDirection, Vector3 go, int gunType, int playerID)
@@ -131,7 +155,7 @@ public class PlayerShoot : MonoBehaviour
                 }
                 
                 break;
-            default:
+            case 1:
                 if (activeCoolDown1 == false)
                 {
                     GameObject projectile1 = Instantiate(projectilePrefab1, (go + shootDirection), Quaternion.identity);
@@ -140,6 +164,33 @@ public class PlayerShoot : MonoBehaviour
                     projectile1.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed / 3;
                     activeCoolDown1 = true;
                 }
+                break;
+            case 2:
+                if (activeCoolDown2 == false)
+                {
+                    GameObject projectile2_0 = Instantiate(projectilePrefab2, (go + shootDirection), Quaternion.identity);
+                    GameObject projectile2_1 = Instantiate(projectilePrefab2, (go + shootDirection), Quaternion.identity);
+                    GameObject projectile2_2 = Instantiate(projectilePrefab2, (go + shootDirection), Quaternion.identity);
+                    GameObject projectile2_3 = Instantiate(projectilePrefab2, (go + shootDirection), Quaternion.identity);
+                    GameObject projectile2_4 = Instantiate(projectilePrefab2, (go + shootDirection), Quaternion.identity);
+                    projectile2_0.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 3;
+                    projectile2_1.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x - 0.3f, shootDirection.y, 0f) * projectileSpeed / 3;
+                    projectile2_2.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x, shootDirection.y + 0.3f, 0f) * projectileSpeed / 3;
+                    projectile2_3.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x, shootDirection.y - 0.3f, 0f) * projectileSpeed / 3;
+                    projectile2_4.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.25f, shootDirection.y + 0.25f, 0f) * projectileSpeed / 3;
+                    activeCoolDown2 = true;
+                }
+                    
+                break;
+            default:
+
+                if (activeCoolDown3 == false)
+                {
+                    GameObject projectile3 = Instantiate(projectilePrefab3, (go + shootDirection), Quaternion.identity);
+                    projectile3.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed;
+                    activeCoolDown3 = true;
+                }
+                
                 break;
         }
         
