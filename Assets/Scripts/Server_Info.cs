@@ -16,9 +16,10 @@ public class Server_Info : MonoBehaviour
     [HideInInspector] public int numberOfPlayers;
     [HideInInspector] public bool startServer;
     [HideInInspector] public bool im_Client;
+
     void Start()
     {
-        im_Client = false;
+        im_Client= false;
         ep = new EndPoint[3];
         DontDestroyOnLoad(this);
     }

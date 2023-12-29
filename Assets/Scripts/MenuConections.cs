@@ -42,7 +42,6 @@ public class MenuConections : MonoBehaviour
     Server _server;
     bool gameStarted;
     public GameObject[] Buttons;
-    private int clientID;
 
     // Start is called before the first frame update
     void Start() {
@@ -128,14 +127,6 @@ public class MenuConections : MonoBehaviour
                     gameStarted = true;
                 }
             }
-           else if (imClient == true)
-           {
-                //Aixo tambe esta Xungo
-             // string P_Info = JsonUtility.ToJson(_clientStruct);
-             // byte[] data = Encoding.ASCII.GetBytes(P_Info);
-             // _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.serverEp);
-               
-           }
 
         }
 
@@ -144,24 +135,9 @@ public class MenuConections : MonoBehaviour
     void ReciveInfo()
     {
 
-
         while (going == true)
         {
-         
-            if (start == true && _info.numberOfPlayers > 0)
-            {
-                //int[] recv = new int[_server.numberPlayers];
-                //string[] p_info = new string[_server.numberPlayers];
-                //byte[] data = new byte[1024];
-                //for (int i = 0; i < _server.numberPlayers; i++)
-                //{
-                //    recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
-                //    p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
-                //    _clientStruct = JsonUtility.FromJson<ConectionsInfo>(p_info[i]);
-                //}
-
-            }
-            else if (imClient == true)
+            if (imClient == true)
            {
                 byte[] data = new byte[1024];
                 int recvC = _info.sock.ReceiveFrom(data, ref _info.serverEp);
@@ -180,7 +156,6 @@ public class MenuConections : MonoBehaviour
         else if(imClient == true) 
         {
             Buttons[_clientStruct.ConnectedPlayer].GetComponent<Image>().color = new Color(0f, 1f, 0f);
-            _info.clientID = _clientStruct.NumberOfPlayers;
         }
         
     }
