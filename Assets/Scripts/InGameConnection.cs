@@ -89,12 +89,12 @@ public class InGameConnection : MonoBehaviour
             player[i] = Gplayers;
      
             player[i].gameObject.name = "Player" + i;
-            if (_info.name != null)
-            {
+            //if (_info.name != null)
+            //{
                 player[i].GetComponentInChildren<TextMeshPro>().text = _info.name;
                 player[i].gameObject.transform.position = new Vector3(7.8f + i, 0.86607f, 0);
                 //player[i].gameObject.transform.position = respawnPositions[i].transform.position;
-            }
+            //}
 
         }
 
@@ -119,6 +119,11 @@ public class InGameConnection : MonoBehaviour
         
         for (int i = 1; i <= _info.numberOfPlayers; i++)
         {
+            if (_info.im_Client == true)
+            {
+                Ps[i].id = _info.clientID;
+            }
+
             int selectedPlayer = UpdatePlayers(Ps[i].id, localplayersId);
             
             player[selectedPlayer].GetComponentInChildren<TextMeshPro>().text = Ps[i].name;
@@ -148,30 +153,29 @@ public class InGameConnection : MonoBehaviour
 
             if (_info.im_Client == false)
             {
-                for (int i = 0; i < _info.numberOfPlayers; i++)
-                {
-                    // Ps[0].id = _info.clientID;
-                    string P_Info = JsonUtility.ToJson(Ps[i]);
-                    byte[] data = Encoding.ASCII.GetBytes(P_Info);
-
-                    for (int j = 0; j < _info.numberOfPlayers; j++)
-                    {
-                        if (_info.ep[j] != null)
-                        {
-                            _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[j]);
-                        }
-                    }
-                }
+                //for (int i = 0; i < _info.numberOfPlayers; i++)
+                //{
+                //    // Ps[0].id = _info.clientID;
+                //    string P_Info = JsonUtility.ToJson(Ps[i]);
+                //    byte[] data = Encoding.ASCII.GetBytes(P_Info);
+                //
+                //    for (int j = 0; j < _info.numberOfPlayers; j++)
+                //    {
+                //        if (_info.ep[j] != null)
+                //        {
+                //            _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.ep[j]);
+                //        }
+                //    }
+                //}
             }
-            else if (_info.im_Client == true)
-            {
-                //Aixo tambe esta Xungo
-                //Ps[0].id = _info.clientID;
-                string P_Info = JsonUtility.ToJson(Ps[0]);
-                byte[] data = Encoding.ASCII.GetBytes(P_Info);
-                _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.serverEp);
-
-            }
+           else if (_info.im_Client == true)
+           {
+              // //Aixo tambe esta Xungo
+              string P_Info = JsonUtility.ToJson(Ps[0]);
+              byte[] data = Encoding.ASCII.GetBytes(P_Info);
+              _info.sock.SendTo(data, data.Length, SocketFlags.None, _info.serverEp);
+           
+           }
 
         }
 
@@ -184,30 +188,36 @@ public class InGameConnection : MonoBehaviour
 
             if (_info.im_Client == false && _info.numberOfPlayers > 0)
             {
-                int[] recv = new int[_info.numberOfPlayers];
-                string[] p_info = new string[_info.numberOfPlayers];
-                byte[] data = new byte[1024];
-                for (int i = 0; i < _info.numberOfPlayers; i++)
-                {
 
-                    recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
-                    p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
-                    Ps[i + 1] = JsonUtility.FromJson<Player_Info>(p_info[i]);
-                }
-
-            }
-            else if (_info.im_Client == true)
-            {
-                //mirar
-                for (int i = 0; i < _info.numberOfPlayers; i++)
-                {
                     byte[] data = new byte[1024];
-                    int recvC = _info.sock.ReceiveFrom(data, ref _info.serverEp);
-                    string p_infoC = Encoding.ASCII.GetString(data, 0, recvC);
-                    Ps[i + 1] = JsonUtility.FromJson<Player_Info>(p_infoC);
-                }
+                    int recv = _info.sock.ReceiveFrom(data, ref _info.ep[1]);
+                    string p_info = Encoding.ASCII.GetString(data, 0, recv);
+                    Ps[1] = JsonUtility.FromJson<Player_Info>(p_info);
+                
+
+                // int[] recv = new int[_info.numberOfPlayers];
+                // string[] p_info = new string[_info.numberOfPlayers];
+                // byte[] data = new byte[1024];
+                // for (int i = 0; i < _info.numberOfPlayers; i++)
+                // {
+                //     recv[i] = _info.sock.ReceiveFrom(data, ref _info.ep[i]);
+                //     p_info[i] = Encoding.ASCII.GetString(data, 0, recv[i]);
+                //     Ps[i + 1] = JsonUtility.FromJson<Player_Info>(p_info[i]);
+                // }
 
             }
+            //else if (_info.im_Client == true)
+            //{
+            //    //mirar
+            //    for (int i = 0; i < _info.numberOfPlayers; i++)
+            //    {
+            //        byte[] data = new byte[1024];
+            //        int recvC = _info.sock.ReceiveFrom(data, ref _info.serverEp);
+            //        string p_infoC = Encoding.ASCII.GetString(data, 0, recvC);
+            //        Ps[i + 1] = JsonUtility.FromJson<Player_Info>(p_infoC);
+            //    }
+            //
+            //}
         }
     }
 
@@ -238,7 +248,7 @@ public class InGameConnection : MonoBehaviour
     int UpdatePlayers(int id, int[] local)
     {
 
-         for (int i = 0; i < _info.numberOfPlayers; i++)
+         for (int i = 0; i <= _info.numberOfPlayers; i++)
          {
             if (id == local[i])
             {
