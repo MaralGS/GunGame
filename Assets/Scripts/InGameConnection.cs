@@ -234,6 +234,7 @@ public class InGameConnection : MonoBehaviour
             
             if (i != 0)
             {
+                player[i].GetComponent<Animator>().enabled = false;
                 player[i].GetComponent<PlayerMovment>().enabled = false;
                 player[i].GetComponent<PlayerShoot>().enabled = false;
                 player[i].GetComponent<Shield>().enabled = false;
