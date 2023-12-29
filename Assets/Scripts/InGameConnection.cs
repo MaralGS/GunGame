@@ -240,7 +240,7 @@ public class InGameConnection : MonoBehaviour
             }
             if (numberPlayer > _info.numberOfPlayers)
             {
-                numberPlayer = i;
+                numberPlayer = 0;
                 Debug.Log(_info.numberOfPlayers + " Players 2");
                 Debug.Log(numberPlayer + " Segon");
             }

@@ -45,20 +45,23 @@ public class Client : MonoBehaviour
 
     private void Update()
     {
-        if (ServerM == "StartServer" + nplayers)
+        for (int i = 1; i < 4; i++)
         {
+            if (ServerM == "StartServer"+i)
+            {
 
-            S_info.sock = client;
-            S_info.serverEp = remote;
-            S_info.clientEp = ipep;
-            S_info.name = userName;
-            mConections.start = true; 
-            mConections.imClient = true;
-            ServerM = "StopServer";
-            S_info.im_Client = true;
-            S_info.clientID = nplayers;
-
+                S_info.sock = client;
+                S_info.serverEp = remote;
+                S_info.clientEp = ipep;
+                S_info.name = userName;
+                mConections.start = true;
+                mConections.imClient = true;
+                ServerM = "StopServer";
+                S_info.im_Client = true;
+                S_info.clientID = i;
+            }
         }
+
         if (gameStarted == true)
         {
             S_info.numberOfPlayers = nplayers;
