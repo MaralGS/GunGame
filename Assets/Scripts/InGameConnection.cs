@@ -39,8 +39,8 @@ public class InGameConnection : MonoBehaviour
     Thread ThreadSendInfo;
     [HideInInspector] public Server_Info _info;
     public GameObject Players;
-    GameObject ClientPlayer;
-    GameObject ClientEnemy;
+    //GameObject ClientPlayer;
+    //GameObject ClientEnemy;
     [HideInInspector] public GameObject[] player;
     public GameObject respawnPosition;
     GameObject[] respawnPositions;
@@ -60,32 +60,37 @@ public class InGameConnection : MonoBehaviour
         //Define the remote
         Remote = (EndPoint)new IPEndPoint(IPAddress.Any, 0);
         _info = FindAnyObjectByType<Server_Info>();
-        player = new GameObject[3];
+        player = new GameObject[2];
         //Define the player you will play
         _thisPlayer = new Player_Info(); 
 
         //Instantiate Players
       
         //Your player == 1
-        player[1] = Instantiate(Players);
+        player[0] = Instantiate(Players);
+        player[0].name = "Player1";
         //Enemy player == 2
-        player[2] = Instantiate(Players);
+        player[1] = Instantiate(Players);
+        player[1].name = "Player2";
 
 
         if (_info.clientID == 1)
         {
             _thisPlayer.playerNum = 1;
-            ClientPlayer = player[1];
-            ClientEnemy = player[2];
-            ClientPlayer.name = _info.name;
+
+            player[1].GetComponent<Animator>().enabled = false;
+            player[1].GetComponent<PlayerMovment>().enabled = false;
+            player[1].GetComponent<PlayerShoot>().enabled = false;
+            player[1].GetComponent<Shield>().enabled = false;
 
         }
         else if (_info.clientID == 2)
         {
             _thisPlayer.playerNum = 2;
-            ClientPlayer = player[2];
-            ClientEnemy = player[1];
-            ClientPlayer.name = _info.name;
+            player[0].GetComponent<Animator>().enabled = false;
+            player[0].GetComponent<PlayerMovment>().enabled = false;
+            player[0].GetComponent<PlayerShoot>().enabled = false;
+            player[0].GetComponent<Shield>().enabled = false;
         }
 
 
@@ -107,34 +112,26 @@ public class InGameConnection : MonoBehaviour
         if (!_info.im_Client)
         {
 
-                //Server disables the 2 players
+            //Server disables the 2 players
+
+                 player[0].GetComponent<Animator>().enabled = false;
+                 player[0].GetComponent<PlayerMovment>().enabled = false;
+                 player[0].GetComponent<PlayerShoot>().enabled = false;
+                 player[0].GetComponent<Shield>().enabled = false;
 
                  player[1].GetComponent<Animator>().enabled = false;
                  player[1].GetComponent<PlayerMovment>().enabled = false;
                  player[1].GetComponent<PlayerShoot>().enabled = false;
-                 player[1].GetComponent<Shield>().enabled = false;
-
-                 player[2].GetComponent<Animator>().enabled = false;
-                 player[2].GetComponent<PlayerMovment>().enabled = false;
-                 player[2].GetComponent<PlayerShoot>().enabled = false;
-                 player[2].GetComponent<Shield>().enabled = false;  
+                 player[1].GetComponent<Shield>().enabled = false;  
         }
 
         else
         {
-                ClientEnemy.GetComponent<Animator>().enabled = false;
-                ClientEnemy.GetComponent<PlayerMovment>().enabled = false;
-                ClientEnemy.GetComponent<PlayerShoot>().enabled = false;
-                ClientEnemy.GetComponent<Shield>().enabled = false;
+                player[0].transform.position = respawnPosition1.transform.position;
+                player[1].transform.position = respawnPosition2.transform.position;
+        }       
 
-                ClientEnemy.transform.position = respawnPosition1.transform.position;
-                ClientPlayer.transform.position = respawnPosition2.transform.position;
-        }
 
-        //Destroy(player[1]);
-        //Destroy(player[2]);
- 
-        
         going = true;
         StartThread();
     }
@@ -143,16 +140,34 @@ public class InGameConnection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if (_updatePlayer)
+       if (_updatePlayer == true)
        {
-           _thisPlayer.position = ClientPlayer.transform.position;
-           _thisPlayer.name = ClientPlayer.name;
+            if(_info.clientID == 1)
+            {
+                _thisPlayer.position = player[0].transform.position;
+                _thisPlayer.name = player[0].name;
+            }
+            else if(_info.clientID == 2)
+            {
+                _thisPlayer.position = player[1].transform.position;
+                _thisPlayer.name = player[1].name;
+            }
+
            _updatePlayer = false;
        }
-       else if (_updateEnemy)
+       else if (_updateEnemy == true)
        {
-           ClientEnemy.transform.position = _thisEnemy.position;
-           ClientEnemy.name = _thisEnemy.name;
+            if (_info.clientID == 1)
+            {
+                player[1].transform.position = _thisEnemy.position;
+                player[1].name = _thisEnemy.name;
+            }
+            else if (_info.clientID == 2)
+            {
+                player[0].transform.position = _thisEnemy.position;
+                player[0].name = _thisEnemy.name;
+            }
+            
            _updateEnemy = false;
        }
     }
@@ -175,11 +190,11 @@ public class InGameConnection : MonoBehaviour
             {
                  string P1_Info = JsonUtility.ToJson(_client1);
                  byte[] data1 = Encoding.ASCII.GetBytes(P1_Info); 
-                 _info.sock.SendTo(data1, data1.Length, SocketFlags.None, _info.ep[2]);
+                 _info.sock.SendTo(data1, data1.Length, SocketFlags.None, _info.ep[1]);
 
                 string P2_Info = JsonUtility.ToJson(_client2);
                 byte[] data2 = Encoding.ASCII.GetBytes(P2_Info);
-                _info.sock.SendTo(data1, data1.Length, SocketFlags.None, _info.ep[1]);
+                _info.sock.SendTo(data2, data2.Length, SocketFlags.None, _info.ep[0]);
             }
             else 
             {
@@ -199,7 +214,7 @@ public class InGameConnection : MonoBehaviour
         while (going == true)
         {
 
-            if (_info.im_Client == false && _info.numberOfPlayers > 0)
+            if (_info.im_Client == false)
             {
                 byte[] data = new byte[1024];
                 int recv = _info.sock.ReceiveFrom(data, ref Remote);
@@ -227,28 +242,6 @@ public class InGameConnection : MonoBehaviour
 
                 _updateEnemy = true;
             }
-        }
-    }
-
-    void Setplayers(int numberPlayer)
-    {
-        for (int i = 0; i <= _info.numberOfPlayers; i++)
-        {
-            player[i] = GameObject.Find("Player" + numberPlayer);
-            numberPlayer++;
-            
-            if (i != 0)
-            {
-                player[i].GetComponent<Animator>().enabled = false;
-                player[i].GetComponent<PlayerMovment>().enabled = false;
-                player[i].GetComponent<PlayerShoot>().enabled = false;
-                player[i].GetComponent<Shield>().enabled = false;
-            }
-            if (numberPlayer > _info.numberOfPlayers)
-            {
-                numberPlayer = 0;
-            }
-
         }
     }
 }
