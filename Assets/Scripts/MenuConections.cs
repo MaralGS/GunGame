@@ -44,7 +44,6 @@ public class MenuConections : MonoBehaviour
     public GameObject[] Buttons;
     public GameObject[] penguins_players;
 
-    // Start is called before the first frame update
     void Start() {
 
         _serverStruct = new ConectionsInfo();
@@ -61,8 +60,6 @@ public class MenuConections : MonoBehaviour
         StartThread();
     }
 
-
-    // Update is called once per frame
     void Update()
     {
 
@@ -113,7 +110,6 @@ public class MenuConections : MonoBehaviour
             {
                 string P_Info = JsonUtility.ToJson(_serverStruct);
                 byte[] data = Encoding.ASCII.GetBytes(P_Info);
-                //Si es fa pause Funciona, Sino peta ns PK
 
                 for (int i = 0; i < _info.numberOfPlayers; i++)
                 {

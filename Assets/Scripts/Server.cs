@@ -115,18 +115,15 @@ public class Server : MonoBehaviour
        while (gameStarted == false) { 
            for (int i = 1; i < ipep.Length; i++)
            {
-                //REVISAR
                 if (ipep[i] == null && menuReciveActive == false)
                 {
                     ipep[i] = new IPEndPoint(IPAddress.Any, 9050 + i);
                     Remote[i - 1] = (EndPoint)(ipep[i]);
 
-                    //HASTA AQUI
-
                     try
                     {
 
-                        int recv = newsock.ReceiveFrom(data, ref Remote[i - 1]); //recv????
+                        int recv = newsock.ReceiveFrom(data, ref Remote[i - 1]); 
                         Debug.Log("Message received from:" + Remote.ToString());
                         Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
                         ClientM = Encoding.ASCII.GetString(data, 0, recv);
@@ -140,7 +137,7 @@ public class Server : MonoBehaviour
                     catch (Exception)
                     {
                         Debug.Log("Connected failed... try again...");
-                        // throw;
+                        throw;
                     }
                 }
             }
