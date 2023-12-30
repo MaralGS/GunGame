@@ -161,6 +161,7 @@ public class PlayerShoot : MonoBehaviour
                     imShooting = true;
 
                     GameObject projectile1 = Instantiate(projectilePrefab1, (go + shootDirection), Quaternion.identity);
+                    projectile1.GetComponent<Projectile2>().pID = playerID;
 
                     // Apply force to the projectile in the shoot direction
                     projectile1.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed / 3;
@@ -178,10 +179,20 @@ public class PlayerShoot : MonoBehaviour
                     GameObject projectile2_3 = Instantiate(projectilePrefab2, (go + shootDirection), Quaternion.identity);
                     GameObject projectile2_4 = Instantiate(projectilePrefab2, (go + shootDirection), Quaternion.identity);
                     projectile2_0.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 3;
+                    projectile2_0.GetComponent<Projectile3>().pID = playerID;
+
                     projectile2_1.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x - 0.3f, shootDirection.y, 0f) * projectileSpeed / 3;
+                    projectile2_1.GetComponent<Projectile3>().pID = playerID;
+
                     projectile2_2.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x, shootDirection.y + 0.3f, 0f) * projectileSpeed / 3;
+                    projectile2_2.GetComponent<Projectile3>().pID = playerID;
+
                     projectile2_3.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x, shootDirection.y - 0.3f, 0f) * projectileSpeed / 3;
+                    projectile2_3.GetComponent<Projectile3>().pID = playerID;
+
                     projectile2_4.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.25f, shootDirection.y + 0.25f, 0f) * projectileSpeed / 3;
+                    projectile2_4.GetComponent<Projectile3>().pID = playerID;
+
                     activeCoolDown2 = true;
                 }
                     
@@ -194,6 +205,8 @@ public class PlayerShoot : MonoBehaviour
 
                     GameObject projectile3 = Instantiate(projectilePrefab3, (go + shootDirection), Quaternion.identity);
                     projectile3.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed;
+                    projectile3.GetComponent<Projectile4>().pID = playerID;
+
                     activeCoolDown3 = true;
                 }
                 

@@ -68,8 +68,10 @@ public class Projectile4 : MonoBehaviour
             }
             if (collision.gameObject.GetComponent<HpHandler>().hp <= 0)
             {
+               
                     GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().player[pID-1].GetComponent<PlayerShoot>().gunType += 1;
-            }
+                
+               }
             Destroy(gameObject);
             stuckTimer = 0;
             stuck = false;
