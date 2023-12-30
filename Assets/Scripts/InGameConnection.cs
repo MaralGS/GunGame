@@ -123,6 +123,8 @@ public class InGameConnection : MonoBehaviour
                  player[1].GetComponent<PlayerMovment>().enabled = false;
                  player[1].GetComponent<PlayerShoot>().enabled = false;
                  player[1].GetComponent<Shield>().enabled = false;  
+
+                 
         }
 
         else
@@ -172,9 +174,6 @@ public class InGameConnection : MonoBehaviour
             {
                 player[1].transform.position = _thisEnemy.position;
                 player[1].name = _thisEnemy.name;
-                //player[1].GetComponent<PlayerShoot>().gunType = _thisEnemy.gunNum;
-                //player[1].GetComponent<PlayerShoot>().imShooting = _thisEnemy.shot;
-                //player[1].GetComponent<PlayerShoot>().shootDirection = _thisEnemy.v;
                 player[1].GetComponent<Shield>().shield.SetActive(_thisEnemy.shield);
                 
                 if(_thisEnemy.shot == true)
@@ -190,9 +189,6 @@ public class InGameConnection : MonoBehaviour
             {
                 player[0].transform.position = _thisEnemy.position;
                 player[0].name = _thisEnemy.name;
-                //player[0].GetComponent<PlayerShoot>().gunType = _thisEnemy.gunNum;
-                //player[0].GetComponent<PlayerShoot>().imShooting = _thisEnemy.shot;
-                //player[0].GetComponent<PlayerShoot>().shootDirection = _thisEnemy.v;
                 player[0].GetComponent<Shield>().shield.SetActive(_thisEnemy.shield);
                 
                 if (_thisEnemy.shot == true)
