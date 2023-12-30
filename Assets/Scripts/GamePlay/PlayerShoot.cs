@@ -37,7 +37,6 @@ public class PlayerShoot : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            imShooting=true;
             // Get mouse position in screen coordinates
             Vector3 mousePosition = Input.mousePosition;
 
@@ -50,7 +49,7 @@ public class PlayerShoot : MonoBehaviour
             // Calculate direction towards the mouse position
             shootDirection = (worldMousePosition - transform.position).normalized;
             
-            Shoot(shootDirection, transform.position, gunType, player._info.clientID);
+            Shoot(shootDirection, transform.position, gunType, player._info.clientID, false);
 
             if (gameObject.transform.position.x > worldMousePosition.x)
             {
@@ -70,7 +69,6 @@ public class PlayerShoot : MonoBehaviour
         }
         else
         {
-
             imShooting = false;
         }
         if (Input.GetMouseButtonUp(0))
@@ -136,7 +134,7 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    public void Shoot(Vector3 shootDirection, Vector3 go, int gunType, int playerID)
+    public void Shoot(Vector3 shootDirection, Vector3 go, int gunType, int playerID, bool enemy)
     {
         gameObject.GetComponent<Animator>().SetBool("attack", true);
        
@@ -145,8 +143,10 @@ public class PlayerShoot : MonoBehaviour
         switch (gunType)
         {
             case 0:
-                if (activeCoolDown == false)
+                if (activeCoolDown == false || enemy == true)
                 {
+                    imShooting = true;
+
                     GameObject projectile = Instantiate(projectilePrefab, (go + shootDirection), Quaternion.identity);
                     projectile.GetComponent<Projectile1>().pID = playerID;
                     // Apply force to the projectile in the shoot direction
@@ -156,8 +156,10 @@ public class PlayerShoot : MonoBehaviour
                 
                 break;
             case 1:
-                if (activeCoolDown1 == false)
+                if (activeCoolDown1 == false || enemy == true)
                 {
+                    imShooting = true;
+
                     GameObject projectile1 = Instantiate(projectilePrefab1, (go + shootDirection), Quaternion.identity);
 
                     // Apply force to the projectile in the shoot direction
@@ -166,8 +168,10 @@ public class PlayerShoot : MonoBehaviour
                 }
                 break;
             case 2:
-                if (activeCoolDown2 == false)
+                if (activeCoolDown2 == false || enemy == true)
                 {
+                    imShooting = true;
+
                     GameObject projectile2_0 = Instantiate(projectilePrefab2, (go + shootDirection), Quaternion.identity);
                     GameObject projectile2_1 = Instantiate(projectilePrefab2, (go + shootDirection), Quaternion.identity);
                     GameObject projectile2_2 = Instantiate(projectilePrefab2, (go + shootDirection), Quaternion.identity);
@@ -184,8 +188,10 @@ public class PlayerShoot : MonoBehaviour
                 break;
             default:
 
-                if (activeCoolDown3 == false)
+                if (activeCoolDown3 == false || enemy == true)
                 {
+                    imShooting = true;
+
                     GameObject projectile3 = Instantiate(projectilePrefab3, (go + shootDirection), Quaternion.identity);
                     projectile3.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x, shootDirection.y, 0f) * projectileSpeed;
                     activeCoolDown3 = true;

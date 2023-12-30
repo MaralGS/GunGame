@@ -41,16 +41,13 @@ public class HpHandler : MonoBehaviour
 
     private void Respawn()
     {
-        gameObject.GetComponent<PlayerMovment>().enabled = true;
-        gameObject.GetComponent<PlayerShoot>().enabled = true;
-        gameObject.GetComponent<Collider2D>().enabled = true;
         alive = true;
-        gameObject.GetComponent<SpriteRenderer>().enabled = true;
 
         dieTimer = 0.0f;
         hp = 10;
-        randomInt = UnityEngine.Random.Range(1, 3 + 1);
-        switch(randomInt)
+        gameObject.transform.localPosition = new Vector3(0, 6.32f, 0);
+        //randomInt = UnityEngine.Random.Range(1, 3 + 1);
+        /*switch(randomInt)
         {
             case 1:
                 gameObject.transform.position = respawnPosition1.transform.position;
@@ -70,7 +67,7 @@ public class HpHandler : MonoBehaviour
             default:
                 gameObject.transform.position = respawnPosition1.transform.position;
                 break;
-        }
+        }*/
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -89,12 +86,8 @@ public class HpHandler : MonoBehaviour
 
     private void Die()
     {
-        gameObject.GetComponent<PlayerMovment>().enabled = false;
-        gameObject.GetComponent<PlayerShoot>().enabled = false;
-        gameObject.GetComponent<Collider2D>().enabled = false;
+        gameObject.transform.position = new Vector3(1000.0f, 1000.0f, 0.0f);
         alive = false;
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
         dieTimer += Time.deltaTime;
-
     }
 }
