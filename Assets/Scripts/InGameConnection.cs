@@ -140,36 +140,57 @@ public class InGameConnection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if (_updatePlayer == true)
+       if (_updatePlayer == true)//Rebre info
        {
             if(_info.clientID == 1)
             {
                 _thisPlayer.position = player[0].transform.position;
                 _thisPlayer.name = player[0].name;
+                //_thisPlayer.gunNum = player[0].GetComponent<PlayerShoot>().gunType;
+                //_thisPlayer.shot = player[0].GetComponent<PlayerShoot>().imShooting;
+                //_thisPlayer.v = player[0].GetComponent<PlayerShoot>().shootDirection;
+                _thisPlayer.shield = player[0].GetComponent<Shield>().shieldActive;
+
             }
             else if(_info.clientID == 2)
             {
                 _thisPlayer.position = player[1].transform.position;
                 _thisPlayer.name = player[1].name;
+                //_thisPlayer.gunNum = player[1].GetComponent<PlayerShoot>().gunType;
+                //_thisPlayer.shot = player[1].GetComponent<PlayerShoot>().imShooting;
+                //_thisPlayer.v = player[1].GetComponent<PlayerShoot>().shootDirection;
+                _thisPlayer.shield = player[1].GetComponent<Shield>().shieldActive;
+
             }
 
-           _updatePlayer = false;
+            _updatePlayer = false;
        }
        
-       if (_updateEnemy == true)
+       if (_updateEnemy == true)//Passar info
        {
             if (_info.clientID == 1)
             {
                 player[1].transform.position = _thisEnemy.position;
                 player[1].name = _thisEnemy.name;
+                //player[1].GetComponent<PlayerShoot>().gunType = _thisEnemy.gunNum;
+                //player[1].GetComponent<PlayerShoot>().imShooting = _thisEnemy.shot;
+                //player[1].GetComponent<PlayerShoot>().shootDirection = _thisEnemy.v;
+                player[1].GetComponent<Shield>().shield.SetActive(_thisEnemy.shield);
+
             }
             else if (_info.clientID == 2)
             {
                 player[0].transform.position = _thisEnemy.position;
                 player[0].name = _thisEnemy.name;
+                //player[0].GetComponent<PlayerShoot>().gunType = _thisEnemy.gunNum;
+                //player[0].GetComponent<PlayerShoot>().imShooting = _thisEnemy.shot;
+                //player[0].GetComponent<PlayerShoot>().shootDirection = _thisEnemy.v;
+                player[0].GetComponent<Shield>().shield.SetActive(_thisEnemy.shield);
+
+
             }
-            
-           _updateEnemy = false;
+
+            _updateEnemy = false;
        }
     }
 
@@ -179,7 +200,6 @@ public class InGameConnection : MonoBehaviour
         ThreadRecieveInfo.Start();
         ThreadSendInfo = new Thread(SendInfo);
         ThreadSendInfo.Start();
-
     }
 
     void SendInfo()

@@ -136,7 +136,7 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    private void Shoot(Vector3 shootDirection, Vector3 go, int gunType, int playerID)
+    public void Shoot(Vector3 shootDirection, Vector3 go, int gunType, int playerID)
     {
         gameObject.GetComponent<Animator>().SetBool("attack", true);
        
