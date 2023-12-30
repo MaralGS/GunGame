@@ -54,15 +54,9 @@ public class PlayerShoot : MonoBehaviour
             if (gameObject.transform.position.x > worldMousePosition.x)
             {
                 gameObject.GetComponent<SpriteRenderer>().flipX = true;
-                Debug.Log("Left");
-                Debug.Log(worldMousePosition.x);
-                Debug.Log(gameObject.transform.position.x);
             }
             else
             {
-                Debug.Log("Right");
-                Debug.Log(worldMousePosition.x);
-                Debug.Log(gameObject.transform.position.x);
                 gameObject.GetComponent<SpriteRenderer>().flipX = false;
             }
 

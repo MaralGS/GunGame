@@ -79,16 +79,15 @@ public class InGameConnection : MonoBehaviour
             player[1].GetComponent<PlayerMovment>().enabled = false;
             player[1].GetComponent<PlayerShoot>().enabled = false;
             player[1].GetComponent<Shield>().enabled = false;
-            player[1].tag = "Player";
         }
         else if (_info.clientID == 2)
         {
             _thisPlayer.playerNum = 2;
+
             player[0].GetComponent<Animator>().enabled = false;
             player[0].GetComponent<PlayerMovment>().enabled = false;
             player[0].GetComponent<PlayerShoot>().enabled = false;
             player[0].GetComponent<Shield>().enabled = false;
-            player[0].tag = "Player";
         }
 
 

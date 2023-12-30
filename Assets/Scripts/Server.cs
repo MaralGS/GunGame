@@ -84,7 +84,6 @@ public class Server : MonoBehaviour
         else
         {
             imWaiting = false;
-            Debug.Log("server started");  
         }
 
     }
@@ -106,7 +105,6 @@ public class Server : MonoBehaviour
             gameStarted = true;
             serverThread.Abort();
         }
-        Debug.Log("Numero de Players: "+ numberPlayers);
     }
    
    public void StartThread()
@@ -124,8 +122,6 @@ public class Server : MonoBehaviour
                     {
 
                         int recv = newsock.ReceiveFrom(data, ref Remote[i - 1]); 
-                        Debug.Log("Message received from:" + Remote.ToString());
-                        Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
                         ClientM = Encoding.ASCII.GetString(data, 0, recv);
                         string welcome = "StartServer" + i;
                         data = Encoding.ASCII.GetBytes(welcome);
