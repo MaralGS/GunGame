@@ -79,7 +79,7 @@ public class InGameConnection : MonoBehaviour
             player[1].GetComponent<PlayerMovment>().enabled = false;
             player[1].GetComponent<PlayerShoot>().enabled = false;
             player[1].GetComponent<Shield>().enabled = false;
-
+            player[1].tag = "Player";
         }
         else if (_info.clientID == 2)
         {
@@ -88,6 +88,7 @@ public class InGameConnection : MonoBehaviour
             player[0].GetComponent<PlayerMovment>().enabled = false;
             player[0].GetComponent<PlayerShoot>().enabled = false;
             player[0].GetComponent<Shield>().enabled = false;
+            player[0].tag = "Player";
         }
 
 
@@ -216,6 +217,8 @@ public class InGameConnection : MonoBehaviour
 
             if (_info.im_Client == false)
             {
+                //Si ets el servidor envies la informació de un player a l'altre
+
                  string P1_Info = JsonUtility.ToJson(_client1);
                  byte[] data1 = Encoding.ASCII.GetBytes(P1_Info); 
                  _info.sock.SendTo(data1, data1.Length, SocketFlags.None, _info.ep[1]);
@@ -226,6 +229,7 @@ public class InGameConnection : MonoBehaviour
             }
             else 
             {
+                  //El client sempre enviara la informació al servidor
                  _updatePlayer = true;
                  string P_Info = JsonUtility.ToJson(_thisPlayer);
                  byte[] data = Encoding.ASCII.GetBytes(P_Info);
@@ -244,6 +248,7 @@ public class InGameConnection : MonoBehaviour
 
             if (_info.im_Client == false)
             {
+                //El servidor mira de qui es la informació i l'actualitza
                 byte[] data = new byte[1024];
                 int recv = _info.sock.ReceiveFrom(data, ref Remote);
                 string json = Encoding.ASCII.GetString(data, 0, recv);
@@ -262,6 +267,7 @@ public class InGameConnection : MonoBehaviour
 
             else if (_info.im_Client == true)
             {
+                //El client rep la informació del altre client via el servidor i actualitza la seva informació
                 byte[] data = new byte[1024];
                 int recvC = _info.sock.ReceiveFrom(data, ref _info.serverEp);
                 string p_infoC = Encoding.ASCII.GetString(data, 0, recvC);
