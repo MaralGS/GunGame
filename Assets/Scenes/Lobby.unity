@@ -792,10 +792,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _info: {fileID: 0}
-  Players: {fileID: 4052537280615208512, guid: d1dcb4fc4d761d84bb26cec3e39f4db7, type: 3}
+  players: {fileID: 4052537280615208512, guid: d1dcb4fc4d761d84bb26cec3e39f4db7, type: 3}
+  serverScreen: {fileID: 8284237228516541426, guid: a6b17d41b62d46c4990dc84be51a7210, type: 3}
   player: []
   respawnPosition: {fileID: 682656763139178839, guid: 719216e1b5d81994ea21d74d0fbcfc2c, type: 3}
-  cam: {fileID: 3844022086453753146, guid: 4f224c6e11f27384aa23e3e5f8869910, type: 3}
   v2: {x: 0, y: 0, z: 0}
 --- !u!4 &270606982
 Transform:

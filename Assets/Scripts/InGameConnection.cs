@@ -38,14 +38,11 @@ public class InGameConnection : MonoBehaviour
     Thread ThreadRecieveInfo;
     Thread ThreadSendInfo;
     [HideInInspector] public Server_Info _info;
-    public GameObject Players;
-    //GameObject ClientPlayer;
-    //GameObject ClientEnemy;
+    public GameObject players;
+    public GameObject serverScreen;
     [HideInInspector] public GameObject[] player;
     public GameObject respawnPosition;
-    GameObject[] respawnPositions;
 
-    public Camera cam;
     bool going = true;
     public Vector3 v2;
     EndPoint Remote;
@@ -61,16 +58,16 @@ public class InGameConnection : MonoBehaviour
         Remote = (EndPoint)new IPEndPoint(IPAddress.Any, 0);
         _info = FindAnyObjectByType<Server_Info>();
         player = new GameObject[2];
+
         //Define the player you will play
         _thisPlayer = new Player_Info(); 
 
         //Instantiate Players
-      
         //Your player == 1
-        player[0] = Instantiate(Players);
+        player[0] = Instantiate(players);
         player[0].name = "Player1";
         //Enemy player == 2
-        player[1] = Instantiate(Players);
+        player[1] = Instantiate(players);
         player[1].name = "Player2";
 
 
@@ -122,9 +119,10 @@ public class InGameConnection : MonoBehaviour
                  player[1].GetComponent<Animator>().enabled = false;
                  player[1].GetComponent<PlayerMovment>().enabled = false;
                  player[1].GetComponent<PlayerShoot>().enabled = false;
-                 player[1].GetComponent<Shield>().enabled = false;  
+                 player[1].GetComponent<Shield>().enabled = false;
 
-                 
+            //Create Black screen for the server
+                 Instantiate(serverScreen);
         }
 
         else
