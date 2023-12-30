@@ -42,6 +42,7 @@ public class MenuConections : MonoBehaviour
     Server _server;
     bool gameStarted;
     public GameObject[] Buttons;
+    public GameObject[] penguins_players;
 
     // Start is called before the first frame update
     void Start() {
@@ -152,10 +153,12 @@ public class MenuConections : MonoBehaviour
         if (imServer == true)
         {
             Buttons[_serverStruct.ConnectedPlayer].GetComponent<Image>().color = new Color(0f, 1f, 0f);
+            penguins_players[_serverStruct.ConnectedPlayer].SetActive(true);
         }
         else if(imClient == true) 
         {
             Buttons[_clientStruct.ConnectedPlayer].GetComponent<Image>().color = new Color(0f, 1f, 0f);
+            penguins_players[_clientStruct.ConnectedPlayer].SetActive(true);
         }
         
     }
