@@ -40,7 +40,7 @@ public class Server : MonoBehaviour
     private void Awake()
     {
         gameStarted = false; 
-        ipep = new IPEndPoint[4];
+        ipep = new IPEndPoint[3];
         Remote = new EndPoint[3];
 
     }
@@ -80,7 +80,6 @@ public class Server : MonoBehaviour
             serverThread = new Thread(StartThread);
             serverThread.Start();
             imWaiting = true;
-            Connection = 1;
         }
         else
         {
@@ -96,9 +95,9 @@ public class Server : MonoBehaviour
 
         if (ClientM == "Connected")
         {
+            Connection = numberPlayers;
             numberPlayers++;
             SaveServer();
-            Connection = numberPlayers;
             ClientM = "Disconnected";
         }
 
@@ -107,7 +106,7 @@ public class Server : MonoBehaviour
             gameStarted = true;
             serverThread.Abort();
         }
-        Debug.Log("Numero de Players: "+numberPlayers);
+        Debug.Log("Numero de Players: "+ numberPlayers);
     }
    
    public void StartThread()
@@ -181,7 +180,11 @@ public class Server : MonoBehaviour
     }
     public void GameStart()
     {
-        gameStarted = true;
+        if (numberPlayers >= 2)
+        {
+            gameStarted = true;
+        }
+
 
     }
 
