@@ -1,4 +1,4 @@
-# Pinngun Game
+# Pingun Game
 
 Àlex Garcia Selma: https://github.com/MaralGS
 Pau Olmos Serrano: https://github.com/PauOlmos
