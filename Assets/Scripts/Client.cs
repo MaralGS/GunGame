@@ -35,7 +35,6 @@ public class Client : MonoBehaviour
     [HideInInspector] public int nplayers = 0;
 
     Server_Info S_info;
-    //Green/Grey Button for connection of players
 
     private void Start()
     {
@@ -72,7 +71,6 @@ public class Client : MonoBehaviour
     public void ConnectPlayer()
     {
 
-        //userName = TextName.GetComponent<TMP_InputField>().text;
         usingIP = ip.GetComponent<TMP_InputField>().text;
 
         ipep = new IPEndPoint(
@@ -99,7 +97,6 @@ public class Client : MonoBehaviour
             data = new byte[1024];
             int recv = client.ReceiveFrom(data, ref remote);
             Debug.Log("Message received from:" + remote.ToString());
-            //Debug.Log(Encoding.ASCII.GetString(data, 0, recv));
             ServerM = Encoding.ASCII.GetString(data, 0, recv);
         }
         catch (Exception e)
@@ -108,8 +105,6 @@ public class Client : MonoBehaviour
             Debug.Log(e.ToString());
 
         }
-        //Debug.Log("Stopping client");
-        //server.Close();
     }
 
     public void ChangeName()
