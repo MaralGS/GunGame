@@ -79,6 +79,7 @@ public class InGameConnection : MonoBehaviour
             player[1].GetComponent<PlayerMovment>().enabled = false;
             player[1].GetComponent<PlayerShoot>().enabled = false;
             player[1].GetComponent<Shield>().enabled = false;
+            player[0].GetComponentInChildren<TextMeshPro>().text = _info.name;
         }
         else if (_info.clientID == 2)
         {
@@ -88,6 +89,7 @@ public class InGameConnection : MonoBehaviour
             player[0].GetComponent<PlayerMovment>().enabled = false;
             player[0].GetComponent<PlayerShoot>().enabled = false;
             player[0].GetComponent<Shield>().enabled = false;
+            player[1].GetComponentInChildren<TextMeshPro>().text = _info.name;
         }
 
 
@@ -145,7 +147,7 @@ public class InGameConnection : MonoBehaviour
             if(_info.clientID == 1)
             {
                 _thisPlayer.position = player[0].transform.position;
-                _thisPlayer.name = player[0].name;
+                _thisPlayer.name =_info.name;
                 _thisPlayer.gunNum = player[0].GetComponent<PlayerShoot>().gunType;
                 _thisPlayer.shot = player[0].GetComponent<PlayerShoot>().imShooting;
                 _thisPlayer.v = player[0].GetComponent<PlayerShoot>().shootDirection;
@@ -155,7 +157,7 @@ public class InGameConnection : MonoBehaviour
             else if(_info.clientID == 2)
             {
                 _thisPlayer.position = player[1].transform.position;
-                _thisPlayer.name = player[1].name;
+                _thisPlayer.name = _info.name;
                 _thisPlayer.gunNum = player[1].GetComponent<PlayerShoot>().gunType;
                 _thisPlayer.shot = player[1].GetComponent<PlayerShoot>().imShooting;
                 _thisPlayer.v = player[1].GetComponent<PlayerShoot>().shootDirection;
@@ -171,7 +173,7 @@ public class InGameConnection : MonoBehaviour
             if (_info.clientID == 1)
             {
                 player[1].transform.position = _thisEnemy.position;
-                player[1].name = _thisEnemy.name;
+                player[1].GetComponentInChildren<TextMeshPro>().text = _thisEnemy.name;
                 player[1].GetComponent<Shield>().shield.SetActive(_thisEnemy.shield);
                 
                 if(_thisEnemy.shot == true)
@@ -186,7 +188,7 @@ public class InGameConnection : MonoBehaviour
             else if (_info.clientID == 2)
             {
                 player[0].transform.position = _thisEnemy.position;
-                player[0].name = _thisEnemy.name;
+                player[0].GetComponentInChildren<TextMeshPro>().text = _thisEnemy.name;
                 player[0].GetComponent<Shield>().shield.SetActive(_thisEnemy.shield);
                 
                 if (_thisEnemy.shot == true)
