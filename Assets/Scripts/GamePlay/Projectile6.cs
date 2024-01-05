@@ -34,7 +34,7 @@ public class Projectile6 : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<HpHandler>().hp -= 5;
+            collision.gameObject.GetComponent<HpHandler>().hp -= 1;
             if (collision.gameObject.GetComponent<HpHandler>().hp <= 0)
             {
                 GameObject.Find("Serialization").gameObject.GetComponent<InGameConnection>().player[pID - 1].GetComponent<PlayerShoot>().gunType += 1;

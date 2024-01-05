@@ -162,5 +162,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileLifeTime: 1
   pID: 0
-  destination: 0
-  player: {fileID: 0}
