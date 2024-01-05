@@ -111,6 +111,17 @@ public class PlayerMovment : MonoBehaviour
             jumpTimeCounter = jumpTime;
             gameObject.GetComponent<Animator>().SetBool("jump", false);
         }
+
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground") && isGrounded == false)
+        {
+            isGrounded = true;
+            jumpTimeCounter = jumpTime;
+            gameObject.GetComponent<Animator>().SetBool("jump", false);
+        }
     }
 
     void OnCollisionExit2D(Collision2D collision)
@@ -122,6 +133,7 @@ public class PlayerMovment : MonoBehaviour
             gameObject.GetComponent<Animator>().SetBool("jump", true);
 
         }
+
     }
 
     void ContinueJump()
