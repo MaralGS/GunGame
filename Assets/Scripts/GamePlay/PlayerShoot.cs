@@ -10,6 +10,7 @@ public class PlayerShoot : MonoBehaviour
     public GameObject projectilePrefab1;
     public GameObject projectilePrefab2;
     public GameObject projectilePrefab3;
+    public GameObject projectilePrefab4;
     public float projectileSpeed = 10f;
     public Camera cam;
     public int gunType = 0;
@@ -22,6 +23,8 @@ public class PlayerShoot : MonoBehaviour
     public bool activeCoolDown2 = false;
     public float coolDown3 = 2.5f;
     public bool activeCoolDown3 = false;
+    public float coolDown4 = 3.5f;
+    public bool activeCoolDown4 = false;
     public bool imShooting = false;
     public Vector3 shootDirection;
     InGameConnection player;
@@ -106,6 +109,15 @@ public class PlayerShoot : MonoBehaviour
                 coolDownTimer = 0.0f;
             }
         }
+        if (activeCoolDown4)
+        {
+            coolDownTimer += Time.deltaTime;
+            if (coolDownTimer >= coolDown4)
+            {
+                activeCoolDown4 = false;
+                coolDownTimer = 0.0f;
+            }
+        }
     }
 
     public void Shoot(Vector3 shootDirection, Vector3 go, int gunType, int playerID, bool enemy)
@@ -171,6 +183,19 @@ public class PlayerShoot : MonoBehaviour
                 }
                     
                 break;
+            case 3:
+                if (activeCoolDown4 == false || enemy == true)
+                {
+                    imShooting = true;
+                    GameObject projectile4 = Instantiate(projectilePrefab4, (go + shootDirection), Quaternion.identity);
+
+                    projectile4.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 3;
+                    projectile4.GetComponent<Projectile5>().pID = playerID;
+                    projectile4.GetComponent<Projectile5>().player = gameObject;
+                    activeCoolDown4 = true;
+                }
+                break;
+
             default:
 
                 if (activeCoolDown3 == false || enemy == true)

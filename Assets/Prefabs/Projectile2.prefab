@@ -95,7 +95,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7116325111661921225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ef55024f830b3847bb449163dd7953f, type: 3}
+  m_Script: {fileID: 11500000, guid: fbc5be1202470ab488e48b3cdb3cd062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectileLifeTime: 5.5
