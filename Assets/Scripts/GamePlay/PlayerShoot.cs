@@ -11,6 +11,7 @@ public class PlayerShoot : MonoBehaviour
     public GameObject projectilePrefab2;
     public GameObject projectilePrefab3;
     public GameObject projectilePrefab4;
+    public GameObject projectilePrefab5;
     public float projectileSpeed = 10f;
     public Camera cam;
     public int gunType = 0;
@@ -25,9 +26,12 @@ public class PlayerShoot : MonoBehaviour
     public bool activeCoolDown3 = false;
     public float coolDown4 = 3.5f;
     public bool activeCoolDown4 = false;
+    public float coolDown5 = 0.01f;
+    public bool activeCoolDown5 = false;
     public bool imShooting = false;
     public Vector3 shootDirection;
     InGameConnection player;
+    private string isLookingAt;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +42,8 @@ public class PlayerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+
+        if (Input.GetMouseButton(0))
         {
             // Get mouse position in screen coordinates
             Vector3 mousePosition = Input.mousePosition;
@@ -57,10 +62,13 @@ public class PlayerShoot : MonoBehaviour
             if (gameObject.transform.position.x > worldMousePosition.x)
             {
                 gameObject.GetComponent<SpriteRenderer>().flipX = true;
+                isLookingAt = "left";
             }
             else
             {
                 gameObject.GetComponent<SpriteRenderer>().flipX = false;
+                isLookingAt = "right";
+
             }
 
         }
@@ -118,6 +126,15 @@ public class PlayerShoot : MonoBehaviour
                 coolDownTimer = 0.0f;
             }
         }
+        if (activeCoolDown5)
+        {
+            coolDownTimer += Time.deltaTime;
+            if (coolDownTimer >= coolDown5)
+            {
+                activeCoolDown5 = false;
+                coolDownTimer = 0.0f;
+            }
+        }
     }
 
     public void Shoot(Vector3 shootDirection, Vector3 go, int gunType, int playerID, bool enemy)
@@ -128,7 +145,7 @@ public class PlayerShoot : MonoBehaviour
 
         switch (gunType)
         {
-            case 0:
+            default:
                 if (activeCoolDown == false || enemy == true)
                 {
                     imShooting = true;
@@ -183,20 +200,9 @@ public class PlayerShoot : MonoBehaviour
                 }
                     
                 break;
+            
+
             case 3:
-                if (activeCoolDown4 == false || enemy == true)
-                {
-                    imShooting = true;
-                    GameObject projectile4 = Instantiate(projectilePrefab4, (go + shootDirection), Quaternion.identity);
-
-                    projectile4.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 3;
-                    projectile4.GetComponent<Projectile5>().pID = playerID;
-                    projectile4.GetComponent<Projectile5>().player = gameObject;
-                    activeCoolDown4 = true;
-                }
-                break;
-
-            default:
 
                 if (activeCoolDown3 == false || enemy == true)
                 {
@@ -209,6 +215,39 @@ public class PlayerShoot : MonoBehaviour
                     activeCoolDown3 = true;
                 }
                 
+                break;
+            case 4:
+                if (activeCoolDown4 == false || enemy == true)
+                {
+                    imShooting = true;
+                    GameObject projectile4 = Instantiate(projectilePrefab4, (go + shootDirection), Quaternion.identity);
+
+                    projectile4.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 3;
+                    projectile4.GetComponent<Projectile5>().pID = playerID;
+                    projectile4.GetComponent<Projectile5>().player = gameObject;
+                    activeCoolDown4 = true;
+                }
+                break;
+            case 0:
+
+                if (activeCoolDown4 == false || enemy == true)
+                {
+                    imShooting = true;
+                    GameObject projectile5 = Instantiate(projectilePrefab5, (go + shootDirection), Quaternion.identity);
+
+                    projectile5.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 3;
+                    projectile5.GetComponent<Projectile6>().pID = playerID;
+                    if(isLookingAt == "right")
+                    {
+                        transform.Translate(Vector2.left*0.1f);
+                    }
+                    else if(isLookingAt == "left")
+                    {
+                        transform.Translate(Vector2.right*0.1f);
+
+                    }
+                }
+
                 break;
         }
         

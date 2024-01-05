@@ -7,7 +7,6 @@ public class Projectile5 : MonoBehaviour
 {
     public float projectileLifeTime = 1.0f;
     private float currentTimer = 0.0f;
-    private float stuckTimer = 0.0f;
     public int pID;
     public bool destination = false;
     public GameObject player;
