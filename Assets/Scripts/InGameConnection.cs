@@ -30,6 +30,8 @@ public class InGameConnection : MonoBehaviour
         public bool shot;
         public Vector3 v;
         public int playerNum;
+        public string whichSprite;
+        public bool isSpriteFlip;
     }
     public Player_Info _thisPlayer;
     public Player_Info _thisEnemy;
@@ -50,6 +52,9 @@ public class InGameConnection : MonoBehaviour
     //update the info you recive
     bool _updatePlayer;
     bool _updateEnemy;
+
+    public Sprite[] allSprites;
+
 
     // Start is called before the first frame update
     void Start()
@@ -133,7 +138,7 @@ public class InGameConnection : MonoBehaviour
                 player[1].transform.position = respawnPosition2.transform.position;
         }       
 
-
+        
         going = true;
         StartThread();
     }
@@ -152,7 +157,8 @@ public class InGameConnection : MonoBehaviour
                 _thisPlayer.shot = player[0].GetComponent<PlayerShoot>().imShooting;
                 _thisPlayer.v = player[0].GetComponent<PlayerShoot>().shootDirection;
                 _thisPlayer.shield = player[0].GetComponent<Shield>().shieldActive;
-
+                _thisPlayer.whichSprite = player[0].GetComponent<PlayerMovment>().spriteName;
+                _thisPlayer.isSpriteFlip = player[0].GetComponent<SpriteRenderer>().flipX;
             }
             else if(_info.clientID == 2)
             {
@@ -162,6 +168,8 @@ public class InGameConnection : MonoBehaviour
                 _thisPlayer.shot = player[1].GetComponent<PlayerShoot>().imShooting;
                 _thisPlayer.v = player[1].GetComponent<PlayerShoot>().shootDirection;
                 _thisPlayer.shield = player[1].GetComponent<Shield>().shieldActive;
+                _thisPlayer.whichSprite = player[1].GetComponent<PlayerMovment>().spriteName;
+                _thisPlayer.isSpriteFlip = player[1].GetComponent<SpriteRenderer>().flipX;
 
             }
 
@@ -175,7 +183,17 @@ public class InGameConnection : MonoBehaviour
                 player[1].transform.position = _thisEnemy.position;
                 player[1].GetComponentInChildren<TextMeshPro>().text = _thisEnemy.name;
                 player[1].GetComponent<Shield>().shield.SetActive(_thisEnemy.shield);
-                
+
+                for(int i = 0; i < allSprites.Length; i++)
+                {
+                    if (allSprites[i].name == _thisEnemy.whichSprite)
+                    {
+                        player[1].GetComponent<SpriteRenderer>().sprite = allSprites[i];
+                        player[1].GetComponent<SpriteRenderer>().flipX = _thisEnemy.isSpriteFlip;
+                        break;
+                    }
+                }
+
                 if(_thisEnemy.shot == true)
                 {
                     player[1].GetComponent<PlayerShoot>().Shoot(_thisEnemy.v, _thisEnemy.position, _thisEnemy.gunNum, 2, true);
@@ -190,7 +208,16 @@ public class InGameConnection : MonoBehaviour
                 player[0].transform.position = _thisEnemy.position;
                 player[0].GetComponentInChildren<TextMeshPro>().text = _thisEnemy.name;
                 player[0].GetComponent<Shield>().shield.SetActive(_thisEnemy.shield);
-                
+
+                for (int i = 0; i < allSprites.Length; i++)
+                {
+                    if (allSprites[i].name == _thisEnemy.whichSprite)
+                    {
+                        player[0].GetComponent<SpriteRenderer>().sprite = allSprites[i];
+                        player[0].GetComponent<SpriteRenderer>().flipX = _thisEnemy.isSpriteFlip;
+                        break;
+                    }
+                }
                 if (_thisEnemy.shot == true)
                 {
                     player[0].GetComponent<PlayerShoot>().Shoot(_thisEnemy.v, _thisEnemy.position, _thisEnemy.gunNum, 1, true);

@@ -1,7 +1,10 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
+using TMPro;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class PlayerMovment : MonoBehaviour
 {
@@ -20,6 +23,7 @@ public class PlayerMovment : MonoBehaviour
     public float jumpTime;
     public float maxJumpForce;
     public bool anyMovement = false;
+    public string spriteName;
 
     enum TYPES
     {
@@ -39,6 +43,7 @@ public class PlayerMovment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
 
         if (Input.GetKey(KeyCode.A))
         {
@@ -98,8 +103,7 @@ public class PlayerMovment : MonoBehaviour
         transform.position += Vector3.left * speed;
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
         //transform.rotation = q;
-
-
+        spriteName = gameObject.GetComponent<SpriteRenderer>()?.sprite?.name;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
