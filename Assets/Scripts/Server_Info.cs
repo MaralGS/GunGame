@@ -13,6 +13,8 @@ public class Server_Info : MonoBehaviour
     [HideInInspector] public EndPoint clientEp;
     [HideInInspector] public int clientID = 0; 
     [HideInInspector] public string name;
+    [HideInInspector] public string winner;
+    [HideInInspector] public string loser;
     [HideInInspector] public int numberOfPlayers;
     [HideInInspector] public bool startServer;
     [HideInInspector] public bool im_Client;
