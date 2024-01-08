@@ -24,7 +24,6 @@ public class InGameConnection : MonoBehaviour
         public int playerNum;
         public string whichSprite;
         public bool isSpriteFlip;
-        public bool gameHasEnded;
     }
     public Player_Info _thisPlayer;
     public Player_Info _thisEnemy;
@@ -47,8 +46,8 @@ public class InGameConnection : MonoBehaviour
     bool _updateEnemy;
 
     public Sprite[] allSprites;
-
-    public GameObject endGameSprite;
+    public bool hasGameEnded = false;
+    // Start is called before the first frame update
     void Start()
     {
         //Define the remote
@@ -151,7 +150,6 @@ public class InGameConnection : MonoBehaviour
                 _thisPlayer.shield = player[0].GetComponent<Shield>().shieldActive;
                 _thisPlayer.whichSprite = player[0].GetComponent<PlayerMovment>().spriteName;
                 _thisPlayer.isSpriteFlip = player[0].GetComponent<SpriteRenderer>().flipX;
-                _thisPlayer.gameHasEnded = player[0].GetComponent<PlayerShoot>().endGame;
             }
             else if (_info.clientID == 2)
             {
@@ -163,7 +161,7 @@ public class InGameConnection : MonoBehaviour
                 _thisPlayer.shield = player[1].GetComponent<Shield>().shieldActive;
                 _thisPlayer.whichSprite = player[1].GetComponent<PlayerMovment>().spriteName;
                 _thisPlayer.isSpriteFlip = player[1].GetComponent<SpriteRenderer>().flipX;
-                _thisPlayer.gameHasEnded = player[1].GetComponent<PlayerShoot>().endGame;
+
             }
 
             _updatePlayer = false;
@@ -263,13 +261,30 @@ public class InGameConnection : MonoBehaviour
 
     void CheckWinner()
     {
-        if (_thisPlayer.gameHasEnded == true || _thisEnemy.gameHasEnded == true)
+
+
+        if (player[0].GetComponent<PlayerShoot>().gunType > 0)
         {
-            endGameSprite.SetActive(true);
-            Destroy(player[0]);
-            Destroy(player[1]);
-            ThreadRecieveInfo.Abort();
-            ThreadSendInfo.Abort(); 
+
+            _info.winner = player[0].GetComponentInChildren<TextMeshPro>().text;
+            _info.loser = player[1].GetComponentInChildren<TextMeshPro>().text;
+            hasGameEnded = true;
+
+        }
+        if (player[1].GetComponent<PlayerShoot>().gunType > 0)
+        {
+
+            _info.winner = player[1].GetComponentInChildren<TextMeshPro>().text;
+            _info.loser = player[0].GetComponentInChildren<TextMeshPro>().text;
+            hasGameEnded = true;
+
+        }
+
+        if (hasGameEnded == true)
+        {
+            Debug.Log(_info.winner);
+            Debug.Log(_info.loser);
+            SceneManager.LoadScene(2);
         }
     }
 
