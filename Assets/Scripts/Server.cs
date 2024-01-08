@@ -150,8 +150,6 @@ public class Server : MonoBehaviour
             S_info.ep[i] = Remote[i];
         }
 
-
-        S_info.name = UserName;
         S_info.numberOfPlayers = numberPlayers;
         S_info.startServer = gameStarted;
         mConections.start = true;

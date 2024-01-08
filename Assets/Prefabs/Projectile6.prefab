@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6856244386443057419
+--- !u!1 &4996517791057673681
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8323823960870313544}
-  - component: {fileID: 3075803334662427174}
-  - component: {fileID: 9038700999209999231}
-  - component: {fileID: 4138194138134959812}
-  - component: {fileID: 465673968164250924}
-  - component: {fileID: 6797749547082340322}
+  - component: {fileID: 6385192466934178535}
+  - component: {fileID: 2626964450477990916}
+  - component: {fileID: 7845573490328332362}
+  - component: {fileID: -77432442654787016}
+  - component: {fileID: -311977210500387712}
+  - component: {fileID: 2444105508909880498}
   m_Layer: 0
-  m_Name: Projectile3
+  m_Name: Projectile6
   m_TagString: Projectile1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8323823960870313544
+--- !u!4 &6385192466934178535
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6856244386443057419}
+  m_GameObject: {fileID: 4996517791057673681}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.14, y: 0.14, z: 0.14}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3075803334662427174
+--- !u!33 &2626964450477990916
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6856244386443057419}
+  m_GameObject: {fileID: 4996517791057673681}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &9038700999209999231
+--- !u!23 &7845573490328332362
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6856244386443057419}
+  m_GameObject: {fileID: 4996517791057673681}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -86,13 +86,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!58 &4138194138134959812
+--- !u!58 &-77432442654787016
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6856244386443057419}
+  m_GameObject: {fileID: 4996517791057673681}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -121,19 +121,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!50 &465673968164250924
+--- !u!50 &-311977210500387712
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6856244386443057419}
+  m_GameObject: {fileID: 4996517791057673681}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -148,17 +148,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6797749547082340322
+--- !u!114 &2444105508909880498
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6856244386443057419}
+  m_GameObject: {fileID: 4996517791057673681}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54861ac8312711d4680db8abce53e218, type: 3}
+  m_Script: {fileID: 11500000, guid: 45d9d74f957a9ce44ae633c10bc0d1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileLifeTime: 2.5
+  projectileLifeTime: 1
   pID: 0

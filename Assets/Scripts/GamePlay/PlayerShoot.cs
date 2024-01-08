@@ -10,6 +10,8 @@ public class PlayerShoot : MonoBehaviour
     public GameObject projectilePrefab1;
     public GameObject projectilePrefab2;
     public GameObject projectilePrefab3;
+    public GameObject projectilePrefab4;
+    public GameObject projectilePrefab5;
     public float projectileSpeed = 10f;
     public Camera cam;
     public int gunType = 0;
@@ -22,10 +24,17 @@ public class PlayerShoot : MonoBehaviour
     public bool activeCoolDown2 = false;
     public float coolDown3 = 2.5f;
     public bool activeCoolDown3 = false;
+    public float coolDown4 = 3.5f;
+    public bool activeCoolDown4 = false;
+    public float coolDown5 = 0.0f;
+    public bool activeCoolDown5 = false;
     public bool imShooting = false;
     public Vector3 shootDirection;
     InGameConnection player;
+    private string isLookingAt;
+    public float messageInterval = 0.0f; // Set the interval in seconds
 
+    private float lastMessageTime = 0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +44,36 @@ public class PlayerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButton(0) && gunType == 5)
+        {
+            if (Time.time - lastMessageTime > messageInterval)
+            {
+                Vector3 mousePosition = Input.mousePosition;
+
+                // Convert screen coordinates to world coordinates
+                Vector3 worldMousePosition = cam.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 10f));
+
+                worldMousePosition.z = 0;
+                // Spawn projectile at player position
+
+                // Calculate direction towards the mouse position
+                if (gameObject.transform.position.x > worldMousePosition.x)
+                {
+                    Shoot(Vector3.left, transform.position, gunType, player._info.clientID, false);
+                    gameObject.GetComponent<SpriteRenderer>().flipX = true;
+                    isLookingAt = "left";
+                }
+                if (gameObject.transform.position.x < worldMousePosition.x)
+                {
+                    Shoot(Vector3.right, transform.position, gunType, player._info.clientID, false);
+                    gameObject.GetComponent<SpriteRenderer>().flipX = false;
+                    isLookingAt = "right";
+                }
+
+                lastMessageTime = Time.time; // Update the last message time
+            }
+        }
+        else if (Input.GetMouseButtonDown(0) && gunType != 5)
         {
             // Get mouse position in screen coordinates
             Vector3 mousePosition = Input.mousePosition;
@@ -50,15 +88,6 @@ public class PlayerShoot : MonoBehaviour
             shootDirection = (worldMousePosition - transform.position).normalized;
             
             Shoot(shootDirection, transform.position, gunType, player._info.clientID, false);
-
-            if (gameObject.transform.position.x > worldMousePosition.x)
-            {
-                gameObject.GetComponent<SpriteRenderer>().flipX = true;
-            }
-            else
-            {
-                gameObject.GetComponent<SpriteRenderer>().flipX = false;
-            }
 
         }
         else
@@ -103,6 +132,24 @@ public class PlayerShoot : MonoBehaviour
             if (coolDownTimer >= coolDown3)
             {
                 activeCoolDown3 = false;
+                coolDownTimer = 0.0f;
+            }
+        }
+        if (activeCoolDown4)
+        {
+            coolDownTimer += Time.deltaTime;
+            if (coolDownTimer >= coolDown4)
+            {
+                activeCoolDown4 = false;
+                coolDownTimer = 0.0f;
+            }
+        }
+        if (activeCoolDown5)
+        {
+            coolDownTimer += Time.deltaTime;
+            if (coolDownTimer >= coolDown5)
+            {
+                activeCoolDown5 = false;
                 coolDownTimer = 0.0f;
             }
         }
@@ -171,7 +218,9 @@ public class PlayerShoot : MonoBehaviour
                 }
                     
                 break;
-            default:
+            
+
+            case 3:
 
                 if (activeCoolDown3 == false || enemy == true)
                 {
@@ -184,6 +233,64 @@ public class PlayerShoot : MonoBehaviour
                     activeCoolDown3 = true;
                 }
                 
+                break;
+            case 4:
+                if (activeCoolDown4 == false || enemy == true)
+                {
+                    imShooting = true;
+                    GameObject projectile4 = Instantiate(projectilePrefab4, (go + shootDirection), Quaternion.identity);
+
+                    projectile4.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 3;
+                    projectile4.GetComponent<Projectile5>().pID = playerID;
+                    projectile4.GetComponent<Projectile5>().player = gameObject;
+                    activeCoolDown4 = true;
+                }
+                break;
+            default:
+
+                if (activeCoolDown4 == false || enemy == true)
+                {
+                    imShooting = true;
+                    
+                    if(isLookingAt == "right")
+                    {
+                        GameObject projectile5 = Instantiate(projectilePrefab5, (go + shootDirection), Quaternion.identity);
+                        shootDirection.y -= 0.1f;
+                        shootDirection.x -= 0.1f;
+                        GameObject projectile5_0 = Instantiate(projectilePrefab5, (go + shootDirection), Quaternion.identity);
+                        shootDirection.y += 0.1f;
+                        shootDirection.x -= 0.1f;
+                        GameObject projectile5_1 = Instantiate(projectilePrefab5, (go + shootDirection), Quaternion.identity);
+
+                        projectile5.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 3;
+                        projectile5.GetComponent<Projectile6>().pID = playerID;
+                        projectile5_0.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 3;
+                        projectile5_0.GetComponent<Projectile6>().pID = playerID;
+                        projectile5_1.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 3;
+                        projectile5_1.GetComponent<Projectile6>().pID = playerID;
+                        transform.Translate(Vector2.left*0.1f);
+                    }
+                    else if(isLookingAt == "left")
+                    {
+                        GameObject projectile5 = Instantiate(projectilePrefab5, (go + shootDirection), Quaternion.identity);
+                        shootDirection.y += 0.1f;
+                        shootDirection.x += 0.1f;
+                        GameObject projectile5_0 = Instantiate(projectilePrefab5, (go + shootDirection), Quaternion.identity);
+                        shootDirection.y -= 0.1f;
+                        shootDirection.x += 0.1f;
+                        GameObject projectile5_1 = Instantiate(projectilePrefab5, (go + shootDirection), Quaternion.identity);
+
+                        projectile5.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 1.5f;
+                        projectile5.GetComponent<Projectile6>().pID = playerID;
+                        projectile5_0.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 1.5f;
+                        projectile5_0.GetComponent<Projectile6>().pID = playerID;
+                        projectile5_1.GetComponent<Rigidbody2D>().velocity = new Vector3(shootDirection.x + 0.3f, shootDirection.y, 0f) * projectileSpeed / 1.5f;
+                        projectile5_1.GetComponent<Projectile6>().pID = playerID;
+                        transform.Translate(Vector2.right*0.1f);
+
+                    }
+                }
+
                 break;
         }
         
