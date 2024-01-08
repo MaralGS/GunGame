@@ -1,46 +1,59 @@
 # Pingun Game
 
-Àlex Garcia Selma: https://github.com/MaralGS
+Alex Garcia Selma: https://github.com/MaralGS
 Pau Olmos Serrano: https://github.com/PauOlmos
 Pol Maresch Marsuach: https://github.com/rayolop20
 
-Session 4: World State Replication
+- Session 5: Multiplayer Game Final Demo
 
-Alex
-- Ingame Sistem Conexions
-- Fer la conexió entre el client i el server i enviar-los a l’escena
-- Fer els threads i la serialització in game.
-- joc de 3D a 2D (unity World)
-- Affegir lobby al joc
+Alex:
+- Gameloop
+- Gameplay
 - Bug Fixing
+    - Player and shield colliders
+- New Sprites Application
 
-Pol Maresch
-- Map And UI Sprites implemented
-- Menu Sistem Conexions
-- Ingame Sistem Conexions
-- Fer els threads i la serialització in game.
+Pol Maresch:
+
+- Fixed UI Sprites
 - Bug Fixing
+    - Animations
+- Gameloop
 
-Pau Olmos
-- Gameplay programming.
-- Logica del player i les armes.
-- Guardar la informació que envia el server I rebrà el client.
+Pau Olmos:
+
+- Gameplay programming
+- Weapons logic
 - Bug Fixing
-- Animacions de Jugador
-- Informacióp enviar Jugador Servidor
+    - New Weapons
+- Gameloop
+- Animation sending between players
 
-Improvements
-- Hem affegit un lobby perque sigui mes entendor e intuitiu d'usar. 
-- Ara podem unir els dos jugadors a un servidor que fa de lobby, On el client envia informació al servidor, i aquest li envia al altre jugador.
-- Gran millora de Gameplay
-- Afegir Sprites al Joc
-- Enviament de paquets Millorada (Rreduccó de perdua de paquets)
+Improvements:
+- Added 2 new weapons, now there are 6.
+- Now we have a functional GameLoop in the game.
+- Gameplay improvement.
+- Added new sprites to the game.
+- Menus are more intuitive and understandable.
+- Now we send animations between players.
 
-Dificulties
-- Es va voler fer inicialment Un jugador com a servidor y despres 3 jugadors mes i no ho vam poder treure, Per aixo vam tenri que cambiar tot el sistema perque funcionaes amb 1 sevidor i 2 jugadors (servidor no jugable).
+Difficulties:
+Faced many challenges while implementing the gameloop, as we were unsure how to fully transmit the information.
 
-- Hi ha Alguna informació que encara no sabem enviar.
+Gameplay:
+- AD: Movement
+- Space: Jump
+- LeftClick: Shoot
+- S: Shield
 
+Main Scene: 
+- Servers
+
+Instructions:
+
+- At the start, it will prompt you to create a server or join one. First, create the server, and then join as the 2 players (using the local IP address of the server). Once players are connected, the server should start the game.
+
+- If you eliminate an enemy, you will switch to a different weapon. There are 6 weapons in total, each with unique functionalities. Blocking with the shield at the right moment will prevent bullets from causing damage. The first player to eliminate opponents with all weapons wins the game.
 
 Github:
 https://github.com/MaralGS/GunGame
