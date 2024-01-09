@@ -24,6 +24,7 @@ public class InGameConnection : MonoBehaviour
         public int playerNum;
         public string whichSprite;
         public bool isSpriteFlip;
+        public bool endGame;
     }
     public Player_Info _thisPlayer;
     public Player_Info _thisEnemy;
@@ -150,6 +151,7 @@ public class InGameConnection : MonoBehaviour
                 _thisPlayer.shield = player[0].GetComponent<Shield>().shieldActive;
                 _thisPlayer.whichSprite = player[0].GetComponent<PlayerMovment>().spriteName;
                 _thisPlayer.isSpriteFlip = player[0].GetComponent<SpriteRenderer>().flipX;
+                _thisPlayer.endGame = player[0].GetComponent<PlayerShoot>().gameHasEnded;
             }
             else if (_info.clientID == 2)
             {
@@ -160,7 +162,7 @@ public class InGameConnection : MonoBehaviour
                 _thisPlayer.v = player[1].GetComponent<PlayerShoot>().shootDirection;
                 _thisPlayer.shield = player[1].GetComponent<Shield>().shieldActive;
                 _thisPlayer.whichSprite = player[1].GetComponent<PlayerMovment>().spriteName;
-                _thisPlayer.isSpriteFlip = player[1].GetComponent<SpriteRenderer>().flipX;
+                _thisPlayer.endGame = player[1].GetComponent<PlayerShoot>().gameHasEnded;
 
             }
 
@@ -263,20 +265,21 @@ public class InGameConnection : MonoBehaviour
     {
 
 
-        if (player[0].GetComponent<PlayerShoot>().gunType > 5)
+        if (_thisEnemy.endGame == true || _thisPlayer.endGame == true)
         {
 
-            _info.winner = player[0].GetComponentInChildren<TextMeshPro>().text;
-            _info.loser = player[1].GetComponentInChildren<TextMeshPro>().text;
-            hasGameEnded = true;
-
-        }
-        if (player[1].GetComponent<PlayerShoot>().gunType > 5)
-        {
-
-            _info.winner = player[1].GetComponentInChildren<TextMeshPro>().text;
-            _info.loser = player[0].GetComponentInChildren<TextMeshPro>().text;
-            hasGameEnded = true;
+            if (player[0].GetComponent<PlayerShoot>().gunType > player[1].GetComponent<PlayerShoot>().gunType)
+            {
+                _info.winner = player[0].GetComponentInChildren<TextMeshPro>().text;
+                _info.loser = player[1].GetComponentInChildren<TextMeshPro>().text;
+                hasGameEnded = true;
+            }
+            else if(player[0].GetComponent<PlayerShoot>().gunType < player[1].GetComponent<PlayerShoot>().gunType)
+            {
+                _info.winner = player[1].GetComponentInChildren<TextMeshPro>().text;
+                _info.loser = player[0].GetComponentInChildren<TextMeshPro>().text;
+                hasGameEnded = true;
+            }
 
         }
 

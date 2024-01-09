@@ -32,7 +32,9 @@ public class PlayerShoot : MonoBehaviour
     public Vector3 shootDirection;
     InGameConnection player;
     private string isLookingAt;
-    public float messageInterval = 0.0f; // Set the interval in seconds
+    public float messageInterval = 0.0f;// Set the interval in seconds
+
+    [HideInInspector] public bool gameHasEnded = false;
 
     private float lastMessageTime = 0f;
     // Start is called before the first frame update
@@ -152,6 +154,11 @@ public class PlayerShoot : MonoBehaviour
                 activeCoolDown5 = false;
                 coolDownTimer = 0.0f;
             }
+        }
+
+        if(gunType > 5)
+        {
+            gameHasEnded = true;
         }
     }
 
