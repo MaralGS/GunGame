@@ -10,7 +10,6 @@ Alex:
 - Gameloop
 - Gameplay
 - Bug Fixing
-    - Player and shield colliders
 - New Sprites Application
 
 Pol Maresch:

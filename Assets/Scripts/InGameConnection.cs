@@ -263,7 +263,7 @@ public class InGameConnection : MonoBehaviour
     {
 
 
-        if (player[0].GetComponent<PlayerShoot>().gunType > 0)
+        if (player[0].GetComponent<PlayerShoot>().gunType > 5)
         {
 
             _info.winner = player[0].GetComponentInChildren<TextMeshPro>().text;
@@ -271,7 +271,7 @@ public class InGameConnection : MonoBehaviour
             hasGameEnded = true;
 
         }
-        if (player[1].GetComponent<PlayerShoot>().gunType > 0)
+        if (player[1].GetComponent<PlayerShoot>().gunType > 5)
         {
 
             _info.winner = player[1].GetComponentInChildren<TextMeshPro>().text;
